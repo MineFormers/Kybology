@@ -1,0 +1,8 @@
+# Block localizations
+tile.timetravel:timeMachine.base.name=Time Machine - Base
+tile.timetravel:timeMachine.panel.name=Time Machine - CP
+tile.timetravel:timeMachine.stairs.name=Time Machine - Stairs
+tile.timetravel:timeMachine.corner.name=Time Machine - Pillar
+
+#Item localizations
+item.timetravel:pocketWatch.name=Pocket Watch of the Time Traveller

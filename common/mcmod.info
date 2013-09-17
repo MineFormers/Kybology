@@ -1,0 +1,20 @@
+[
+{
+  "modid": "TimeTravel",
+  "name": "TimeTravel",
+  "description": "Travel in time and space!",
+  "version": "@VERSION@",
+  "url": "http://www.minecraftforum.net/topic/1106178-",
+  "updateUrl": "",
+  "authorList": [
+    "PaleoCrafter"
+  ],
+  "credits": "By PaleoCrafter",
+  "logoFile": "/assets/timetravel/textures/logo/logo.png",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

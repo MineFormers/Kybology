@@ -1,0 +1,36 @@
+package de.mineformers.timetravel.lib;
+
+/**
+ * TimeTravel
+ * 
+ * Strings
+ * 
+ * @author PaleoCrafter
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
+public class Strings {
+
+	public static final String RESOURCE_PREFIX = Reference.MOD_ID.toLowerCase()
+	        + ":";
+
+	// Block names
+	// Time Machine
+	public static final String TIMEMACHINE_NAME = "timeMachine";
+	public static final String TM_BASE_NAME = "base";
+	public static final String TM_PANEL_NAME = "panel";
+	public static final String TM_STAIRS_NAME = "stairs";
+	public static final String TM_CORNER_NAME = "corner";
+
+	// Item names
+	public static final String WATCH_NAME = "pocketWatch";
+
+	// TE names
+	public static final String TE_TIMEMACHINE_NAME = "tileTimeMachine";
+
+	// NBT keys
+	public static final String NBT_TE_STATE_KEY = "teState";
+	public static final String NBT_TE_CUSTOM_NAME = "CustomName";
+	public static final String NBT_TE_DIRECTION_KEY = "teDirection";
+
+}
