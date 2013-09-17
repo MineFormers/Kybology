@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import de.mineformers.timetravel.TimeTravel;
 import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.tileentity.TileTT;
@@ -30,6 +31,7 @@ public class BlockTT extends Block implements ITileEntityProvider {
 	public BlockTT(int id, Material material, String name) {
 		super(id, material);
 		this.setUnlocalizedName(Strings.RESOURCE_PREFIX + name);
+		this.setCreativeTab(TimeTravel.tabTimeTravel);
 	}
 
 	protected String getUnwrappedUnlocalizedName(String unlocalizedName) {

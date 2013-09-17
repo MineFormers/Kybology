@@ -88,10 +88,14 @@ public class TileTimeMachine extends TileTT {
 
 	@Override
 	public Packet getDescriptionPacket() {
-		Packet packet = part.getPacket();
+		PacketTimeMachineUpdate packet = part.getPacket();
 
-		if (packet != null)
-			return packet;
+		if (packet != null) {
+			packet.customName = customName;
+			packet.orientation = (byte) this.orientation.ordinal();
+			packet.state = state;
+			return packet.makePacket();
+		}
 
 		return new PacketTimeMachineUpdate(xCoord, yCoord, zCoord, orientation,
 		        state, customName, part.isValidMultiblock(), meta).makePacket();

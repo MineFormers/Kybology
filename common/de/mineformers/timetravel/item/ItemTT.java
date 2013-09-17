@@ -4,6 +4,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import de.mineformers.timetravel.TimeTravel;
 import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.lib.Strings;
 
@@ -21,6 +22,7 @@ public class ItemTT extends Item {
 	public ItemTT(int id, String name) {
 		super(id - Reference.SHIFTED_ID_RANGE_CORRECTION);
 		this.setUnlocalizedName(Strings.RESOURCE_PREFIX + name);
+		this.setCreativeTab(TimeTravel.tabTimeTravel);
 	}
 
 	@Override

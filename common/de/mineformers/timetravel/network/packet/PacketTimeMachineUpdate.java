@@ -78,10 +78,6 @@ public class PacketTimeMachineUpdate extends BasePacket {
 				((TileTT) te).setOrientation(orientation);
 				((TileTT) te).setState(state);
 				((TileTT) te).setCustomName(customName);
-				((TileTimeMachine) te).getPart().setOrientation(
-				        ForgeDirection.getOrientation(orientation));
-				((TileTimeMachine) te).getPart().setState(state);
-				((TileTimeMachine) te).getPart().setCustomName(customName);
 				((TileTimeMachine) te).getPart().setValidMultiblock(valid);
 				((TileTimeMachine) te).setTypeMeta(type);
 			}

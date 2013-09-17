@@ -2,19 +2,19 @@ package de.mineformers.timetravel.travelling.timemachine;
 
 import java.util.List;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-import de.mineformers.timetravel.lib.DimIds;
+import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.lib.Sounds;
 import de.mineformers.timetravel.network.packet.PacketTMPanelUpdate;
+import de.mineformers.timetravel.network.packet.PacketTimeMachineUpdate;
 import de.mineformers.timetravel.world.TeleporterTest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
+import net.minecraftforge.common.ForgeDirection;
 
 /**
  * TimeTravel
@@ -30,11 +30,13 @@ public class TMPartPanel extends TimeMachinePart {
 	private Vec3 basePosition;
 	private boolean doCountdown;
 	private int countdown;
+	private int targetDim;
 
 	public TMPartPanel(TileEntity parent) {
 		super(TimeMachinePart.TYPE_PANEL, parent);
 		this.doCountdown = false;
 		this.countdown = 10;
+		this.targetDim = 0;
 	}
 
 	public Vec3 getBasePosition() {
@@ -53,10 +55,10 @@ public class TMPartPanel extends TimeMachinePart {
 		if (this.isValidMultiblock()) {
 			if (doCountdown) {
 				if (countdown == 0) {
-					PacketDispatcher.sendPacketToAllAround(basePosition.xCoord,
-					        basePosition.yCoord, basePosition.zCoord, 32,
-					        this.getWorld().provider.dimensionId,
-					        this.getPacket());
+					NetworkHelper.sendTilePacket(this.getWorld(),
+					        (int) basePosition.xCoord,
+					        (int) basePosition.yCoord,
+					        (int) basePosition.zCoord);
 				}
 				if (this.getTick() == 20) {
 					int minX = (int) (basePosition.xCoord - 4);
@@ -103,10 +105,10 @@ public class TMPartPanel extends TimeMachinePart {
 					        .toArray(new EntityPlayer[players.size()])) {
 						teleport(player);
 					}
-					PacketDispatcher.sendPacketToAllAround(basePosition.xCoord,
-					        basePosition.yCoord, basePosition.zCoord, 32,
-					        this.getWorld().provider.dimensionId,
-					        this.getPacket());
+					NetworkHelper.sendTilePacket(this.getWorld(),
+					        (int) basePosition.xCoord,
+					        (int) basePosition.yCoord,
+					        (int) basePosition.zCoord);
 					return;
 				}
 
@@ -148,10 +150,10 @@ public class TMPartPanel extends TimeMachinePart {
 				        .getConfigurationManager()
 				        .transferPlayerToDimension(
 				                thePlayer,
-				                DimIds.REDWOOD,
+				                targetDim,
 				                new TeleporterTest(
 				                        thePlayer.mcServer
-				                                .worldServerForDimension(DimIds.REDWOOD)));
+				                                .worldServerForDimension(targetDim)));
 			}
 		}
 	}
@@ -175,6 +177,10 @@ public class TMPartPanel extends TimeMachinePart {
 	public boolean isCountingDown() {
 		return doCountdown;
 	}
+	
+	public void setTargetDimension(int dimId) {
+		this.targetDim = dimId;
+	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
@@ -193,16 +199,15 @@ public class TMPartPanel extends TimeMachinePart {
 	}
 
 	@Override
-	public Packet getPacket() {
+	public PacketTimeMachineUpdate getPacket() {
 		int baseX = (basePosition != null) ? (int) basePosition.xCoord : 0;
 		int baseY = (basePosition != null) ? (int) basePosition.yCoord : 0;
 		int baseZ = (basePosition != null) ? (int) basePosition.zCoord : 0;
 
 		return new PacketTMPanelUpdate((int) this.getPos().xCoord,
 		        (int) this.getPos().yCoord, (int) this.getPos().zCoord,
-		        this.getOrientation(), this.getState(), this.getCustomName(),
-		        this.isValidMultiblock(), this.getTypeMeta(), baseX, baseY,
-		        baseZ, countdown, doCountdown).makePacket();
+		        ForgeDirection.SOUTH, (byte) 0, null, this.isValidMultiblock(),
+		        this.getTypeMeta(), baseX, baseY, baseZ, countdown, doCountdown);
 	}
 
 }

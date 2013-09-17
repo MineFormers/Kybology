@@ -1,3 +1,5 @@
+itemGroup.TimeTravel=TimeTravel
+
 # Block localizations
 tile.timetravel:timeMachine.base.name=Time Machine - Base
 tile.timetravel:timeMachine.panel.name=Time Machine - CP

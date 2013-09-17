@@ -44,7 +44,6 @@ public class BlockTimeMachine extends BlockTT {
 
 	public BlockTimeMachine(int id) {
 		super(id, Material.iron, Strings.TIMEMACHINE_NAME);
-		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 	@Override
@@ -141,8 +140,6 @@ public class BlockTimeMachine extends BlockTT {
 				((TMPartBase) ((TileTimeMachine) world.getBlockTileEntity(x, y,
 				        z)).getPart()).validateMultiblock();
 			}
-			((TileTimeMachine) world.getBlockTileEntity(x, y, z)).getPart()
-			        .setOrientation(ForgeDirection.getOrientation(direction));
 		}
 	}
 

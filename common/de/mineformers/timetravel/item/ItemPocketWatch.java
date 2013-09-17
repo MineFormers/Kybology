@@ -7,7 +7,6 @@ import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.world.TeleporterTest;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -30,7 +29,6 @@ public class ItemPocketWatch extends ItemTT {
 
 	public ItemPocketWatch(int id) {
 		super(id, Strings.WATCH_NAME);
-		this.setCreativeTab(CreativeTabs.tabTools);
 	}
 
 	@Override

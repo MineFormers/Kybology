@@ -1,6 +1,5 @@
 package de.mineformers.timetravel.item;
 
-import net.minecraft.creativetab.CreativeTabs;
 import de.mineformers.timetravel.lib.Strings;
 
 /**
@@ -18,7 +17,6 @@ public class ItemBlockTimeMachine extends ItemBlockSub {
 		super(id, Strings.TIMEMACHINE_NAME, new String[] {
 		        Strings.TM_BASE_NAME, Strings.TM_PANEL_NAME,
 		        Strings.TM_STAIRS_NAME, Strings.TM_CORNER_NAME });
-		this.setCreativeTab(CreativeTabs.tabBlock);
 	}
 
 }

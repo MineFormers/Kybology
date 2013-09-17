@@ -3,8 +3,8 @@ package de.mineformers.timetravel;
 import java.io.File;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 
 import cpw.mods.fml.common.Mod;
@@ -25,12 +25,12 @@ import de.mineformers.timetravel.configuration.ConfigurationHandler;
 import de.mineformers.timetravel.core.handler.TickHandlerWatch;
 import de.mineformers.timetravel.core.proxy.CommonProxy;
 import de.mineformers.timetravel.core.util.LogHelper;
+import de.mineformers.timetravel.creativetab.CreativeTabTimeTravel;
 import de.mineformers.timetravel.item.ModItems;
-import de.mineformers.timetravel.lib.DimIds;
 import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.network.PacketHandler;
 import de.mineformers.timetravel.travelling.DestinationRedwoodTime;
-import de.mineformers.timetravel.world.WorldProviderTest;
+import de.mineformers.timetravel.travelling.ModDimensions;
 import de.mineformers.timetravel.world.biome.BiomeTest;
 
 /**
@@ -60,6 +60,9 @@ public class TimeTravel {
 	        serverSide = Reference.SERVER_PROXY_CLASS)
 	public static CommonProxy proxy;
 
+	public static final CreativeTabs tabTimeTravel = new CreativeTabTimeTravel(
+	        CreativeTabs.getNextID(), Reference.MOD_ID);
+
 	public static final BiomeGenBase TutorialBiome = new BiomeTest(25);
 
 	@EventHandler
@@ -82,9 +85,7 @@ public class TimeTravel {
 
 		ModItems.init();
 
-		DimensionManager.registerProviderType(DimIds.REDWOOD,
-		        WorldProviderTest.class, true);
-		DimensionManager.registerDimension(DimIds.REDWOOD, DimIds.REDWOOD);
+		ModDimensions.init();
 
 		TravellingRegistry.addTimeDestination(new DestinationRedwoodTime());
 	}

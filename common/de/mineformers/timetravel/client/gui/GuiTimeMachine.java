@@ -102,7 +102,9 @@ public class GuiTimeMachine extends GuiScreen {
 				break;
 			case 2:
 				PacketDispatcher.sendPacketToServer(new PacketStartTravel(
-				        blockX, blockY, blockZ).makePacket());
+				        blockX, blockY, blockZ, TravellingRegistry
+				                .getTimeDestination(currentPage, false)
+				                .getDimensionId()).makePacket());
 				mc.currentScreen = null;
 				mc.setIngameFocus();
 				break;

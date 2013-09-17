@@ -1,7 +1,7 @@
 package de.mineformers.timetravel.travelling.timemachine;
 
-import net.minecraft.network.packet.Packet;
 import net.minecraft.tileentity.TileEntity;
+import de.mineformers.timetravel.network.packet.PacketTimeMachineUpdate;
 import de.mineformers.timetravel.tileentity.TileTimeMachine;
 
 /**
@@ -107,7 +107,7 @@ public class TMPartBase extends TimeMachinePart {
 	}
 
 	@Override
-	public Packet getPacket() {
+	public PacketTimeMachineUpdate getPacket() {
 		return null;
 	}
 

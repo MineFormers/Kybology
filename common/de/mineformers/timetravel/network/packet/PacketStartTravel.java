@@ -22,15 +22,17 @@ import de.mineformers.timetravel.travelling.timemachine.TMPartPanel;
 public class PacketStartTravel extends BasePacket {
 
 	public int x, y, z;
+	public int dimId;
 
 	public PacketStartTravel() {
 
 	}
 
-	public PacketStartTravel(int x, int y, int z) {
+	public PacketStartTravel(int x, int y, int z, int dimId) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+		this.dimId = dimId;
 	}
 
 	@Override
@@ -38,6 +40,7 @@ public class PacketStartTravel extends BasePacket {
 		out.writeInt(x);
 		out.writeInt(y);
 		out.writeInt(z);
+		out.writeInt(dimId);
 	}
 
 	@Override
@@ -45,6 +48,7 @@ public class PacketStartTravel extends BasePacket {
 		this.x = in.readInt();
 		this.y = in.readInt();
 		this.z = in.readInt();
+		this.dimId = in.readInt();
 	}
 
 	@Override
@@ -52,6 +56,7 @@ public class PacketStartTravel extends BasePacket {
 		if (side.isServer()) {
 			TileTimeMachine tile = (TileTimeMachine) player.worldObj
 			        .getBlockTileEntity(x, y, z);
+			((TMPartPanel) tile.getPart()).setTargetDimension(dimId);
 			((TMPartPanel) tile.getPart()).startCountdown();
 			PacketDispatcher.sendPacketToAllAround(x, y, z, 64,
 			        player.worldObj.provider.dimensionId,
