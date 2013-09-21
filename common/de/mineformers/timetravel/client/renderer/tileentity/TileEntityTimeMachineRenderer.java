@@ -8,6 +8,7 @@ import de.mineformers.timetravel.client.model.ModelTimeMachine;
 import de.mineformers.timetravel.lib.Textures;
 import de.mineformers.timetravel.tileentity.TileTT;
 import de.mineformers.timetravel.tileentity.TileTimeMachine;
+import de.mineformers.timetravel.travelling.timemachine.TMPartModule;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 
@@ -77,6 +78,11 @@ public class TileEntityTimeMachineRenderer extends TileEntitySpecialRenderer {
 					GL11.glDisable(GL11.GL_BLEND);
 					break;
 				case 4:
+					TMPartModule module = (TMPartModule) ((TileTimeMachine) tileEntity)
+					        .getPart();
+					FMLClientHandler.instance().getClient().renderEngine
+					        .bindTexture(module.getTexture());
+					GL11.glScalef(0.5F, 0.5F, 0.5F);
 					GL11.glTranslatef(-1F, 1F, 1F);
 					model.renderModule();
 					break;

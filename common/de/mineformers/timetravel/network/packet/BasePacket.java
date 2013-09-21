@@ -29,12 +29,13 @@ public abstract class BasePacket {
 		ImmutableBiMap.Builder<Integer, Class<? extends BasePacket>> builder = ImmutableBiMap
 		        .builder();
 
-		builder.put(Integer.valueOf(0), PacketTileUpdate.class);
-		builder.put(Integer.valueOf(1), PacketTimeMachineUpdate.class);
-		builder.put(Integer.valueOf(2), PacketOpenGui.class);
-		builder.put(Integer.valueOf(3), PacketStartTravel.class);
-		builder.put(Integer.valueOf(4), PacketTMPanelUpdate.class);
-		builder.put(Integer.valueOf(5), PacketUpdateWatch.class);
+		builder.put(Integer.valueOf(0), PacketOpenGui.class);
+		builder.put(Integer.valueOf(1), PacketTileUpdate.class);
+		builder.put(Integer.valueOf(2), PacketTimeMachineUpdate.class);
+		builder.put(Integer.valueOf(3), PacketTMPanelUpdate.class);
+		builder.put(Integer.valueOf(4), PacketTMModuleUpdate.class);
+		builder.put(Integer.valueOf(5), PacketStartTravel.class);
+		builder.put(Integer.valueOf(6), PacketUpdateWatch.class);
 
 		idMap = builder.build();
 	}

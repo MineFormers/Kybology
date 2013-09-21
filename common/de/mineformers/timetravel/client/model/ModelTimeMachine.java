@@ -157,10 +157,11 @@ public class ModelTimeMachine extends ModelBase {
 		Display.mirror = true;
 		setRotation(Display, 0.0F, 0, 0);
 		
-		Module = new ModelRenderer(this, 0, 36);
+		Module = new ModelRenderer(this, 0, 0);
+		Module.setTextureSize(128, 64);
 		Module.setRotationPoint(16F, 24F, -16F);
 		setRotation(Module, 0, 0, 0);
-		Module.addBox(-2F, -25F, -7F, 9, 9, 9);
+		Module.addBox(-4F, -10F, -14F, 18, 18, 18);
 	}
 
 	public void renderBase() {

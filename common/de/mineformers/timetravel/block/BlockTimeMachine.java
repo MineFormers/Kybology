@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -21,11 +22,14 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.mineformers.timetravel.TimeTravel;
+import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.lib.GuiIds;
 import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.tileentity.TileTT;
 import de.mineformers.timetravel.tileentity.TileTimeMachine;
 import de.mineformers.timetravel.travelling.timemachine.TMPartBase;
+import de.mineformers.timetravel.travelling.timemachine.TMPartModule;
+import de.mineformers.timetravel.travelling.timemachine.TMPartModule.ModuleType;
 import de.mineformers.timetravel.travelling.timemachine.TMPartPanel;
 import de.mineformers.timetravel.travelling.timemachine.TimeMachinePart;
 
@@ -144,62 +148,89 @@ public class BlockTimeMachine extends BlockTT {
 		}
 	}
 
+	@Override
+	public void onBlockPreDestroy(World world, int x, int y, int z, int oldMeta) {
+		super.onBlockPreDestroy(world, x, y, z, oldMeta);
+
+		if (oldMeta == TimeMachinePart.TYPE_MODULE) {
+			TileTimeMachine tile = (TileTimeMachine) world.getBlockTileEntity(
+			        x, y, z);
+			TMPartModule module = (TMPartModule) tile.getPart();
+			ItemStack reward = module.getTypeItem(module.getType());
+			if (reward != null) {
+				EntityItem entityItem = new EntityItem(world, x, y, z, reward);
+				world.spawnEntityInWorld(entityItem);
+			}
+		}
+	}
+
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void addCollisionBoxesToList(World world, int x, int y, int z,
 	        AxisAlignedBB bounds, List list, Entity entity) {
 		int meta = world.getBlockMetadata(x, y, z);
-		if (meta == 0) {
-			this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
-			super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
-			this.setBlockBounds(0.125F, 0.375F, 0.125F, 0.875F, 0.5F, 0.875F);
-			super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
-			this.setBlockBounds(0, 0, 0, 1F, 0.5F, 1F);
-		} else if (meta == 2) {
-			this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
-			super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
-			this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
-		} else if (meta == 3) {
-			this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
-			super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
-			this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
-		} else if (meta == 4) {
-			TileTimeMachine tile = (TileTimeMachine) world.getBlockTileEntity(
-			        x, y, z);
-			switch (tile.getOrientation()) {
-				case NORTH:
-					this.setBlockBounds(0.375F, 0, 0.0625F, 0.9375F, 0.5625F,
-					        0.625F);
-					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
-					        entity);
-					break;
-				case SOUTH:
-					this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.625F, 1 - 0.375F,
-					        0.5625F, 1 - 0.0625F);
-					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
-					        entity);
-					break;
-				case EAST:
-					this.setBlockBounds(0.375F, 0, 0.375F, 0.9375F, 0.5625F,
-					        0.9375F);
-					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
-					        entity);
-					break;
-				case WEST:
-					this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.9375F,
-					        1 - 0.375F, 0.5625F, 1 - 0.375F);
-					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
-					        entity);
-					break;
-				default:
-					this.setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
-					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
-					        entity);
-					break;
-			}
-		} else {
-			this.setBlockBounds(0, 0, 0, 1F, 1F, 1F);
-			super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
+		switch (meta) {
+			case 0:
+				this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
+				super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+				        entity);
+				this.setBlockBounds(0.125F, 0.375F, 0.125F, 0.875F, 0.5F,
+				        0.875F);
+				super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+				        entity);
+				this.setBlockBounds(0, 0, 0, 1F, 0.5F, 1F);
+				return;
+			case 2:
+				this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
+				super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+				        entity);
+				this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
+				return;
+			case 3:
+				this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
+				super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+				        entity);
+				this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
+				return;
+			case 4:
+				TileTimeMachine tile = (TileTimeMachine) world
+				        .getBlockTileEntity(x, y, z);
+				switch (tile.getOrientation()) {
+					case NORTH:
+						this.setBlockBounds(0.375F, 0, 0.0625F, 0.9375F,
+						        0.5625F, 0.625F);
+						super.addCollisionBoxesToList(world, x, y, z, bounds,
+						        list, entity);
+						break;
+					case SOUTH:
+						this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.625F,
+						        1 - 0.375F, 0.5625F, 1 - 0.0625F);
+						super.addCollisionBoxesToList(world, x, y, z, bounds,
+						        list, entity);
+						break;
+					case EAST:
+						this.setBlockBounds(0.375F, 0, 0.375F, 0.9375F,
+						        0.5625F, 0.9375F);
+						super.addCollisionBoxesToList(world, x, y, z, bounds,
+						        list, entity);
+						break;
+					case WEST:
+						this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.9375F,
+						        1 - 0.375F, 0.5625F, 1 - 0.375F);
+						super.addCollisionBoxesToList(world, x, y, z, bounds,
+						        list, entity);
+						break;
+					default:
+						this.setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
+						super.addCollisionBoxesToList(world, x, y, z, bounds,
+						        list, entity);
+						break;
+				}
+				return;
+			default:
+				this.setBlockBounds(0, 0, 0, 1F, 1F, 1F);
+				super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+				        entity);
 		}
 	}
 
@@ -207,38 +238,44 @@ public class BlockTimeMachine extends BlockTT {
 	public void setBlockBoundsBasedOnState(IBlockAccess access, int x, int y,
 	        int z) {
 		int meta = access.getBlockMetadata(x, y, z);
-		if (meta == 0)
-			this.setBlockBounds(0F, 0F, 0F, 1.0F, 0.375F, 1.0F);
-		else if (meta == 2)
-			this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
-		else if (meta == 3)
-			this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
-		else if (meta == 4) {
-			TileTimeMachine tile = (TileTimeMachine) access.getBlockTileEntity(
-			        x, y, z);
-			switch (tile.getOrientation()) {
-				case NORTH:
-					this.setBlockBounds(0.375F, 0, 0.0625F, 0.9375F, 0.5625F,
-					        0.625F);
-					break;
-				case SOUTH:
-					this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.625F, 1 - 0.375F,
-					        0.5625F, 1 - 0.0625F);
-					break;
-				case EAST:
-					this.setBlockBounds(0.375F, 0, 0.375F, 0.9375F, 0.5625F,
-					        0.9375F);
-					break;
-				case WEST:
-					this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.9375F,
-					        1 - 0.375F, 0.5625F, 1 - 0.375F);
-					break;
-				default:
-					this.setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
-					break;
-			}
-		} else
-			this.setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
+		switch (meta) {
+			case 1:
+				this.setBlockBounds(0F, 0F, 0F, 1.0F, 0.375F, 1.0F);
+				return;
+			case 2:
+				this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
+				return;
+			case 3:
+				this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
+				return;
+			case 4:
+				TileTimeMachine tile = (TileTimeMachine) access
+				        .getBlockTileEntity(x, y, z);
+				switch (tile.getOrientation()) {
+					case NORTH:
+						this.setBlockBounds(0.375F, 0, 0.0625F, 0.9375F,
+						        0.5625F, 0.625F);
+						break;
+					case SOUTH:
+						this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.625F,
+						        1 - 0.375F, 0.5625F, 1 - 0.0625F);
+						break;
+					case EAST:
+						this.setBlockBounds(0.375F, 0, 0.375F, 0.9375F,
+						        0.5625F, 0.9375F);
+						break;
+					case WEST:
+						this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.9375F,
+						        1 - 0.375F, 0.5625F, 1 - 0.375F);
+						break;
+					default:
+						this.setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
+						break;
+				}
+				return;
+			default:
+				this.setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
+		}
 	}
 
 	@Override
@@ -262,6 +299,51 @@ public class BlockTimeMachine extends BlockTT {
 					player.openGui(TimeTravel.instance, GuiIds.TIMEMACHINE,
 					        world, x, y, z);
 				return true;
+			} else if (tile.getTypeMeta() == TimeMachinePart.TYPE_MODULE) {
+				TMPartModule module = (TMPartModule) tile.getPart();
+				if (player.getHeldItem() != null) {
+					ItemStack item = player.getHeldItem();
+					ModuleType prevType = module.getType();
+					if (module.switchType(item)) {
+						item.stackSize -= 1;
+						if (item.stackSize <= 0)
+							item = null;
+
+						ItemStack reward = module.getTypeItem(prevType);
+						if (reward != null) {
+							EntityItem entityItem = new EntityItem(world, x, y,
+							        z, reward);
+							world.spawnEntityInWorld(entityItem);
+						}
+
+						player.addChatMessage("Changed mode to: "
+						        + module.getType().toString().substring(0, 1)
+						        + module.getType().toString().substring(1)
+						                .toLowerCase());
+
+						NetworkHelper.sendTilePacket(world, x, z, y);
+						return true;
+					}
+				} else {
+					if (player.isSneaking()) {
+						ItemStack reward = module.getTypeItem(module.getType());
+						if (reward != null) {
+							EntityItem entityItem = new EntityItem(world, x, y,
+							        z, reward);
+							world.spawnEntityInWorld(entityItem);
+							module.setType(ModuleType.DEFAULT);
+							player.addChatMessage("Changed mode to: "
+							        + module.getType().toString()
+							                .substring(0, 1)
+							        + module.getType().toString().substring(1)
+							                .toLowerCase());
+
+							NetworkHelper.sendTilePacket(world, x, z, y);
+						}
+						return true;
+					}
+				}
+				return false;
 			}
 		}
 		return false;

@@ -64,19 +64,19 @@ public class ItemTimeMachineRenderer implements IItemRenderer {
 		} else {
 			switch (type) {
 				case ENTITY: {
-					renderModule(-0.5F, 0F, 0.5F, 1F);
+					renderModule(-0.5F, -1F, 0.5F, 0.5F);
 					return;
 				}
 				case EQUIPPED: {
-					renderModule(-0.6F, -1F, 0.75F, 1F);
+					renderModule(-0.6F, -2F, 0.75F, 0.5F);
 					return;
 				}
 				case EQUIPPED_FIRST_PERSON: {
-					renderModule(-1.25F, -1F, 0.5F, 1F);
+					renderModule(-1.05F, -2.75F, 0.5F, 0.5F);
 					return;
 				}
 				case INVENTORY: {
-					renderModel(dmg, 0.0F, -1.2F, 0.0F, 1F);
+					renderModel(dmg, 0.0F, -2.2F, 0.0F, 0.5F);
 					return;
 				}
 				default:
@@ -125,6 +125,8 @@ public class ItemTimeMachineRenderer implements IItemRenderer {
 				GL11.glDisable(GL11.GL_BLEND);
 				break;
 			case 4:
+				FMLClientHandler.instance().getClient().renderEngine
+				        .bindTexture(Textures.MODEL_TM_MODULE_DEFAULT);
 				model.renderModule();
 				break;
 		}
@@ -143,7 +145,7 @@ public class ItemTimeMachineRenderer implements IItemRenderer {
 
 		// Bind texture
 		FMLClientHandler.instance().getClient().renderEngine
-		        .bindTexture(Textures.MODEL_TIMEMACHINE);
+		        .bindTexture(Textures.MODEL_TM_MODULE_DEFAULT);
 		model.renderModule();
 		GL11.glPopMatrix();
 	}
