@@ -16,12 +16,15 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import de.mineformers.timetravel.api.TravellingRegistry;
 import de.mineformers.timetravel.block.ModBlocks;
 import de.mineformers.timetravel.client.gui.overlay.GuiOverlayWatch;
 import de.mineformers.timetravel.configuration.ConfigurationHandler;
+import de.mineformers.timetravel.core.handler.PlayerTrackerTT;
+import de.mineformers.timetravel.core.handler.TickHandlerCountdown;
 import de.mineformers.timetravel.core.handler.TickHandlerWatch;
 import de.mineformers.timetravel.core.proxy.CommonProxy;
 import de.mineformers.timetravel.core.util.LogHelper;
@@ -78,6 +81,8 @@ public class TimeTravel {
 
 		TickRegistry.registerScheduledTickHandler(new TickHandlerWatch(),
 		        Side.CLIENT);
+		TickRegistry.registerScheduledTickHandler(new TickHandlerCountdown(),
+		        Side.SERVER);
 
 		proxy.registerSoundHandler();
 
@@ -92,6 +97,11 @@ public class TimeTravel {
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
+		PlayerTrackerTT tracker = new PlayerTrackerTT();
+
+		MinecraftForge.EVENT_BUS.register(tracker);
+		GameRegistry.registerPlayerTracker(tracker);
+
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 
 		proxy.registerTileEntities();

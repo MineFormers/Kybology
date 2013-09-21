@@ -40,25 +40,48 @@ public class ItemTimeMachineRenderer implements IItemRenderer {
 	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
 		int dmg = item.getItemDamage();
 
-		switch (type) {
-			case ENTITY: {
-				renderModel(dmg, -0.5F, -1.2F, 0.5F, 1F);
-				return;
+		if (dmg != 4) {
+			switch (type) {
+				case ENTITY: {
+					renderModel(dmg, -0.5F, -1.2F, 0.5F, 1F);
+					return;
+				}
+				case EQUIPPED: {
+					renderModel(dmg, 0.5F, -2F, -0.6F, 1F);
+					return;
+				}
+				case EQUIPPED_FIRST_PERSON: {
+					renderModel(dmg, 0.5F, -2F, -0.6F, 1F);
+					return;
+				}
+				case INVENTORY: {
+					renderModel(dmg, 0.0F, -1.2F, 0.0F, 1F);
+					return;
+				}
+				default:
+					return;
 			}
-			case EQUIPPED: {
-				renderModel(dmg, 0.5F, -2F, -0.6F, 1F);
-				return;
+		} else {
+			switch (type) {
+				case ENTITY: {
+					renderModule(-0.5F, 0F, 0.5F, 1F);
+					return;
+				}
+				case EQUIPPED: {
+					renderModule(-0.6F, -1F, 0.75F, 1F);
+					return;
+				}
+				case EQUIPPED_FIRST_PERSON: {
+					renderModule(-1.25F, -1F, 0.5F, 1F);
+					return;
+				}
+				case INVENTORY: {
+					renderModel(dmg, 0.0F, -1.2F, 0.0F, 1F);
+					return;
+				}
+				default:
+					return;
 			}
-			case EQUIPPED_FIRST_PERSON: {
-				renderModel(dmg, 0.5F, -2F, -0.6F, 1F);
-				return;
-			}
-			case INVENTORY: {
-				renderModel(dmg, 0.0F, -1.2F, 0.0F, 1F);
-				return;
-			}
-			default:
-				return;
 		}
 	}
 
@@ -96,14 +119,32 @@ public class ItemTimeMachineRenderer implements IItemRenderer {
 			case 3:
 				GL11.glScalef(0.6F, 0.6F, 0.6F);
 				GL11.glEnable(GL11.GL_BLEND);
-				GL11.glBlendFunc(GL11.GL_SRC_ALPHA,
-				        GL11.GL_ONE_MINUS_SRC_ALPHA);
+				GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 				GL11.glTranslatef(-1F, 1.5F, 1F);
 				model.renderCorner();
 				GL11.glDisable(GL11.GL_BLEND);
 				break;
+			case 4:
+				model.renderModule();
+				break;
 		}
 
+		GL11.glPopMatrix();
+	}
+
+	private void renderModule(float x, float y, float z, float scale) {
+		GL11.glPushMatrix();
+
+		// Scale, Translate, Rotate
+		GL11.glRotatef(180, 0, 0, 1);
+		GL11.glRotatef(180, 0, 1, 0);
+		GL11.glScalef(scale, scale, scale);
+		GL11.glTranslatef(x, y, z);
+
+		// Bind texture
+		FMLClientHandler.instance().getClient().renderEngine
+		        .bindTexture(Textures.MODEL_TIMEMACHINE);
+		model.renderModule();
 		GL11.glPopMatrix();
 	}
 

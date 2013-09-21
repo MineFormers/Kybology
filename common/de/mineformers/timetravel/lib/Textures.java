@@ -21,6 +21,8 @@ public class Textures {
 	// Model textures
 	public static final ResourceLocation MODEL_TIMEMACHINE = ResourceHelper
 	        .getResourceLocation(MODEL_SHEET_LOCATION + "timeMachine.png");
+	public static final ResourceLocation MODEL_WATCH = ResourceHelper
+	        .getResourceLocation(MODEL_SHEET_LOCATION + "watch.png");
 
 	// GUI textures
 	public static final ResourceLocation GUI_TIMEMACHINE = ResourceHelper

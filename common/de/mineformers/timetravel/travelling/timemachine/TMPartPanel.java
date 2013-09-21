@@ -3,13 +3,13 @@ package de.mineformers.timetravel.travelling.timemachine;
 import java.util.List;
 
 import de.mineformers.timetravel.core.util.NetworkHelper;
+import de.mineformers.timetravel.entity.PlayerPropertiesTT;
 import de.mineformers.timetravel.lib.Sounds;
 import de.mineformers.timetravel.network.packet.PacketTMPanelUpdate;
 import de.mineformers.timetravel.network.packet.PacketTimeMachineUpdate;
 import de.mineformers.timetravel.world.TeleporterTest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -34,6 +34,7 @@ public class TMPartPanel extends TimeMachinePart {
 
 	public TMPartPanel(TileEntity parent) {
 		super(TimeMachinePart.TYPE_PANEL, parent);
+		this.setBasePosition(0, 0, 0);
 		this.doCountdown = false;
 		this.countdown = 10;
 		this.targetDim = 0;
@@ -123,21 +124,14 @@ public class TMPartPanel extends TimeMachinePart {
 
 	private void teleport(EntityPlayer player) {
 
-		for (ItemStack item : player.inventory.mainInventory) {
-			if (item != null)
-				if (item.itemID == 5230) {
-					NBTTagCompound nbt = item.getTagCompound();
-					if (nbt == null) {
-						nbt = new NBTTagCompound();
-						item.setTagCompound(nbt);
-					}
+		PlayerPropertiesTT props = PlayerPropertiesTT.getByEntity(player);
 
-					nbt.setIntArray("Coordinates", new int[] {
-					        (int) basePosition.xCoord,
-					        (int) basePosition.yCoord,
-					        (int) basePosition.zCoord, 1 });
-				}
-		}
+		props.setTimeStarted(System.currentTimeMillis());
+		props.setSecondsAvail(10);
+		props.setSecondsLeft(10);
+		props.setTmData(this.getWorld().provider.dimensionId,
+		        (int) basePosition.xCoord, (int) basePosition.yCoord,
+		        (int) basePosition.zCoord);
 
 		if ((player.ridingEntity == null) && (player.riddenByEntity == null)
 		        && ((player instanceof EntityPlayerMP))) {
@@ -146,14 +140,12 @@ public class TMPartPanel extends TimeMachinePart {
 				thePlayer.timeUntilPortal = 10;
 			} else {
 				thePlayer.timeUntilPortal = 10;
-				thePlayer.mcServer
-				        .getConfigurationManager()
+				thePlayer.mcServer.getConfigurationManager()
 				        .transferPlayerToDimension(
 				                thePlayer,
 				                targetDim,
-				                new TeleporterTest(
-				                        thePlayer.mcServer
-				                                .worldServerForDimension(targetDim)));
+				                new TeleporterTest(thePlayer.mcServer
+				                        .worldServerForDimension(targetDim)));
 			}
 		}
 	}
@@ -177,7 +169,7 @@ public class TMPartPanel extends TimeMachinePart {
 	public boolean isCountingDown() {
 		return doCountdown;
 	}
-	
+
 	public void setTargetDimension(int dimId) {
 		this.targetDim = dimId;
 	}
@@ -185,7 +177,6 @@ public class TMPartPanel extends TimeMachinePart {
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-
 		nbt.setIntArray("BasePosition", new int[] { (int) basePosition.xCoord,
 		        (int) basePosition.yCoord, (int) basePosition.zCoord });
 	}
@@ -193,7 +184,6 @@ public class TMPartPanel extends TimeMachinePart {
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-
 		int[] basePos = nbt.getIntArray("BasePosition");
 		this.setBasePosition(basePos[0], basePos[1], basePos[2]);
 	}

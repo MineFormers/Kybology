@@ -22,6 +22,7 @@ public abstract class TimeMachinePart {
 	public static final int TYPE_PANEL = 1;
 	public static final int TYPE_STAIRS = 2;
 	public static final int TYPE_PILLAR = 3;
+	public static final int TYPE_MODULE = 4;
 
 	public static TimeMachinePart getFromMeta(int meta, TileEntity parent) {
 		switch (meta) {
@@ -47,6 +48,8 @@ public abstract class TimeMachinePart {
 					}
 
 				};
+			case TYPE_MODULE:
+				return new TMPartModule(parent);
 			default:
 				return new TMPartBase(parent);
 		}
@@ -64,6 +67,12 @@ public abstract class TimeMachinePart {
 		this.position = Vec3.createVectorHelper(parent.xCoord, parent.yCoord,
 		        parent.zCoord);
 		this.valid = false;
+	}
+	
+	public void initFromTile(TileEntity parent) {
+		this.world = parent.worldObj;
+		this.position = Vec3.createVectorHelper(parent.xCoord, parent.yCoord,
+		        parent.zCoord);
 	}
 
 	public World getWorld() {
@@ -127,9 +136,11 @@ public abstract class TimeMachinePart {
 	}
 
 	public void writeToNBT(NBTTagCompound nbtTagCompound) {
+		nbtTagCompound.setBoolean("IsValidMultiblock", valid);
 	}
 
 	public void readFromNBT(NBTTagCompound nbtTagCompound) {
+		valid = nbtTagCompound.getBoolean("IsValidMultiblock");
 	}
 
 	public abstract PacketTimeMachineUpdate getPacket();

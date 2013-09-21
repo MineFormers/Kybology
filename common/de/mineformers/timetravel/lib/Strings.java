@@ -20,7 +20,10 @@ public class Strings {
 	public static final String TM_BASE_NAME = "base";
 	public static final String TM_PANEL_NAME = "panel";
 	public static final String TM_STAIRS_NAME = "stairs";
-	public static final String TM_CORNER_NAME = "corner";
+	public static final String TM_PILLAR_NAME = "pillar";
+	public static final String TM_MODULE_NAME = "module";
+
+	public static final String TEST_NAME = "testBlock";
 
 	// Item names
 	public static final String WATCH_NAME = "pocketWatch";

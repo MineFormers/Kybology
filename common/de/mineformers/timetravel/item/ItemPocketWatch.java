@@ -83,8 +83,8 @@ public class ItemPocketWatch extends ItemTT {
 	@Override
 	public Icon getIcon(ItemStack stack, int pass) {
 		if (stack.hasTagCompound()) {
-			if (stack.getTagCompound().hasKey("Coordinates")
-			        && stack.getTagCompound().getIntArray("Coordinates")[3] == 1) {
+			if (stack.getTagCompound().hasKey("Travelling")
+			        && stack.getTagCompound().getBoolean("Travelling") == true) {
 				return iconOpened;
 			}
 		}

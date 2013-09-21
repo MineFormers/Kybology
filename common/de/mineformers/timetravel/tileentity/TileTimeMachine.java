@@ -35,7 +35,11 @@ public class TileTimeMachine extends TileTT {
 	@Override
 	public void validate() {
 		super.validate();
-		this.part = TimeMachinePart.getFromMeta(meta, this);
+		if (part == null)
+			this.part = TimeMachinePart.getFromMeta(meta, this);
+		else {
+			this.part.initFromTile(this);
+		}
 	}
 
 	public void setTypeMeta(int meta) {
@@ -71,8 +75,9 @@ public class TileTimeMachine extends TileTT {
 	public void readFromNBT(NBTTagCompound nbtTagCompound) {
 		super.readFromNBT(nbtTagCompound);
 		meta = nbtTagCompound.getInteger("MachinePart");
-		if (part != null)
-			part.readFromNBT(nbtTagCompound);
+		if (part == null)
+			part = TimeMachinePart.getFromMeta(meta, this);
+		part.readFromNBT(nbtTagCompound);
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -82,8 +87,8 @@ public class TileTimeMachine extends TileTT {
 
 	@SideOnly(Side.CLIENT)
 	public AxisAlignedBB getRenderBoundingBox() {
-		return AxisAlignedBB.getAABBPool().getAABB(xCoord, yCoord, zCoord,
-		        xCoord + 1, yCoord + 1, zCoord + 1);
+		return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord,
+		        xCoord + 1, yCoord + 2, zCoord + 1);
 	}
 
 	@Override

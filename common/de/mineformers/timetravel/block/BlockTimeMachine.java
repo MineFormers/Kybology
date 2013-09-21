@@ -60,6 +60,7 @@ public class BlockTimeMachine extends BlockTT {
 		subItems.add(new ItemStack(id, 1, 1));
 		subItems.add(new ItemStack(id, 1, 2));
 		subItems.add(new ItemStack(id, 1, 3));
+		subItems.add(new ItemStack(id, 1, 4));
 	}
 
 	@Override
@@ -162,6 +163,40 @@ public class BlockTimeMachine extends BlockTT {
 			this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
 			super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
 			this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
+		} else if (meta == 4) {
+			TileTimeMachine tile = (TileTimeMachine) world.getBlockTileEntity(
+			        x, y, z);
+			switch (tile.getOrientation()) {
+				case NORTH:
+					this.setBlockBounds(0.375F, 0, 0.0625F, 0.9375F, 0.5625F,
+					        0.625F);
+					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+					        entity);
+					break;
+				case SOUTH:
+					this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.625F, 1 - 0.375F,
+					        0.5625F, 1 - 0.0625F);
+					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+					        entity);
+					break;
+				case EAST:
+					this.setBlockBounds(0.375F, 0, 0.375F, 0.9375F, 0.5625F,
+					        0.9375F);
+					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+					        entity);
+					break;
+				case WEST:
+					this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.9375F,
+					        1 - 0.375F, 0.5625F, 1 - 0.375F);
+					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+					        entity);
+					break;
+				default:
+					this.setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
+					super.addCollisionBoxesToList(world, x, y, z, bounds, list,
+					        entity);
+					break;
+			}
 		} else {
 			this.setBlockBounds(0, 0, 0, 1F, 1F, 1F);
 			super.addCollisionBoxesToList(world, x, y, z, bounds, list, entity);
@@ -178,7 +213,31 @@ public class BlockTimeMachine extends BlockTT {
 			this.setBlockBounds(0, 0, 0, 1F, 0.375F, 1F);
 		else if (meta == 3)
 			this.setBlockBounds(0F, 0F, 0F, 1F, 2F, 1F);
-		else
+		else if (meta == 4) {
+			TileTimeMachine tile = (TileTimeMachine) access.getBlockTileEntity(
+			        x, y, z);
+			switch (tile.getOrientation()) {
+				case NORTH:
+					this.setBlockBounds(0.375F, 0, 0.0625F, 0.9375F, 0.5625F,
+					        0.625F);
+					break;
+				case SOUTH:
+					this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.625F, 1 - 0.375F,
+					        0.5625F, 1 - 0.0625F);
+					break;
+				case EAST:
+					this.setBlockBounds(0.375F, 0, 0.375F, 0.9375F, 0.5625F,
+					        0.9375F);
+					break;
+				case WEST:
+					this.setBlockBounds(1 - 0.9375F, 0, 1 - 0.9375F,
+					        1 - 0.375F, 0.5625F, 1 - 0.375F);
+					break;
+				default:
+					this.setBlockBounds(0, 0, 0, 1, 0.5625F, 1);
+					break;
+			}
+		} else
 			this.setBlockBounds(0F, 0F, 0F, 1F, 1F, 1F);
 	}
 

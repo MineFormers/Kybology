@@ -24,8 +24,7 @@ public class CreativeTabTimeTravel extends CreativeTabs {
 	public ItemStack getIconItemStack() {
 		ItemStack stack = new ItemStack(ItemIds.WATCH, 1, 0);
 		stack.setTagCompound(new NBTTagCompound());
-		stack.getTagCompound().setIntArray("Coordinates",
-		        new int[] { 0, 0, 0, 1 });
+		stack.getTagCompound().setBoolean("Travelling", true);
 		return stack;
 	}
 

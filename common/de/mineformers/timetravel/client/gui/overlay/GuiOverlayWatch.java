@@ -1,9 +1,10 @@
 package de.mineformers.timetravel.client.gui.overlay;
 
+import java.util.concurrent.TimeUnit;
+
 import org.lwjgl.opengl.GL11;
 
 import de.mineformers.timetravel.api.TravellingRegistry;
-import de.mineformers.timetravel.core.handler.TickHandlerWatch;
 import de.mineformers.timetravel.core.util.ResourceHelper;
 import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.lib.Textures;
@@ -29,6 +30,8 @@ import net.minecraftforge.event.ForgeSubscribe;
 public class GuiOverlayWatch extends Gui {
 
 	public Minecraft mc;
+
+	public static int secsLeft;
 
 	public GuiOverlayWatch(Minecraft mc) {
 		super();
@@ -59,8 +62,18 @@ public class GuiOverlayWatch extends Gui {
 				        mc.gameSettings, mc.displayWidth, mc.displayHeight);
 				int height = resolution.getScaledHeight();
 				if (mc.gameSettings.guiScale != 0) {
-					String time = String.format("%02d", TickHandlerWatch.min)
-					        + ":" + String.format("%02d", TickHandlerWatch.sec);
+					int day = (int) TimeUnit.SECONDS.toDays(secsLeft);
+					long hours = TimeUnit.SECONDS.toHours(secsLeft)
+					        - TimeUnit.DAYS.toHours(day);
+					long minute = TimeUnit.SECONDS.toMinutes(secsLeft)
+					        - TimeUnit.DAYS.toMinutes(day)
+					        - TimeUnit.HOURS.toMinutes(hours);
+					long second = TimeUnit.SECONDS.toSeconds(secsLeft)
+					        - TimeUnit.DAYS.toSeconds(day)
+					        - TimeUnit.HOURS.toSeconds(hours)
+					        - TimeUnit.MINUTES.toSeconds(minute);
+					String time = String.format("%02d", minute) + ":"
+					        + String.format("%02d", second);
 					this.drawString(this.mc.fontRenderer, time, (int) (5 + Math
 					        .floor((27 - this.mc.fontRenderer
 					                .getStringWidth(time)) / 2)),
@@ -71,15 +84,16 @@ public class GuiOverlayWatch extends Gui {
 					this.drawTexturedModalRect(5, watchY, 54, 0, 27, 30);
 					GL11.glPushMatrix();
 					GL11.glTranslatef(5 + 13, watchY + 16, 0);
-					if (TickHandlerWatch.sec >= 30)
+					if (second >= 30)
 						GL11.glTranslatef(0, 1, 0);
-					GL11.glRotatef(TickHandlerWatch.sec * 6, 0, 0, 1);
+					GL11.glRotatef(second * 6, 0, 0, 1);
 					this.drawTexturedModalRect(0, -7, 58, 30, 1, 7);
 					GL11.glPopMatrix();
 					GL11.glPushMatrix();
 					GL11.glTranslatef(5 + 13, watchY + 16, 0);
-					GL11.glRotatef((float) (TickHandlerWatch.min * 6 + Math
-					        .floor(TickHandlerWatch.sec / 10)), 0, 0, 1);
+					GL11.glRotatef(
+					        (float) (minute * 6 + Math.floor(second / 10)), 0,
+					        0, 1);
 					this.drawTexturedModalRect(0, -5, 59, 32, 1, 5);
 					GL11.glPopMatrix();
 				} else {

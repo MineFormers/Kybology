@@ -18,12 +18,15 @@ import net.minecraft.block.Block;
 public class ModBlocks {
 
 	public static Block timeMachine;
+	public static Block tests;
 
 	public static void init() {
 		timeMachine = new BlockTimeMachine(BlockIds.TIMEMACHINE);
+		tests = new BlockTest(BlockIds.TEST);
 		
 		GameRegistry.registerBlock(timeMachine, ItemBlockTimeMachine.class,
 		        Strings.TIMEMACHINE_NAME);
+		GameRegistry.registerBlock(tests, Strings.TEST_NAME);
 	}
 	
 }

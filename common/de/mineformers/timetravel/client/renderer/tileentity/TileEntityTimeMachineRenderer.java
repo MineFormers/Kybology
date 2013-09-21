@@ -76,6 +76,10 @@ public class TileEntityTimeMachineRenderer extends TileEntitySpecialRenderer {
 					model.renderCorner();
 					GL11.glDisable(GL11.GL_BLEND);
 					break;
+				case 4:
+					GL11.glTranslatef(-1F, 1F, 1F);
+					model.renderModule();
+					break;
 			}
 
 			GL11.glDisable(GL12.GL_RESCALE_NORMAL);

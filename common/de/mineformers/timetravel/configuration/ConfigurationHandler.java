@@ -37,6 +37,8 @@ public class ConfigurationHandler {
 			BlockIds.TIMEMACHINE = configuration.getBlock(
 			        Strings.TIMEMACHINE_NAME, BlockIds.TIMEMACHINE_DEFAULT)
 			        .getInt(BlockIds.TIMEMACHINE_DEFAULT);
+			BlockIds.TEST = configuration.getBlock(Strings.TEST_NAME,
+			        BlockIds.TEST_DEFAULT).getInt(BlockIds.TEST_DEFAULT);
 
 			ItemIds.WATCH = configuration.getItem(Strings.WATCH_NAME,
 			        ItemIds.WATCH_DEFAULT).getInt(ItemIds.WATCH_DEFAULT);

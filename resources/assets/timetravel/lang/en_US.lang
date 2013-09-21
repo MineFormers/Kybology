@@ -1,10 +1,12 @@
 itemGroup.TimeTravel=TimeTravel
 
 # Block localizations
+tile.timetravel:testBlock.name=Test
 tile.timetravel:timeMachine.base.name=Time Machine - Base
 tile.timetravel:timeMachine.panel.name=Time Machine - CP
 tile.timetravel:timeMachine.stairs.name=Time Machine - Stairs
-tile.timetravel:timeMachine.corner.name=Time Machine - Pillar
+tile.timetravel:timeMachine.pillar.name=Time Machine - Pillar
+tile.timetravel:timeMachine.module.name=Time Machine - Module
 
 #Item localizations
 item.timetravel:pocketWatch.name=Pocket Watch of the Time Traveller

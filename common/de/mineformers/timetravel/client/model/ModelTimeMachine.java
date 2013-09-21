@@ -20,6 +20,7 @@ public class ModelTimeMachine extends ModelBase {
 	ModelRenderer Panel;
 	ModelRenderer Cube;
 	ModelRenderer Display;
+	ModelRenderer Module;
 
 	private int mod;
 
@@ -155,6 +156,11 @@ public class ModelTimeMachine extends ModelBase {
 		Display.setTextureSize(256, 64);
 		Display.mirror = true;
 		setRotation(Display, 0.0F, 0, 0);
+		
+		Module = new ModelRenderer(this, 0, 36);
+		Module.setRotationPoint(16F, 24F, -16F);
+		setRotation(Module, 0, 0, 0);
+		Module.addBox(-2F, -25F, -7F, 9, 9, 9);
 	}
 
 	public void renderBase() {
@@ -180,6 +186,10 @@ public class ModelTimeMachine extends ModelBase {
 
 	public void renderPanelDisplay() {
 		Display.render(0.0625F);
+	}
+	
+	public void renderModule() {
+		Module.render(0.0625F);
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

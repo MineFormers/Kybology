@@ -55,7 +55,8 @@ public class BlockTT extends Block implements ITileEntityProvider {
 			direction = ForgeDirection.WEST.ordinal();
 		}
 
-		if (world.blockHasTileEntity(x, y, z)) {
+		if (world.blockHasTileEntity(x, y, z)
+		        && world.getBlockTileEntity(x, y, z) != null) {
 			if (itemStack.hasDisplayName()) {
 				((TileTT) world.getBlockTileEntity(x, y, z))
 				        .setCustomName(itemStack.getDisplayName());
