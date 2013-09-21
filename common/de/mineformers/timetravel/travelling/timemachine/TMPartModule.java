@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import de.mineformers.timetravel.lib.Textures;
 import de.mineformers.timetravel.network.packet.PacketTMModuleUpdate;
 import de.mineformers.timetravel.network.packet.PacketTimeMachineUpdate;
+import de.mineformers.timetravel.tileentity.TileTimeMachine;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -88,6 +89,34 @@ public class TMPartModule extends TimeMachinePart {
 		super.readFromNBT(compound);
 
 		type = ModuleType.values()[compound.getInteger("ModuleType")];
+	}
+
+	@Override
+	public void invalidateMultiblock() {
+		if (!this.getWorld().isRemote) {
+			int xCoord = (int) this.getPos().xCoord;
+			int yCoord = (int) this.getPos().yCoord;
+			int zCoord = (int) this.getPos().zCoord;
+			for (int xOff = -1; xOff <= 1; xOff++) {
+				for (int zOff = -1; zOff <= 1; zOff++) {
+					if (this.getWorld().getBlockTileEntity(xCoord + xOff,
+					        yCoord - 2, zCoord + zOff) != null) {
+						if (this.getWorld().getBlockTileEntity(xCoord + xOff,
+						        yCoord, zCoord + zOff) instanceof TileTimeMachine) {
+							TileTimeMachine tile = (TileTimeMachine) this
+							        .getWorld().getBlockTileEntity(
+							                xCoord + xOff, yCoord,
+							                zCoord + zOff);
+							if (tile.getTypeMeta() == TYPE_BASE) {
+								TMPartBase base = (TMPartBase) tile.getPart();
+								base.invalidateMultiblock();
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override

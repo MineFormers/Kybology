@@ -146,6 +146,53 @@ public class BlockTimeMachine extends BlockTT {
 				        z)).getPart()).validateMultiblock();
 			}
 		}
+
+		if (world.getBlockMetadata(x, y, z) == TimeMachinePart.TYPE_MODULE) {
+			for (int xOff = -1; xOff <= 1; xOff++) {
+				for (int zOff = -1; zOff <= 1; zOff++) {
+					for (int yOff = 0; yOff >= -2; yOff--) {
+						if (world.getBlockTileEntity(x + xOff, y + yOff, z
+						        + zOff) != null) {
+							if (world.getBlockTileEntity(x + xOff, y + yOff, z
+							        + zOff) instanceof TileTimeMachine) {
+								((TileTimeMachine) world.getBlockTileEntity(x
+								        + xOff, y + yOff, z + zOff)).getPart()
+								        .invalidateMultiblock();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void breakBlock(World world, int x, int y, int z, int oldId,
+	        int oldMeta) {
+		super.breakBlock(world, x, y, z, oldId, oldMeta);
+
+		if (world.getBlockTileEntity(x, y, z) != null) {
+			if (world.getBlockTileEntity(x, y, z) instanceof TileTimeMachine) {
+				((TileTimeMachine) world.getBlockTileEntity(x, y, z)).getPart()
+				        .invalidateMultiblock();
+			}
+		} else if (oldMeta == TimeMachinePart.TYPE_MODULE) {
+			for (int xOff = -1; xOff <= 1; xOff++) {
+				for (int zOff = -1; zOff <= 1; zOff++) {
+					for (int yOff = 0; yOff >= -2; yOff--) {
+						if (world.getBlockTileEntity(x + xOff, y + yOff, z
+						        + zOff) != null) {
+							if (world.getBlockTileEntity(x + xOff, y + yOff, z
+							        + zOff) instanceof TileTimeMachine) {
+								((TileTimeMachine) world.getBlockTileEntity(x
+								        + xOff, y + yOff, z + zOff)).getPart()
+								        .invalidateMultiblock();
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@Override
@@ -239,7 +286,7 @@ public class BlockTimeMachine extends BlockTT {
 	        int z) {
 		int meta = access.getBlockMetadata(x, y, z);
 		switch (meta) {
-			case 1:
+			case 0:
 				this.setBlockBounds(0F, 0F, 0F, 1.0F, 0.375F, 1.0F);
 				return;
 			case 2:
@@ -295,9 +342,13 @@ public class BlockTimeMachine extends BlockTT {
 			TileTimeMachine tile = (TileTimeMachine) world.getBlockTileEntity(
 			        x, y, z);
 			if (tile.getTypeMeta() == TimeMachinePart.TYPE_PANEL) {
-				if (tile.getPart().isValidMultiblock())
-					player.openGui(TimeTravel.instance, GuiIds.TIMEMACHINE,
-					        world, x, y, z);
+				if (!player.isSneaking()) {
+					if (tile.getPart().isValidMultiblock())
+						player.openGui(TimeTravel.instance, GuiIds.TIMEMACHINE,
+						        world, x, y, z);
+				} else {
+					((TMPartPanel) tile.getPart()).listModules();
+				}
 				return true;
 			} else if (tile.getTypeMeta() == TimeMachinePart.TYPE_MODULE) {
 				TMPartModule module = (TMPartModule) tile.getPart();
