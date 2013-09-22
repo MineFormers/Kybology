@@ -53,6 +53,10 @@ public class CommonProxy implements IGuiHandler {
 				PacketDispatcher.sendPacketToPlayer(new PacketOpenGui(ID, x, y,
 				        z).makePacket(), (Player) player);
 				return null;
+			case GuiIds.TM_CONFLICT_MODULES:
+				PacketDispatcher.sendPacketToPlayer(new PacketOpenGui(ID, x, y,
+				        z).makePacket(), (Player) player);
+				return null;
 		}
 
 		return null;
@@ -71,6 +75,10 @@ public class CommonProxy implements IGuiHandler {
 				return new GuiScreenTT(176, 75, new WidgetCanvasConflict(
 				        LangHelper.translate("message",
 				                "timeMachine.conflict.noMb")));
+			case GuiIds.TM_CONFLICT_MODULES:
+				return new GuiScreenTT(176, 75, new WidgetCanvasConflict(
+				        LangHelper.translate("message",
+				                "timeMachine.conflict.modules")));
 		}
 
 		return null;

@@ -345,8 +345,13 @@ public class BlockTimeMachine extends BlockTT {
 			if (tile.getTypeMeta() == TimeMachinePart.TYPE_PANEL) {
 				if (!player.isSneaking()) {
 					if (tile.getPart().isValidMultiblock())
-						player.openGui(TimeTravel.instance, GuiIds.TIMEMACHINE,
-						        world, x, y, z);
+						if (!((TMPartPanel) tile.getPart())
+						        .getModuleConflicts())
+							player.openGui(TimeTravel.instance,
+							        GuiIds.TIMEMACHINE, world, x, y, z);
+						else
+							player.openGui(TimeTravel.instance,
+							        GuiIds.TM_CONFLICT_MODULES, world, x, y, z);
 					else
 						player.openGui(TimeTravel.instance,
 						        GuiIds.TM_CONFLICT_NO_MB, world, x, y, z);
