@@ -22,6 +22,7 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.mineformers.timetravel.TimeTravel;
+import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.lib.GuiIds;
 import de.mineformers.timetravel.lib.Strings;
@@ -203,7 +204,7 @@ public class BlockTimeMachine extends BlockTT {
 			TileTimeMachine tile = (TileTimeMachine) world.getBlockTileEntity(
 			        x, y, z);
 			TMPartModule module = (TMPartModule) tile.getPart();
-			ItemStack reward = module.getTypeItem(module.getType());
+			ItemStack reward = TMPartModule.getTypeItem(module.getType());
 			if (reward != null) {
 				EntityItem entityItem = new EntityItem(world, x, y, z, reward);
 				world.spawnEntityInWorld(entityItem);
@@ -346,6 +347,9 @@ public class BlockTimeMachine extends BlockTT {
 					if (tile.getPart().isValidMultiblock())
 						player.openGui(TimeTravel.instance, GuiIds.TIMEMACHINE,
 						        world, x, y, z);
+					else
+						player.openGui(TimeTravel.instance,
+						        GuiIds.TM_CONFLICT_NO_MB, world, x, y, z);
 				} else {
 					((TMPartPanel) tile.getPart()).listModules();
 				}
@@ -360,30 +364,34 @@ public class BlockTimeMachine extends BlockTT {
 						if (item.stackSize <= 0)
 							item = null;
 
-						ItemStack reward = module.getTypeItem(prevType);
+						ItemStack reward = TMPartModule.getTypeItem(prevType);
 						if (reward != null) {
 							EntityItem entityItem = new EntityItem(world, x, y,
 							        z, reward);
 							world.spawnEntityInWorld(entityItem);
 						}
 
-						player.addChatMessage("Changed mode to: "
-						        + module.getType().toString().substring(0, 1)
-						        + module.getType().toString().substring(1)
-						                .toLowerCase());
+						player.addChatMessage(LangHelper.translate("message",
+						        "changeMode")
+						        + ": "
+						        + LangHelper.translate(TMPartModule
+						                .getModeLangKey(module.getType())));
 
 						NetworkHelper.sendTilePacket(world, x, z, y);
 						return true;
 					}
 				} else {
 					if (player.isSneaking()) {
-						ItemStack reward = module.getTypeItem(module.getType());
+						ItemStack reward = TMPartModule.getTypeItem(module
+						        .getType());
 						if (reward != null) {
 							EntityItem entityItem = new EntityItem(world, x, y,
 							        z, reward);
 							world.spawnEntityInWorld(entityItem);
 							module.setType(ModuleType.DEFAULT);
-							player.addChatMessage("Changed mode to: "
+							player.addChatMessage(LangHelper.translate(
+							        "message", "changeMode")
+							        + ": "
 							        + module.getType().toString()
 							                .substring(0, 1)
 							        + module.getType().toString().substring(1)

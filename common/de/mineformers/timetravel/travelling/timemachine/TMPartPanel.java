@@ -3,13 +3,14 @@ package de.mineformers.timetravel.travelling.timemachine;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.entity.PlayerPropertiesTT;
 import de.mineformers.timetravel.lib.Sounds;
 import de.mineformers.timetravel.network.packet.PacketTMPanelUpdate;
 import de.mineformers.timetravel.network.packet.PacketTimeMachineUpdate;
 import de.mineformers.timetravel.tileentity.TileTimeMachine;
-import de.mineformers.timetravel.world.TeleporterTest;
+import de.mineformers.timetravel.world.TeleporterTime;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -106,7 +107,8 @@ public class TMPartPanel extends TimeMachinePart {
 					for (EntityPlayer player : players
 					        .toArray(new EntityPlayer[players.size()])) {
 						if (countdown == 0)
-							player.addChatMessage("Go!");
+							player.addChatMessage(LangHelper.getString(
+							        "message", "go"));
 						else if (countdown > 0) {
 							player.addChatMessage(countdown + "...");
 						}
@@ -169,7 +171,7 @@ public class TMPartPanel extends TimeMachinePart {
 				        .transferPlayerToDimension(
 				                thePlayer,
 				                targetDim,
-				                new TeleporterTest(thePlayer.mcServer
+				                new TeleporterTime(thePlayer.mcServer
 				                        .worldServerForDimension(targetDim)));
 			}
 		}

@@ -8,5 +8,25 @@ tile.timetravel:timeMachine.stairs.name=Time Machine - Stairs
 tile.timetravel:timeMachine.pillar.name=Time Machine - Pillar
 tile.timetravel:timeMachine.module.name=Time Machine - Module
 
-#Item localizations
+# Item localizations
 item.timetravel:pocketWatch.name=Pocket Watch of the Time Traveller
+
+# Messages
+message.timetravel:timeMachine.module.default=Default
+message.timetravel:timeMachine.module.power=Energy Accumulator
+message.timetravel:timeMachine.module.time=Time Travelling
+message.timetravel:timeMachine.module.space=Translocator
+message.timetravel:timeMachine.module.item=Item Translocation
+message.timetravel:timeMachine.module.player=Player Translocation
+message.timetravel:timeMachine.conflict.noMb=Not a valid<br>multi block structure!
+
+message.timetravel:changeMode=Changed mode to
+message.timetravel:noTravelling=You can't travel from here
+message.timetravel:go=Go!
+message.timetravel:unknownForce=A unknown force pushes you back into your time.
+
+# Gui labels
+gui.timetravel:label.error=Error
+gui.timetravel:button.travel=Travel
+gui.timetravel:button.cancel=Cancel
+gui.timetravel:button.close=Close

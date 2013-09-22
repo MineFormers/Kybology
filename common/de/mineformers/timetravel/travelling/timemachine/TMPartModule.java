@@ -2,6 +2,7 @@ package de.mineformers.timetravel.travelling.timemachine;
 
 import java.lang.reflect.Field;
 
+import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.lib.Textures;
 import de.mineformers.timetravel.network.packet.PacketTMModuleUpdate;
 import de.mineformers.timetravel.network.packet.PacketTimeMachineUpdate;
@@ -62,21 +63,6 @@ public class TMPartModule extends TimeMachinePart {
 		return false;
 	}
 
-	public ItemStack getTypeItem(ModuleType type) {
-		switch (type) {
-			case POWER:
-				return new ItemStack(Item.eyeOfEnder.itemID, 1, 0);
-			case TIME:
-				return new ItemStack(Item.pocketSundial.itemID, 1, 0);
-			case SPACE:
-				return new ItemStack(Item.compass.itemID, 1, 0);
-			case PLAYER:
-				return new ItemStack(Item.skull.itemID, 1, 3);
-			default:
-				return null;
-		}
-	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
@@ -127,7 +113,7 @@ public class TMPartModule extends TimeMachinePart {
 		        this.getTypeMeta(), type.ordinal());
 	}
 
-	public ResourceLocation getTexture() {
+	public static ResourceLocation getTexture(ModuleType type) {
 		try {
 			Field field = Textures.class.getField("MODEL_TM_MODULE_"
 			        + type.toString());
@@ -138,6 +124,26 @@ public class TMPartModule extends TimeMachinePart {
 			        "Unexpected Reflection exception during Packet construction!",
 			        e);
 		}
+	}
+
+	public static ItemStack getTypeItem(ModuleType type) {
+		switch (type) {
+			case POWER:
+				return new ItemStack(Item.eyeOfEnder.itemID, 1, 0);
+			case TIME:
+				return new ItemStack(Item.pocketSundial.itemID, 1, 0);
+			case SPACE:
+				return new ItemStack(Item.compass.itemID, 1, 0);
+			case PLAYER:
+				return new ItemStack(Item.skull.itemID, 1, 3);
+			default:
+				return null;
+		}
+	}
+
+	public static String getModeLangKey(ModuleType type) {
+		return LangHelper.getString("message", "timeMachine.module."
+		        + type.toString().toLowerCase());
 	}
 
 }

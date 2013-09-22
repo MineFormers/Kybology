@@ -81,7 +81,8 @@ public class TileEntityTimeMachineRenderer extends TileEntitySpecialRenderer {
 					TMPartModule module = (TMPartModule) ((TileTimeMachine) tileEntity)
 					        .getPart();
 					FMLClientHandler.instance().getClient().renderEngine
-					        .bindTexture(module.getTexture());
+					        .bindTexture(TMPartModule.getTexture(module
+					                .getType()));
 					GL11.glScalef(0.5F, 0.5F, 0.5F);
 					GL11.glTranslatef(-1F, 1F, 1F);
 					model.renderModule();
