@@ -29,7 +29,6 @@ import de.mineformers.timetravel.core.handler.TickHandlerWatch;
 import de.mineformers.timetravel.core.proxy.CommonProxy;
 import de.mineformers.timetravel.core.util.LogHelper;
 import de.mineformers.timetravel.creativetab.CreativeTabTimeTravel;
-import de.mineformers.timetravel.entity.ModEntitys;
 import de.mineformers.timetravel.item.ModItems;
 import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.network.PacketHandler;
@@ -93,7 +92,6 @@ public class TimeTravel {
 
 		ModDimensions.init();
 
-		ModEntitys.init();
 		TravellingRegistry.addTimeDestination(new DestinationRedwoodTime());
 	}
 
