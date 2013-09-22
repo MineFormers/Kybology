@@ -6,9 +6,11 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import de.mineformers.timetravel.client.audio.SoundHandler;
 import de.mineformers.timetravel.client.renderer.block.BlockTestRenderer;
+import de.mineformers.timetravel.client.renderer.entity.RenderRift;
 import de.mineformers.timetravel.client.renderer.item.ItemPocketWatchRenderer;
 import de.mineformers.timetravel.client.renderer.item.ItemTimeMachineRenderer;
 import de.mineformers.timetravel.client.renderer.tileentity.TileEntityTimeMachineRenderer;
+import de.mineformers.timetravel.entity.EntityRift;
 import de.mineformers.timetravel.lib.BlockIds;
 import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.lib.RenderIds;
@@ -36,10 +38,12 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void initRenderingAndTextures() {
 		super.initRenderingAndTextures();
-		
+
 		RenderIds.testRender = RenderingRegistry.getNextAvailableRenderId();
-		
+
 		RenderingRegistry.registerBlockHandler(new BlockTestRenderer());
+		RenderingRegistry.registerEntityRenderingHandler(EntityRift.class,
+		        new RenderRift());
 		
 		MinecraftForgeClient.registerItemRenderer(BlockIds.TIMEMACHINE,
 		        new ItemTimeMachineRenderer());

@@ -19,6 +19,7 @@ message.timetravel:timeMachine.module.space=Translocator
 message.timetravel:timeMachine.module.item=Item Translocation
 message.timetravel:timeMachine.module.player=Player Translocation
 message.timetravel:timeMachine.conflict.noMb=Not a valid<br>multi block structure!
+message.timetravel:timeMachine.conflict.modules=There are two<br>or more conflicting modules!
 
 message.timetravel:changeMode=Changed mode to
 message.timetravel:noTravelling=You can't travel from here

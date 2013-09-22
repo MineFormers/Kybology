@@ -68,6 +68,40 @@ public class TMPartPanel extends TimeMachinePart {
 		super.initFromTile(parent);
 	}
 
+	public boolean getModuleConflicts() {
+		int spaceAvail = 0;
+		int timeAvail = 0;
+		int playerAvail = 0;
+		int itemAvail = 0;
+		int powerAvail = 0;
+
+		for (TMPartModule module : modules) {
+			switch (module.getType()) {
+				case POWER:
+					powerAvail++;
+					break;
+				case SPACE:
+					spaceAvail++;
+					break;
+				case TIME:
+					timeAvail++;
+					break;
+				case ITEM:
+					itemAvail++;
+					break;
+				case PLAYER:
+					playerAvail++;
+					break;
+				default:
+					break;
+			}
+		}
+
+		return powerAvail > 1 || timeAvail > 1 || spaceAvail > 1
+		        || itemAvail > 1 || playerAvail > 1
+		        || (spaceAvail > 0 && timeAvail > 0);
+	}
+
 	public void listModules() {
 		for (TMPartModule module : modules) {
 			System.out.println(module.getType());
