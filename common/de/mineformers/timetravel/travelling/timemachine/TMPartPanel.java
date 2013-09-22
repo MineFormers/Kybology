@@ -1,13 +1,16 @@
 package de.mineformers.timetravel.travelling.timemachine;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.entity.PlayerPropertiesTT;
 import de.mineformers.timetravel.lib.Sounds;
 import de.mineformers.timetravel.network.packet.PacketTMPanelUpdate;
 import de.mineformers.timetravel.network.packet.PacketTimeMachineUpdate;
-import de.mineformers.timetravel.world.TeleporterTest;
+import de.mineformers.timetravel.tileentity.TileTimeMachine;
+import de.mineformers.timetravel.world.TeleporterTime;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,6 +30,8 @@ import net.minecraftforge.common.ForgeDirection;
  */
 public class TMPartPanel extends TimeMachinePart {
 
+	private boolean searchedForModules;
+	private ArrayList<TMPartModule> modules;
 	private Vec3 basePosition;
 	private boolean doCountdown;
 	private int countdown;
@@ -38,6 +43,7 @@ public class TMPartPanel extends TimeMachinePart {
 		this.doCountdown = false;
 		this.countdown = 10;
 		this.targetDim = 0;
+		this.modules = new ArrayList<TMPartModule>();
 	}
 
 	public Vec3 getBasePosition() {
@@ -48,11 +54,31 @@ public class TMPartPanel extends TimeMachinePart {
 		this.basePosition = Vec3.createVectorHelper(x, y, z);
 	}
 
+	@Override
+	public void setValidMultiblock(boolean valid) {
+		super.setValidMultiblock(valid);
+		if (!valid) {
+			modules.clear();
+			searchedForModules = false;
+		}
+	}
+
+	@Override
+	public void initFromTile(TileEntity parent) {
+		super.initFromTile(parent);
+	}
+
+	public void listModules() {
+		for (TMPartModule module : modules) {
+			System.out.println(module.getType());
+		}
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void updateTick() {
 		super.updateTick();
-
+		findModules();
 		if (this.isValidMultiblock()) {
 			if (doCountdown) {
 				if (countdown == 0) {
@@ -81,7 +107,8 @@ public class TMPartPanel extends TimeMachinePart {
 					for (EntityPlayer player : players
 					        .toArray(new EntityPlayer[players.size()])) {
 						if (countdown == 0)
-							player.addChatMessage("Go!");
+							player.addChatMessage(LangHelper.getString(
+							        "message", "go"));
 						else if (countdown > 0) {
 							player.addChatMessage(countdown + "...");
 						}
@@ -144,9 +171,41 @@ public class TMPartPanel extends TimeMachinePart {
 				        .transferPlayerToDimension(
 				                thePlayer,
 				                targetDim,
-				                new TeleporterTest(thePlayer.mcServer
+				                new TeleporterTime(thePlayer.mcServer
 				                        .worldServerForDimension(targetDim)));
 			}
+		}
+	}
+
+	private void findModules() {
+		if (!searchedForModules) {
+			for (int xOff = -1; xOff <= 1; xOff++) {
+				for (int zOff = -1; zOff <= 1; zOff++) {
+					if (this.getWorld() != null && this.basePosition != null) {
+						if (this.getWorld().getBlockTileEntity(
+						        (int) basePosition.xCoord + xOff,
+						        (int) basePosition.yCoord + 2,
+						        (int) basePosition.zCoord + zOff) != null) {
+							if (this.getWorld().getBlockTileEntity(
+							        (int) basePosition.xCoord + xOff,
+							        (int) basePosition.yCoord + 2,
+							        (int) basePosition.zCoord + zOff) instanceof TileTimeMachine) {
+								TileTimeMachine tile = (TileTimeMachine) this
+								        .getWorld().getBlockTileEntity(
+								                (int) basePosition.xCoord
+								                        + xOff,
+								                (int) basePosition.yCoord + 2,
+								                (int) basePosition.zCoord
+								                        + zOff);
+								if (tile.getTypeMeta() == TimeMachinePart.TYPE_MODULE) {
+									modules.add((TMPartModule) tile.getPart());
+								}
+							}
+						}
+					}
+				}
+			}
+			searchedForModules = true;
 		}
 	}
 
@@ -179,6 +238,7 @@ public class TMPartPanel extends TimeMachinePart {
 		super.writeToNBT(nbt);
 		nbt.setIntArray("BasePosition", new int[] { (int) basePosition.xCoord,
 		        (int) basePosition.yCoord, (int) basePosition.zCoord });
+
 	}
 
 	@Override

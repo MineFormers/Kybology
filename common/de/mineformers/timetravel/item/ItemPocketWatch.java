@@ -3,9 +3,10 @@ package de.mineformers.timetravel.item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.mineformers.timetravel.api.TravellingRegistry;
+import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.lib.Strings;
-import de.mineformers.timetravel.world.TeleporterTest;
+import de.mineformers.timetravel.world.TeleporterTime;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -49,12 +50,12 @@ public class ItemPocketWatch extends ItemTT {
 						        .transferPlayerToDimension(
 						                thePlayer,
 						                0,
-						                new TeleporterTest(thePlayer.mcServer
+						                new TeleporterTime(thePlayer.mcServer
 						                        .worldServerForDimension(0)));
 					}
 				}
 			} else {
-				player.addChatMessage("You can't travel from here");
+				player.addChatMessage(LangHelper.translate("message", "noTravelling"));
 			}
 		}
 		return stack;

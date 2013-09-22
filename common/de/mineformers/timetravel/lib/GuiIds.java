@@ -12,5 +12,6 @@ package de.mineformers.timetravel.lib;
 public class GuiIds {
 	
 	public static final int TIMEMACHINE = 0;
+	public static final int TM_CONFLICT_NO_MB = 1;
 	
 }

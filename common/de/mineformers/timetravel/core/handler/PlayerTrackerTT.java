@@ -4,14 +4,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatMessageComponent;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent.EntityConstructing;
 import cpw.mods.fml.common.IPlayerTracker;
 import de.mineformers.timetravel.api.TravellingRegistry;
+import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.entity.PlayerPropertiesTT;
 import de.mineformers.timetravel.lib.ItemIds;
-import de.mineformers.timetravel.world.TeleporterTest;
+import de.mineformers.timetravel.world.TeleporterTime;
 
 /**
  * TimeTravel
@@ -45,8 +45,7 @@ public class PlayerTrackerTT implements IPlayerTracker {
 				props.setSecondsLeft(0);
 				props.setSecondsAvail(0);
 				props.setTimeStarted(0);
-				player.sendChatToPlayer(ChatMessageComponent
-				        .createFromText("A unknown force pushes you back into your time."));
+				player.addChatMessage(LangHelper.translate("message", "unknownForce"));
 				if (player instanceof EntityPlayerMP) {
 					EntityPlayerMP thePlayer = (EntityPlayerMP) player;
 					if (thePlayer.timeUntilPortal > 0) {
@@ -57,7 +56,7 @@ public class PlayerTrackerTT implements IPlayerTracker {
 						        .transferPlayerToDimension(
 						                thePlayer,
 						                props.getTmDimension(),
-						                new TeleporterTest(thePlayer.mcServer
+						                new TeleporterTime(thePlayer.mcServer
 						                        .worldServerForDimension(props
 						                                .getTmDimension())));
 					}

@@ -14,7 +14,7 @@ import de.mineformers.timetravel.api.TravellingRegistry;
 import de.mineformers.timetravel.entity.PlayerPropertiesTT;
 import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.network.packet.PacketUpdateWatch;
-import de.mineformers.timetravel.world.TeleporterTest;
+import de.mineformers.timetravel.world.TeleporterTime;
 
 /**
  * TimeTravel
@@ -64,7 +64,7 @@ public class TickHandlerCountdown implements IScheduledTickHandler {
 							        .transferPlayerToDimension(
 							                thePlayer,
 							                props.getTmDimension(),
-							                new TeleporterTest(
+							                new TeleporterTime(
 							                        thePlayer.mcServer
 							                                .worldServerForDimension(props
 							                                        .getTmDimension())));

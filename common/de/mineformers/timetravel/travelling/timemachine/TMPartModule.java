@@ -2,9 +2,11 @@ package de.mineformers.timetravel.travelling.timemachine;
 
 import java.lang.reflect.Field;
 
+import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.lib.Textures;
 import de.mineformers.timetravel.network.packet.PacketTMModuleUpdate;
 import de.mineformers.timetravel.network.packet.PacketTimeMachineUpdate;
+import de.mineformers.timetravel.tileentity.TileTimeMachine;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,21 +63,6 @@ public class TMPartModule extends TimeMachinePart {
 		return false;
 	}
 
-	public ItemStack getTypeItem(ModuleType type) {
-		switch (type) {
-			case POWER:
-				return new ItemStack(Item.eyeOfEnder.itemID, 1, 0);
-			case TIME:
-				return new ItemStack(Item.pocketSundial.itemID, 1, 0);
-			case SPACE:
-				return new ItemStack(Item.compass.itemID, 1, 0);
-			case PLAYER:
-				return new ItemStack(Item.skull.itemID, 1, 3);
-			default:
-				return null;
-		}
-	}
-
 	@Override
 	public void writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
@@ -91,6 +78,34 @@ public class TMPartModule extends TimeMachinePart {
 	}
 
 	@Override
+	public void invalidateMultiblock() {
+		if (!this.getWorld().isRemote) {
+			int xCoord = (int) this.getPos().xCoord;
+			int yCoord = (int) this.getPos().yCoord;
+			int zCoord = (int) this.getPos().zCoord;
+			for (int xOff = -1; xOff <= 1; xOff++) {
+				for (int zOff = -1; zOff <= 1; zOff++) {
+					if (this.getWorld().getBlockTileEntity(xCoord + xOff,
+					        yCoord - 2, zCoord + zOff) != null) {
+						if (this.getWorld().getBlockTileEntity(xCoord + xOff,
+						        yCoord, zCoord + zOff) instanceof TileTimeMachine) {
+							TileTimeMachine tile = (TileTimeMachine) this
+							        .getWorld().getBlockTileEntity(
+							                xCoord + xOff, yCoord,
+							                zCoord + zOff);
+							if (tile.getTypeMeta() == TYPE_BASE) {
+								TMPartBase base = (TMPartBase) tile.getPart();
+								base.invalidateMultiblock();
+								return;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
 	public PacketTimeMachineUpdate getPacket() {
 		return new PacketTMModuleUpdate((int) this.getPos().xCoord,
 		        (int) this.getPos().yCoord, (int) this.getPos().zCoord,
@@ -98,7 +113,7 @@ public class TMPartModule extends TimeMachinePart {
 		        this.getTypeMeta(), type.ordinal());
 	}
 
-	public ResourceLocation getTexture() {
+	public static ResourceLocation getTexture(ModuleType type) {
 		try {
 			Field field = Textures.class.getField("MODEL_TM_MODULE_"
 			        + type.toString());
@@ -109,6 +124,26 @@ public class TMPartModule extends TimeMachinePart {
 			        "Unexpected Reflection exception during Packet construction!",
 			        e);
 		}
+	}
+
+	public static ItemStack getTypeItem(ModuleType type) {
+		switch (type) {
+			case POWER:
+				return new ItemStack(Item.eyeOfEnder.itemID, 1, 0);
+			case TIME:
+				return new ItemStack(Item.pocketSundial.itemID, 1, 0);
+			case SPACE:
+				return new ItemStack(Item.compass.itemID, 1, 0);
+			case PLAYER:
+				return new ItemStack(Item.skull.itemID, 1, 3);
+			default:
+				return null;
+		}
+	}
+
+	public static String getModeLangKey(ModuleType type) {
+		return LangHelper.getString("message", "timeMachine.module."
+		        + type.toString().toLowerCase());
 	}
 
 }
