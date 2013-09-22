@@ -29,11 +29,13 @@ import de.mineformers.timetravel.core.handler.TickHandlerWatch;
 import de.mineformers.timetravel.core.proxy.CommonProxy;
 import de.mineformers.timetravel.core.util.LogHelper;
 import de.mineformers.timetravel.creativetab.CreativeTabTimeTravel;
+import de.mineformers.timetravel.entity.ModEntities;
 import de.mineformers.timetravel.item.ModItems;
 import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.network.PacketHandler;
 import de.mineformers.timetravel.travelling.DestinationRedwoodTime;
 import de.mineformers.timetravel.travelling.ModDimensions;
+import de.mineformers.timetravel.world.GeneratorRift;
 import de.mineformers.timetravel.world.biome.BiomeTest;
 
 /**
@@ -91,12 +93,16 @@ public class TimeTravel {
 		ModItems.init();
 
 		ModDimensions.init();
+		
+		ModEntities.init();
 
 		TravellingRegistry.addTimeDestination(new DestinationRedwoodTime());
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
+		GameRegistry.registerWorldGenerator(new GeneratorRift());
+		
 		PlayerTrackerTT tracker = new PlayerTrackerTT();
 
 		MinecraftForge.EVENT_BUS.register(tracker);

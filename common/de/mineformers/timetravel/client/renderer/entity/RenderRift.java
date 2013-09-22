@@ -20,8 +20,11 @@ public class RenderRift extends Render {
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float f,
 	        float f1) {
+		this.bindEntityTexture(entity);
+
 		Tessellator tess = Tessellator.instance;
 
+		// Top
 		tess.startDrawingQuads();
 		tess.addVertex(x + 2, y + 2, z + 2);
 		tess.addVertex(x + 2, y + 2, z);
@@ -29,11 +32,40 @@ public class RenderRift extends Render {
 		tess.addVertex(x, y + 2, z + 2);
 		tess.draw();
 
+		// Bottom
 		tess.startDrawingQuads();
 		tess.addVertex(x, y, z);
-		tess.addVertex(x, y, z + 2);
-		tess.addVertex(x + 2, y, z + 2);
 		tess.addVertex(x + 2, y, z);
+		tess.addVertex(x + 2, y, z + 2);
+		tess.addVertex(x, y, z + 2);
+		tess.draw();
+
+		tess.startDrawingQuads();
+		tess.addVertex(x, y, z);
+		tess.addVertex(x, y + 2, z);
+		tess.addVertex(x + 2, y + 2, z);
+		tess.addVertex(x + 2, y, z);
+		tess.draw();
+
+		tess.startDrawingQuads();
+		tess.addVertex(x + 2, y + 2, z + 2);
+		tess.addVertex(x, y + 2, z + 2);
+		tess.addVertex(x, y, z + 2);		
+		tess.addVertex(x + 2, y, z + 2);
+		tess.draw();
+
+		tess.startDrawingQuads();
+		tess.addVertex(x + 2, y, z);
+		tess.addVertex(x + 2, y + 2, z);
+		tess.addVertex(x + 2, y + 2, z + 2);
+		tess.addVertex(x + 2, y, z + 2);
+		tess.draw();
+
+		tess.startDrawingQuads();
+		tess.addVertex(x, y + 2, z + 2);
+		tess.addVertex(x, y + 2, z);
+		tess.addVertex(x, y, z);
+		tess.addVertex(x, y, z + 2);
 		tess.draw();
 	}
 
