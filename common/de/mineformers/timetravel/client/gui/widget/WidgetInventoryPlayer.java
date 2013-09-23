@@ -22,7 +22,6 @@ public class WidgetInventoryPlayer extends Widget {
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
-		widget.setDrawPos(drawX, drawY);
 		widget.setPos(0, 0);
 		widget.setSlots(9, 3);
 		widget.draw(mouseX, mouseY);

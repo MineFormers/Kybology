@@ -2,6 +2,10 @@ package de.mineformers.timetravel.client.gui.widget;
 
 import java.util.LinkedList;
 
+import org.lwjgl.opengl.GL11;
+
+import de.mineformers.timetravel.client.gui.widget.listener.ListenerClickable;
+import de.mineformers.timetravel.client.gui.widget.listener.ListenerKeyboard;
 import de.mineformers.timetravel.lib.Textures;
 
 /**
@@ -29,21 +33,33 @@ public class WidgetCanvas extends Widget {
 	@Override
 	public void draw(int mouseX, int mouseY) {
 		for (Widget widget : widgets) {
-			widget.setDrawPos(x + widget.getX(), y + widget.getY());
-			widget.draw(mouseX, mouseY);
+			if (widget.isVisible()) {
+				GL11.glPushMatrix();
+				GL11.glTranslatef(x, y, 0);
+				widget.setScreenPos(widget.getX() + x, widget.getY() + y);
+				widget.draw(mouseX, mouseY);
+				GL11.glPopMatrix();
+			}
 		}
 	}
 
 	public void mouseClick(int mouseX, int mouseY, int mouseButton) {
 		if (mouseButton == 0) {
 			for (Widget widget : widgets) {
-				if (widget instanceof WidgetButton) {
-					if (((WidgetButton) widget).isHovering(mouseX, mouseY)) {
-						mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
-						((WidgetButton) widget).triggerClick();
+				if (widget.isVisible())
+					if (widget.isHovered(mouseX, mouseY)) {
+						widget.notifyListeners(ListenerClickable.class,
+						        "onClick", mouseX, mouseY);
 					}
-				}
 			}
+		}
+	}
+
+	public void keyType(char keyChar, int keyCode) {
+		for (Widget widget : widgets) {
+			if (widget.isVisible())
+				widget.notifyListeners(ListenerKeyboard.class, "onKeyTyped",
+				        keyChar, keyCode);
 		}
 	}
 

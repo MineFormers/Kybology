@@ -29,6 +29,12 @@ public class GuiScreenTT extends GuiScreen {
 	protected void mouseClicked(int mouseX, int mouseY, int button) {
 		canvas.mouseClick(mouseX, mouseY, button);
 	}
+	
+	@Override
+	protected void keyTyped(char keyChar, int keyCode) {
+		super.keyTyped(keyChar, keyCode);
+		canvas.keyType(keyChar, keyCode);
+	}
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float opacity) {

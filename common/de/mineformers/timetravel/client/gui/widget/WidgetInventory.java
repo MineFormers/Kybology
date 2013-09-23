@@ -18,7 +18,7 @@ public class WidgetInventory extends Widget {
 
 	public WidgetInventory(int x, int y, int slotsX, int slotsY) {
 		super(Textures.GUI_WIDGETS, x, y);
-		slot = new WidgetSlot(0, 0, 18, 18);
+		slot = new WidgetSlot(x, y, 18, 18);
 		this.width = slotsX;
 		this.height = slotsY;
 	}
@@ -26,7 +26,7 @@ public class WidgetInventory extends Widget {
 	public void draw(int mouseX, int mouseY) {
 		for (int i = 0; i < width; i++) {
 			for (int j = 0; j < height; j++) {
-				slot.setDrawPos(drawX + i * 18, drawY + j * 18);
+				slot.setPos(x + i * 18, y + j * 18);
 				slot.draw(mouseX, mouseY);
 			}
 		}
@@ -36,5 +36,10 @@ public class WidgetInventory extends Widget {
 		this.width = slotsX;
 		this.height = slotsY;
 	}
+
+    @Override
+    public boolean isHovered(int mouseX, int mouseY) {
+	    return false;
+    }
 
 }

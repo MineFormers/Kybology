@@ -1,9 +1,9 @@
 package de.mineformers.timetravel.client.gui.timemachine;
 
 import de.mineformers.timetravel.client.gui.widget.WidgetButton;
-import de.mineformers.timetravel.client.gui.widget.WidgetButton.ButtonListener;
 import de.mineformers.timetravel.client.gui.widget.WidgetCanvas;
 import de.mineformers.timetravel.client.gui.widget.WidgetWindow;
+import de.mineformers.timetravel.client.gui.widget.listener.ListenerClickable;
 import de.mineformers.timetravel.core.util.LangHelper;
 
 /**
@@ -27,15 +27,15 @@ public class WidgetCanvasConflict extends WidgetCanvas {
 
 		WidgetButton btnClose = new WidgetButton(53, 47, 70, 20,
 		        LangHelper.translate("gui", "button.close"));
-		btnClose.addListener(new ButtonListener() {
+		btnClose.addListener(new ListenerClickable() {
 
 			@Override
-			public void onClick() {
+			public void onClick(int mouseX, int mouseY) {
 				mc.currentScreen = null;
 				mc.setIngameFocus();
 			}
 		});
-		
+
 		this.addWidget(btnClose);
 	}
 
