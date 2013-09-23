@@ -13,6 +13,7 @@ import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.lib.GuiIds;
 import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.network.packet.PacketOpenGui;
+import de.mineformers.timetravel.tileentity.TileEntityEnergyExtractor;
 import de.mineformers.timetravel.tileentity.TileTimeMachine;
 import de.mineformers.timetravel.travelling.timemachine.TMPartPanel;
 
@@ -30,6 +31,7 @@ public class CommonProxy implements IGuiHandler {
 	public void registerTileEntities() {
 		GameRegistry.registerTileEntity(TileTimeMachine.class,
 		        Strings.TE_TIMEMACHINE_NAME);
+		GameRegistry.registerTileEntity(TileEntityEnergyExtractor.class, Strings.TE_ENERGY_EXTRACTOR_NAME);
 	}
 
 	public void initRenderingAndTextures() {

@@ -1,6 +1,7 @@
 package de.mineformers.timetravel.client.renderer.entity;
 
 import de.mineformers.timetravel.core.util.ResourceHelper;
+import de.mineformers.timetravel.entity.EntityRift;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
@@ -11,12 +12,17 @@ import net.minecraft.util.ResourceLocation;
  * 
  * RenderRift
  * 
- * @author PaleoCrafter
+ * @author PaleoCrafter, Weneg
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
 public class RenderRift extends Render {
 
+    private static final ResourceLocation[] textures = new ResourceLocation[] {
+    	ResourceHelper.getResourceLocation("textures/models/rift.png"),
+    };
+	
+	
 	@Override
 	public void doRender(Entity entity, double x, double y, double z, float f,
 	        float f1) {
@@ -71,7 +77,9 @@ public class RenderRift extends Render {
 
 	@Override
 	protected ResourceLocation getEntityTexture(Entity entity) {
-		return ResourceHelper.getResourceLocation("textures/models/rift.png");
+		if(entity instanceof EntityRift)
+		return textures[(((EntityRift) entity).getType())];
+		return textures[0];
 	}
 
 }
