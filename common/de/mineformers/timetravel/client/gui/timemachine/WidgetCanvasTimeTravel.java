@@ -3,11 +3,12 @@ package de.mineformers.timetravel.client.gui.timemachine;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import de.mineformers.timetravel.api.TravellingRegistry;
 import de.mineformers.timetravel.client.gui.widget.WidgetButton;
-import de.mineformers.timetravel.client.gui.widget.WidgetButton.ButtonListener;
 import de.mineformers.timetravel.client.gui.widget.WidgetButtonPage;
 import de.mineformers.timetravel.client.gui.widget.WidgetCanvas;
 import de.mineformers.timetravel.client.gui.widget.WidgetSlot;
+import de.mineformers.timetravel.client.gui.widget.WidgetTextBox;
 import de.mineformers.timetravel.client.gui.widget.WidgetWindow;
+import de.mineformers.timetravel.client.gui.widget.listener.ListenerClickable;
 import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.network.packet.PacketStartTravel;
 
@@ -46,10 +47,10 @@ public class WidgetCanvasTimeTravel extends WidgetCanvas {
 		btnNext.setEnabled(TravellingRegistry.getTimeDestinationCount() > 1);
 		btnTravel.setEnabled(!counting);
 
-		btnPrev.addListener(new ButtonListener() {
+		btnPrev.addListener(new ListenerClickable() {
 
 			@Override
-			public void onClick() {
+			public void onClick(int mouseX, int mouseY) {
 				currentPage -= 1;
 				if (currentPage == 0)
 					btnPrev.setEnabled(false);
@@ -58,10 +59,10 @@ public class WidgetCanvasTimeTravel extends WidgetCanvas {
 			}
 		});
 
-		btnNext.addListener(new ButtonListener() {
+		btnNext.addListener(new ListenerClickable() {
 
 			@Override
-			public void onClick() {
+			public void onClick(int mouseX, int mouseY) {
 				currentPage += 1;
 				if (currentPage == TravellingRegistry.getTimeDestinationCount() - 1)
 					btnNext.setEnabled(false);
@@ -70,10 +71,10 @@ public class WidgetCanvasTimeTravel extends WidgetCanvas {
 			}
 		});
 
-		btnTravel.addListener(new ButtonListener() {
+		btnTravel.addListener(new ListenerClickable() {
 
 			@Override
-			public void onClick() {
+			public void onClick(int mouseX, int mouseY) {
 				PacketDispatcher.sendPacketToServer(new PacketStartTravel(
 				        blockX, blockY, blockZ, TravellingRegistry
 				                .getTimeDestination(currentPage, false)
@@ -83,31 +84,33 @@ public class WidgetCanvasTimeTravel extends WidgetCanvas {
 			}
 		});
 
-		btnCancel.addListener(new ButtonListener() {
+		btnCancel.addListener(new ListenerClickable() {
 
 			@Override
-			public void onClick() {
+			public void onClick(int mouseX, int mouseY) {
 				mc.currentScreen = null;
 				mc.setIngameFocus();
 			}
 		});
-		
+
 		this.addWidget(btnPrev);
 		this.addWidget(btnNext);
-		
+
 		this.addWidget(btnTravel);
 		this.addWidget(btnCancel);
+
+		this.addWidget(new WidgetTextBox(5, 5, 40, 20, "test", true));
 	}
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
 		super.draw(mouseX, mouseY);
 
-		this.drawRectangle(
+		/*this.drawRectangle(
 		        TravellingRegistry.getTimeDestination(currentPage, false)
 		                .getPreviewImage(), x + 28, y + 25, 0, 0, 200, 150);
 		this.mc.fontRenderer.drawString("Time Machine", x + 10, y + 10,
-		        0x404040, false);
+		        0x404040, false);*/
 	}
 
 }

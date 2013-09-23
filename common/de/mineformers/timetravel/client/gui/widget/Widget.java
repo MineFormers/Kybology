@@ -1,6 +1,13 @@
 package de.mineformers.timetravel.client.gui.widget;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import com.google.common.primitives.Primitives;
+
 import cpw.mods.fml.client.FMLClientHandler;
+import de.mineformers.timetravel.client.gui.widget.listener.Listener;
 import de.mineformers.timetravel.core.util.TextHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
@@ -17,11 +24,14 @@ import net.minecraft.util.ResourceLocation;
  */
 public abstract class Widget {
 
+	protected int screenX, screenY;
 	protected int x, y;
-	protected int drawX, drawY;
 	protected Minecraft mc;
 	protected ResourceLocation texture;
 	private int zLevel;
+	protected boolean visible;
+
+	private ArrayList<Listener> listeners;
 
 	public Widget(ResourceLocation texture, int x, int y) {
 		this.mc = FMLClientHandler.instance().getClient();
@@ -29,6 +39,8 @@ public abstract class Widget {
 		this.zLevel = 0;
 		this.x = x;
 		this.y = y;
+		listeners = new ArrayList<Listener>();
+		this.visible = true;
 	}
 
 	public void drawSplitString(String text, int x, int y, int color,
@@ -124,9 +136,58 @@ public abstract class Widget {
 		return y;
 	}
 
-	public void setDrawPos(int x, int y) {
-		this.drawX = x;
-		this.drawY = y;
+	public void setScreenPos(int screenX, int screenY) {
+		this.screenX = screenX;
+		this.screenY = screenY;
+	}
+	
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+	
+    public boolean isVisible() {
+	    return visible;
+    }
+
+	protected void notifyListeners(Class<? extends Listener> clazz,
+	        String methodName, Object... params) {
+		for (Listener listener : listeners) {
+			if (clazz.isInstance(listener)) {
+
+				Class<?>[] paramTypes = new Class<?>[params.length];
+				for (int i = 0; i < params.length; i++) {
+					if (Primitives.isWrapperType(params[i].getClass()))
+						paramTypes[i] = Primitives.unwrap(params[i].getClass());
+					else
+						paramTypes[i] = params[i].getClass();
+				}
+
+				try {
+					Method method = null;
+					for (Method meth : clazz.getMethods()) {
+						if (meth.getName().equals(methodName)) {
+							if (Arrays.deepEquals(paramTypes,
+							        meth.getParameterTypes()))
+								method = meth;
+						}
+					}
+
+					if (method != null)
+						method.invoke(listener, params);
+				} catch (ReflectiveOperationException e) {
+					throw new RuntimeException(
+					        "Some error occured during performing reflection. Report this to the mod developer.");
+				}
+			}
+		}
+	}
+
+	public void addListener(Listener listener) {
+		listeners.add(listener);
+	}
+
+	public boolean isHovered(int mouseX, int mouseY) {
+		return false;
 	}
 
 }

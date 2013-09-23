@@ -1,9 +1,8 @@
 package de.mineformers.timetravel.client.gui.widget;
 
-import java.util.ArrayList;
-
 import org.lwjgl.opengl.GL11;
 
+import de.mineformers.timetravel.client.gui.widget.listener.ListenerClickable;
 import de.mineformers.timetravel.lib.Textures;
 import net.minecraft.client.gui.FontRenderer;
 
@@ -16,15 +15,7 @@ import net.minecraft.client.gui.FontRenderer;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
-public class WidgetButton extends Widget {
-
-	public interface ButtonListener {
-
-		public void onClick();
-
-	}
-
-	private ArrayList<ButtonListener> listeners;
+public class WidgetButton extends Widget implements ListenerClickable {
 
 	protected boolean enabled;
 
@@ -37,44 +28,35 @@ public class WidgetButton extends Widget {
 		this.height = height;
 		this.text = text;
 		this.enabled = true;
-		listeners = new ArrayList<ButtonListener>();
-	}
-
-	public void addListener(ButtonListener listener) {
-		listeners.add(listener);
-	}
-
-	public void triggerClick() {
-		for (ButtonListener listener : listeners)
-			listener.onClick();
+		this.addListener(this);
 	}
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
 		FontRenderer fontRenderer = mc.fontRenderer;
-		boolean hovering = isHovering(mouseX, mouseY);
+		boolean hovering = isHovered(mouseX, mouseY);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int state = getHoverState(hovering);
 
 		// Corners clockwise
-		this.drawRectangle(drawX, drawY, 1 + 19 * state, 31, 5, 5);
-		this.drawRectangle(drawX + width - 5, drawY, 13 + 19 * state, 31, 5, 5);
-		this.drawRectangle(drawX + width - 5, drawY + height - 5,
-		        13 + 19 * state, 43, 5, 5);
-		this.drawRectangle(drawX, drawY + height - 5, 1 + 19 * state, 43, 5, 5);
+		this.drawRectangle(x, y, 1 + 19 * state, 31, 5, 5);
+		this.drawRectangle(x + width - 5, y, 13 + 19 * state, 31, 5, 5);
+		this.drawRectangle(x + width - 5, y + height - 5, 13 + 19 * state, 43,
+		        5, 5);
+		this.drawRectangle(x, y + height - 5, 1 + 19 * state, 43, 5, 5);
 
 		// Sides clockwise
-		this.drawRectangleStretched(drawX + 5, drawY, 7 + 19 * state, 31,
+		this.drawRectangleStretched(x + 5, y, 7 + 19 * state, 31, width - 10,
+		        5, 5, 5);
+		this.drawRectangleStretched(x + width - 5, y + 5, 13 + 19 * state, 37,
+		        5, height - 10, 5, 5);
+		this.drawRectangleStretched(x + 5, y + height - 5, 7 + 19 * state, 43,
 		        width - 10, 5, 5, 5);
-		this.drawRectangleStretched(drawX + width - 5, drawY + 5,
-		        13 + 19 * state, 37, 5, height - 10, 5, 5);
-		this.drawRectangleStretched(drawX + 5, drawY + height - 5,
-		        7 + 19 * state, 43, width - 10, 5, 5, 5);
-		this.drawRectangleStretched(drawX, drawY + 5, 1 + 19 * state, 37, 5,
+		this.drawRectangleStretched(x, y + 5, 1 + 19 * state, 37, 5,
 		        height - 10, 5, 5);
 
 		// Canvas
-		this.drawRectangleStretched(drawX + 5, drawY + 5, 7 + 19 * state, 37,
+		this.drawRectangleStretched(x + 5, y + 5, 7 + 19 * state, 37,
 		        width - 10, height - 10, 5, 5);
 
 		int color = 0xe0e0e0;
@@ -86,8 +68,8 @@ public class WidgetButton extends Widget {
 		}
 
 		fontRenderer.drawString(text,
-		        drawX + ((width - fontRenderer.getStringWidth(text)) / 2),
-		        drawY + ((height - 8) / 2), color, true);
+		        x + ((width - fontRenderer.getStringWidth(text)) / 2), y
+		                + ((height - 8) / 2), color, true);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
@@ -107,13 +89,19 @@ public class WidgetButton extends Widget {
 		this.enabled = enabled;
 	}
 
-	public boolean isHovering(int mouseX, int mouseY) {
-		return mouseX > drawX && mouseY > drawY && mouseX < (drawX + width)
-		        && mouseY < (drawY + height);
+	public boolean isEnabled() {
+		return enabled;
 	}
-	
-    public boolean isEnabled() {
-	    return enabled;
-    }
-    
+
+	@Override
+	public boolean isHovered(int mouseX, int mouseY) {
+		return mouseX > screenX && mouseY > screenY
+		        && mouseX < (screenX + width) && mouseY < (screenY + height);
+	}
+
+	@Override
+	public void onClick(int mouseX, int mouseY) {
+		mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+	}
+
 }

@@ -26,46 +26,46 @@ public class RenderRift extends Render {
 
 		// Top
 		tess.startDrawingQuads();
-		tess.addVertex(x + 2, y + 2, z + 2);
-		tess.addVertex(x + 2, y + 2, z);
-		tess.addVertex(x, y + 2, z);
-		tess.addVertex(x, y + 2, z + 2);
+		tess.addVertexWithUV(x + 2, y + 2, z + 2, 1, 1);
+		tess.addVertexWithUV(x + 2, y + 2, z, 1, 0);
+		tess.addVertexWithUV(x, y + 2, z, 0, 0);
+		tess.addVertexWithUV(x, y + 2, z + 2, 0, 1);
 		tess.draw();
 
 		// Bottom
 		tess.startDrawingQuads();
-		tess.addVertex(x, y, z);
-		tess.addVertex(x + 2, y, z);
-		tess.addVertex(x + 2, y, z + 2);
-		tess.addVertex(x, y, z + 2);
+		tess.addVertexWithUV(x, y, z, 0, 0);
+		tess.addVertexWithUV(x + 2, y, z, 1, 0);
+		tess.addVertexWithUV(x + 2, y, z + 2, 1, 1);
+		tess.addVertexWithUV(x, y, z + 2, 0, 1);
 		tess.draw();
 
 		tess.startDrawingQuads();
-		tess.addVertex(x, y, z);
-		tess.addVertex(x, y + 2, z);
-		tess.addVertex(x + 2, y + 2, z);
-		tess.addVertex(x + 2, y, z);
+		tess.addVertexWithUV(x, y, z, 0, 0);
+		tess.addVertexWithUV(x, y + 2, z, 0, 1);
+		tess.addVertexWithUV(x + 2, y + 2, z, 1, 1);
+		tess.addVertexWithUV(x + 2, y, z, 1, 1);
 		tess.draw();
 
 		tess.startDrawingQuads();
-		tess.addVertex(x + 2, y + 2, z + 2);
-		tess.addVertex(x, y + 2, z + 2);
-		tess.addVertex(x, y, z + 2);		
-		tess.addVertex(x + 2, y, z + 2);
+		tess.addVertexWithUV(x + 2, y + 2, z + 2, 1, 1);
+		tess.addVertexWithUV(x, y + 2, z + 2, 0, 1);
+		tess.addVertexWithUV(x, y, z + 2, 0, 0);
+		tess.addVertexWithUV(x + 2, y, z + 2, 1, 0);
 		tess.draw();
 
 		tess.startDrawingQuads();
-		tess.addVertex(x + 2, y, z);
-		tess.addVertex(x + 2, y + 2, z);
-		tess.addVertex(x + 2, y + 2, z + 2);
-		tess.addVertex(x + 2, y, z + 2);
+		tess.addVertexWithUV(x + 2, y, z, 0, 0);
+		tess.addVertexWithUV(x + 2, y + 2, z, 1, 0);
+		tess.addVertexWithUV(x + 2, y + 2, z + 2, 1, 1);
+		tess.addVertexWithUV(x + 2, y, z + 2, 0, 1);
 		tess.draw();
 
 		tess.startDrawingQuads();
-		tess.addVertex(x, y + 2, z + 2);
-		tess.addVertex(x, y + 2, z);
-		tess.addVertex(x, y, z);
-		tess.addVertex(x, y, z + 2);
+		tess.addVertexWithUV(x, y + 2, z + 2, 1, 1);
+		tess.addVertexWithUV(x, y + 2, z, 1, 0);
+		tess.addVertexWithUV(x, y, z, 0, 0);
+		tess.addVertexWithUV(x, y, z + 2, 0, 1);
 		tess.draw();
 	}
 

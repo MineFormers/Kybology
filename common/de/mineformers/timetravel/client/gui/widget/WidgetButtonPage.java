@@ -25,11 +25,11 @@ public class WidgetButtonPage extends WidgetButton {
 
 	@Override
     public void draw(int mouseX, int mouseY) {
-    	boolean hovering = isHovering(mouseX, mouseY);
+    	boolean hovering = isHovered(mouseX, mouseY);
     	int state = getHoverState(hovering);
     	GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     	
-    	this.drawRectangle(drawX, drawY, state * 10, buttonType * 15, 10, 15);
+    	this.drawRectangle(x, y, state * 10, buttonType * 15, 10, 15);
     }
 
 	protected int getHoverState(boolean hovering) {
