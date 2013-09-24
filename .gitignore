@@ -1,2 +1,4 @@
 build.properties
 build_number.properties
+private.properties
+enironment.properties
