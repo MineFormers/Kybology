@@ -23,6 +23,7 @@ public class Strings {
 	public static final String TM_PILLAR_NAME = "pillar";
 	public static final String TM_MODULE_NAME = "module";
 
+	public static final String ENERGY_EXTRACTOR_NAME = "energyExtractor";
 	public static final String TEST_NAME = "testBlock";
 
 	// Item names
@@ -30,10 +31,13 @@ public class Strings {
 
 	// TE names
 	public static final String TE_TIMEMACHINE_NAME = "tileTimeMachine";
+	public static final String TE_ENERGY_EXTRACTOR_NAME = "tileEntityEnergyExtractor";
 
 	// NBT keys
 	public static final String NBT_TE_STATE_KEY = "teState";
 	public static final String NBT_TE_CUSTOM_NAME = "CustomName";
 	public static final String NBT_TE_DIRECTION_KEY = "teDirection";
+
+
 
 }

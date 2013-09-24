@@ -12,7 +12,7 @@ import de.mineformers.timetravel.entity.EntityRift;
  * 
  * GeneratorRift
  * 
- * @author PaleoCrafter
+ * @author PaleoCrafter, Weneg
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
@@ -25,7 +25,10 @@ public class GeneratorRift implements IWorldGenerator {
 	    	EntityRift rift = new EntityRift(world);
 	    	rift.posX = chunkX * 16 + 8;
 	    	rift.posZ = chunkZ * 16 + 8;
-	    	rift.posY = 10;
+	    	rift.posY = 70;
+	    	rift.setType(0);
+	    	rift.setEnergy(new Random().nextInt(200));
+	    	rift.setMaximumEnergy(2000);
 	    	world.spawnEntityInWorld(rift);
 	    	System.out.println(rift.posX + ";" + rift.posZ);
 	    }
