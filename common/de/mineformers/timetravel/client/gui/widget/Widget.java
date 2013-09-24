@@ -42,6 +42,15 @@ public abstract class Widget {
 		listeners = new ArrayList<Listener>();
 		this.visible = true;
 	}
+	
+	public int getStringWidth(String text) {
+		return mc.fontRenderer.getStringWidth(text);
+	}
+
+	public void drawString(String text, int x, int y, int color,
+	        boolean drawShadow) {
+		this.mc.fontRenderer.drawString(text, x, y, color, drawShadow);
+	}
 
 	public void drawSplitString(String text, int x, int y, int color,
 	        boolean drawShadow) {
@@ -140,14 +149,14 @@ public abstract class Widget {
 		this.screenX = screenX;
 		this.screenY = screenY;
 	}
-	
+
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	
-    public boolean isVisible() {
-	    return visible;
-    }
+
+	public boolean isVisible() {
+		return visible;
+	}
 
 	protected void notifyListeners(Class<? extends Listener> clazz,
 	        String methodName, Object... params) {
