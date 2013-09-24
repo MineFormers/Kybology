@@ -1,4 +1,4 @@
-package de.mineformers.timetravel.client.gui.timemachine;
+package de.mineformers.timetravel.client.gui;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import de.mineformers.timetravel.api.TravellingRegistry;
@@ -6,7 +6,6 @@ import de.mineformers.timetravel.client.gui.widget.WidgetButton;
 import de.mineformers.timetravel.client.gui.widget.WidgetButtonPage;
 import de.mineformers.timetravel.client.gui.widget.WidgetCanvas;
 import de.mineformers.timetravel.client.gui.widget.WidgetSlot;
-import de.mineformers.timetravel.client.gui.widget.WidgetTextBox;
 import de.mineformers.timetravel.client.gui.widget.WidgetWindow;
 import de.mineformers.timetravel.client.gui.widget.listener.ListenerClickable;
 import de.mineformers.timetravel.core.util.LangHelper;
@@ -98,19 +97,17 @@ public class WidgetCanvasTimeTravel extends WidgetCanvas {
 
 		this.addWidget(btnTravel);
 		this.addWidget(btnCancel);
-
-		this.addWidget(new WidgetTextBox(5, 5, 40, 20, "test", true));
 	}
 
 	@Override
-	public void draw(int mouseX, int mouseY) {
-		super.draw(mouseX, mouseY);
+	public void drawForeground(int mouseX, int mouseY) {
+		super.drawForeground(mouseX, mouseY);
 
-		/*this.drawRectangle(
+		this.drawRectangle(
 		        TravellingRegistry.getTimeDestination(currentPage, false)
 		                .getPreviewImage(), x + 28, y + 25, 0, 0, 200, 150);
 		this.mc.fontRenderer.drawString("Time Machine", x + 10, y + 10,
-		        0x404040, false);*/
+		        0x404040, false);
 	}
 
 }

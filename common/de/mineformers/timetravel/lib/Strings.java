@@ -38,6 +38,7 @@ public class Strings {
 	public static final String NBT_TE_CUSTOM_NAME = "CustomName";
 	public static final String NBT_TE_DIRECTION_KEY = "teDirection";
 
-
+	// Container names
+	public static final String CONTAINER_EXTRACTOR = "extractor";
 
 }

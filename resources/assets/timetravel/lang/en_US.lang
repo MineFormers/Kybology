@@ -7,7 +7,7 @@ tile.timetravel:timeMachine.panel.name=Time Machine - CP
 tile.timetravel:timeMachine.stairs.name=Time Machine - Stairs
 tile.timetravel:timeMachine.pillar.name=Time Machine - Pillar
 tile.timetravel:timeMachine.module.name=Time Machine - Module
-tile.timetravel:extractor=Extractor
+tile.timetravel:energyExtractor.name=Extractor
 # Item localizations
 item.timetravel:pocketWatch.name=Pocket Watch of the Time Traveller
 
@@ -31,3 +31,6 @@ gui.timetravel:label.error=Error
 gui.timetravel:button.travel=Travel
 gui.timetravel:button.cancel=Cancel
 gui.timetravel:button.close=Close
+
+# Container names
+container.timetravel:extractor=Extractor

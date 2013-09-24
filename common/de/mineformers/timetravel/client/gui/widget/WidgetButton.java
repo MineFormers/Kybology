@@ -4,7 +4,6 @@ import org.lwjgl.opengl.GL11;
 
 import de.mineformers.timetravel.client.gui.widget.listener.ListenerClickable;
 import de.mineformers.timetravel.lib.Textures;
-import net.minecraft.client.gui.FontRenderer;
 
 /**
  * TimeTravel
@@ -33,7 +32,6 @@ public class WidgetButton extends Widget implements ListenerClickable {
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
-		FontRenderer fontRenderer = mc.fontRenderer;
 		boolean hovering = isHovered(mouseX, mouseY);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		int state = getHoverState(hovering);
@@ -67,8 +65,8 @@ public class WidgetButton extends Widget implements ListenerClickable {
 			color = 0xffffa0;
 		}
 
-		fontRenderer.drawString(text,
-		        x + ((width - fontRenderer.getStringWidth(text)) / 2), y
+		this.drawString(text,
+		        x + ((width - this.getStringWidth(text)) / 2), y
 		                + ((height - 8) / 2), color, true);
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	}

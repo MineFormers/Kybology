@@ -19,7 +19,7 @@ import de.mineformers.timetravel.lib.Textures;
  */
 public class WidgetCanvas extends Widget {
 
-	private LinkedList<Widget> widgets;
+	protected LinkedList<Widget> widgets;
 
 	public WidgetCanvas(int x, int y) {
 		super(Textures.GUI_WIDGETS, x, y);
@@ -29,9 +29,16 @@ public class WidgetCanvas extends Widget {
 	public void addWidget(Widget widget) {
 		widgets.add(widget);
 	}
+	
+	public void drawForeground(int mouseX, int mouseY) {
+	}
+	
+	public void drawBackground(int mouseX, int mouseY) {
+	}
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
+		drawBackground(mouseX, mouseY);
 		for (Widget widget : widgets) {
 			if (widget.isVisible()) {
 				GL11.glPushMatrix();
@@ -41,6 +48,7 @@ public class WidgetCanvas extends Widget {
 				GL11.glPopMatrix();
 			}
 		}
+		drawForeground(mouseX, mouseY);
 	}
 
 	public void mouseClick(int mouseX, int mouseY, int mouseButton) {

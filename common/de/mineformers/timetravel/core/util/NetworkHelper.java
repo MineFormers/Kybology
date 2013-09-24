@@ -19,10 +19,14 @@ public class NetworkHelper {
 	public static void sendTilePacket(World world, int x, int z, int y) {
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
 		if (tile != null) {
-			Packet packet = tile.getDescriptionPacket();
-			PacketDispatcher.sendPacketToAllAround(x, y, z, 32,
-			        world.provider.dimensionId, packet);
+			sendTilePacket(tile);
 		}
+	}
+
+	public static void sendTilePacket(TileEntity tile) {
+		Packet packet = tile.getDescriptionPacket();
+		PacketDispatcher.sendPacketToAllAround(tile.xCoord, tile.yCoord,
+		        tile.zCoord, 32, tile.worldObj.provider.dimensionId, packet);
 	}
 
 }

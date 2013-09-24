@@ -1,4 +1,4 @@
-package de.mineformers.timetravel.client.gui.timemachine;
+package de.mineformers.timetravel.client.gui;
 
 import de.mineformers.timetravel.client.gui.widget.WidgetButton;
 import de.mineformers.timetravel.client.gui.widget.WidgetCanvas;
@@ -40,15 +40,14 @@ public class WidgetCanvasConflict extends WidgetCanvas {
 	}
 
 	@Override
-	public void draw(int mouseX, int mouseY) {
-		super.draw(mouseX, mouseY);
-
-		this.mc.fontRenderer.drawString(
+	public void drawForeground(int mouseX, int mouseY) {
+		super.drawForeground(mouseX, mouseY);
+		this.drawString(
 		        LangHelper.translate("gui", "label.error"),
 		        x
-		                + ((176 - mc.fontRenderer.getStringWidth(LangHelper
-		                        .translate("gui", "label.error"))) / 2), y + 7,
-		        0x404040, false);
+		                + ((176 - this.getStringWidth(LangHelper.translate(
+		                        "gui", "label.error"))) / 2), y + 7, 0x404040,
+		        false);
 		this.drawSplitStringCentered(message, x, y + 20, 0xFF0000, false, 176);
 	}
 

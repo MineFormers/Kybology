@@ -1,5 +1,8 @@
 package de.mineformers.timetravel.client.gui.widget;
 
+import org.lwjgl.opengl.GL11;
+
+import de.mineformers.timetravel.core.util.LangHelper;
 import de.mineformers.timetravel.lib.Textures;
 
 /**
@@ -22,11 +25,14 @@ public class WidgetInventoryPlayer extends Widget {
 
 	@Override
 	public void draw(int mouseX, int mouseY) {
-		widget.setPos(0, 0);
+		this.drawString(
+		        LangHelper.translate("container.inventory"), x, y, 0x404040, false);
+		GL11.glColor4f(1, 1, 1, 1);
+		widget.setPos(x, y + 10);
 		widget.setSlots(9, 3);
 		widget.draw(mouseX, mouseY);
 
-		widget.setPos(0, 58);
+		widget.setPos(x, y + 68);
 		widget.setSlots(9, 1);
 		widget.draw(mouseX, mouseY);
 	}

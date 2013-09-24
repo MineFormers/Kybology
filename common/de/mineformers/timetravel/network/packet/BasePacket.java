@@ -36,6 +36,7 @@ public abstract class BasePacket {
 		builder.put(Integer.valueOf(4), PacketTMModuleUpdate.class);
 		builder.put(Integer.valueOf(5), PacketStartTravel.class);
 		builder.put(Integer.valueOf(6), PacketUpdateWatch.class);
+		builder.put(Integer.valueOf(7), PacketExtractorUpdate.class);
 
 		idMap = builder.build();
 	}

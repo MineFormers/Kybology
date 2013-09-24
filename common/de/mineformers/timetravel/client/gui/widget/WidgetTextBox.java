@@ -2,7 +2,6 @@ package de.mineformers.timetravel.client.gui.widget;
 
 import org.lwjgl.input.Keyboard;
 
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ChatAllowedCharacters;
 import de.mineformers.timetravel.client.gui.widget.listener.ListenerClickable;
 import de.mineformers.timetravel.client.gui.widget.listener.ListenerKeyboard;
@@ -71,30 +70,26 @@ public class WidgetTextBox extends Widget implements ListenerClickable,
 			slotWidget.draw(mouseX, mouseY);
 		}
 
-		FontRenderer fontRenderer = this.mc.fontRenderer;
 		String toDraw = text;
-		int sWidth = fontRenderer.getStringWidth(toDraw);
-		sWidth += focused ? fontRenderer.getStringWidth("_") : 0;
+		int sWidth = this.getStringWidth(toDraw);
+		sWidth += focused ? this.getStringWidth("_") : 0;
 		if (focused) {
 			for (int i = 0; i <= cursorPos && sWidth > width - 4; i++) {
 				toDraw = text.substring(i, cursorPos);
-				sWidth = fontRenderer.getStringWidth(toDraw)
-				        + fontRenderer.getStringWidth("_");
+				sWidth = this.getStringWidth(toDraw) + this.getStringWidth("_");
 			}
 		} else {
 			for (int i = 0; i < text.length() && sWidth > width - 4; i++) {
 				toDraw = text.substring(0, text.length() - i);
-				sWidth = fontRenderer.getStringWidth(toDraw);
+				sWidth = this.getStringWidth(toDraw);
 			}
 		}
 
-		fontRenderer.drawStringWithShadow(toDraw, x + 2, y + (height - 8) / 2,
-		        0xe0e0e0);
+		this.drawString(toDraw, x + 2, y + (height - 8) / 2, 0xe0e0e0, true);
 		if (focused) {
 			if (blinkTick >= 30) {
-				fontRenderer.drawStringWithShadow("_", x + 2 + sWidth
-				        - fontRenderer.getStringWidth("_"), y + (height - 8)
-				        / 2 + 2, 0xe0e0e0);
+				this.drawString("_", x + 2 + sWidth - this.getStringWidth("_"),
+				        y + (height - 8) / 2 + 2, 0xe0e0e0, true);
 			}
 
 			if (blinkTick >= 60) {
@@ -157,5 +152,5 @@ public class WidgetTextBox extends Widget implements ListenerClickable,
 			}
 		}
 	}
-	
+
 }
