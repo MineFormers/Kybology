@@ -9,7 +9,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet;
 
 public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
-        IInventory {
+		IInventory {
 
 	public static final int INVENTORY_SIZE = 3;
 
@@ -61,12 +61,12 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 
 		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
 			NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist
-			        .tagAt(i);
+					.tagAt(i);
 			byte b0 = nbttagcompound1.getByte("Slot");
 
 			if (b0 >= 0 && b0 < this.inventory.length) {
 				this.inventory[b0] = ItemStack
-				        .loadItemStackFromNBT(nbttagcompound1);
+						.loadItemStackFromNBT(nbttagcompound1);
 			}
 		}
 
@@ -111,29 +111,49 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 	@Override
 	public Packet getDescriptionPacket() {
 		return new PacketExtractorUpdate(xCoord, yCoord, zCoord, orientation,
-		        state, customName, energy).makePacket();
+				state, customName, energy).makePacket();
 	}
 
 	// Inventory stuff
 
 	@Override
-	public ItemStack getStackInSlot(int i) {
-		return null;
+	public ItemStack getStackInSlot(int slotIndex) {
+		return inventory[slotIndex];
 	}
 
 	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		return null;
+	public ItemStack decrStackSize(int slotIndex, int decrementAmount) {
+
+		ItemStack itemStack = getStackInSlot(slotIndex);
+		if (itemStack != null) {
+			if (itemStack.stackSize <= decrementAmount) {
+				setInventorySlotContents(slotIndex, null);
+			} else {
+				itemStack = itemStack.splitStack(decrementAmount);
+				if (itemStack.stackSize == 0) {
+					setInventorySlotContents(slotIndex, null);
+				}
+			}
+		}
+
+		return itemStack;
 	}
 
 	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		return null;
+	public ItemStack getStackInSlotOnClosing(int slotIndex) {
+		ItemStack itemStack = getStackInSlot(slotIndex);
+		if (itemStack != null) {
+			setInventorySlotContents(slotIndex, null);
+		}
+		return itemStack;
 	}
 
 	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
-
+	public void setInventorySlotContents(int slotIndex, ItemStack itemStack) {
+		inventory[slotIndex] = itemStack;
+		if (itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
+			itemStack.stackSize = getInventoryStackLimit();
+		}
 	}
 
 	@Override
