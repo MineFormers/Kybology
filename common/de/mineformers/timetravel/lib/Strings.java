@@ -33,8 +33,9 @@ public class Strings {
 	public static final String CRYSTAL_NAME = "crystal";
 
 	// TE names
-	public static final String TE_TIMEMACHINE_NAME = "tileTimeMachine";
+	public static final String TE_TIMEMACHINE_NAME = "tileEntityTimeMachine";
 	public static final String TE_ENERGY_EXTRACTOR_NAME = "tileEntityEnergyExtractor";
+	public static final String TE_CRYSTAL_ORE_NAME = "tileEntityCrystalOre";
 
 	// NBT keys
 	public static final String NBT_TE_STATE_KEY = "teState";

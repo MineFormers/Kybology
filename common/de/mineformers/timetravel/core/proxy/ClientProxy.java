@@ -9,11 +9,13 @@ import de.mineformers.timetravel.client.renderer.block.BlockTestRenderer;
 import de.mineformers.timetravel.client.renderer.entity.RenderRift;
 import de.mineformers.timetravel.client.renderer.item.ItemPocketWatchRenderer;
 import de.mineformers.timetravel.client.renderer.item.ItemTimeMachineRenderer;
+import de.mineformers.timetravel.client.renderer.tileentity.TileEntityCrystalOreRenderer;
 import de.mineformers.timetravel.client.renderer.tileentity.TileEntityTimeMachineRenderer;
 import de.mineformers.timetravel.entity.EntityRift;
 import de.mineformers.timetravel.lib.BlockIds;
 import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.lib.RenderIds;
+import de.mineformers.timetravel.tileentity.TileCrystalOre;
 import de.mineformers.timetravel.tileentity.TileTimeMachine;
 
 /**
@@ -32,7 +34,9 @@ public class ClientProxy extends CommonProxy {
 		super.registerTileEntities();
 
 		ClientRegistry.bindTileEntitySpecialRenderer(TileTimeMachine.class,
-		        new TileEntityTimeMachineRenderer());
+				new TileEntityTimeMachineRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileCrystalOre.class,
+				new TileEntityCrystalOreRenderer());
 	}
 
 	@Override
@@ -43,12 +47,12 @@ public class ClientProxy extends CommonProxy {
 
 		RenderingRegistry.registerBlockHandler(new BlockTestRenderer());
 		RenderingRegistry.registerEntityRenderingHandler(EntityRift.class,
-		        new RenderRift());
-		
+				new RenderRift());
+
 		MinecraftForgeClient.registerItemRenderer(BlockIds.TIMEMACHINE,
-		        new ItemTimeMachineRenderer());
+				new ItemTimeMachineRenderer());
 		MinecraftForgeClient.registerItemRenderer(ItemIds.WATCH,
-		        new ItemPocketWatchRenderer());
+				new ItemPocketWatchRenderer());
 	}
 
 	@Override

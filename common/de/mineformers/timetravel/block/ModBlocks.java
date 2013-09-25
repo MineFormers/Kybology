@@ -21,18 +21,21 @@ public class ModBlocks {
 	public static Block timeMachine;
 	public static Block tests;
 	public static Block energyExtractor;
+	public static Block crystalOre;
 
 	public static void init() {
 		timeMachine = new BlockTimeMachine(BlockIds.TIMEMACHINE);
 		tests = new BlockTest(BlockIds.TEST);
 		energyExtractor = new BlockEnergyExtractor(BlockIds.EXTRACTOR,
-		        Material.rock);
+				Material.rock);
+		crystalOre = new BlockCrystalOre(BlockIds.CRYSTAL_ORE);
 
 		GameRegistry.registerBlock(timeMachine, ItemBlockTimeMachine.class,
-		        Strings.TIMEMACHINE_NAME);
+				Strings.TIMEMACHINE_NAME);
 		GameRegistry.registerBlock(tests, Strings.TEST_NAME);
 		GameRegistry.registerBlock(energyExtractor,
-		        Strings.ENERGY_EXTRACTOR_NAME);
+				Strings.ENERGY_EXTRACTOR_NAME);
+		GameRegistry.registerBlock(crystalOre, Strings.CRYSTAL_ORE_NAME);
 	}
 
 }

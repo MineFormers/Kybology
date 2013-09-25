@@ -16,6 +16,7 @@ import de.mineformers.timetravel.inventory.ContainerExtractor;
 import de.mineformers.timetravel.lib.GuiIds;
 import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.network.packet.PacketOpenGui;
+import de.mineformers.timetravel.tileentity.TileCrystalOre;
 import de.mineformers.timetravel.tileentity.TileEnergyExtractor;
 import de.mineformers.timetravel.tileentity.TileTimeMachine;
 import de.mineformers.timetravel.travelling.timemachine.TMPartPanel;
@@ -33,9 +34,11 @@ public class CommonProxy implements IGuiHandler {
 
 	public void registerTileEntities() {
 		GameRegistry.registerTileEntity(TileTimeMachine.class,
-		        Strings.TE_TIMEMACHINE_NAME);
+				Strings.TE_TIMEMACHINE_NAME);
 		GameRegistry.registerTileEntity(TileEnergyExtractor.class,
-		        Strings.TE_ENERGY_EXTRACTOR_NAME);
+				Strings.TE_ENERGY_EXTRACTOR_NAME);
+		GameRegistry.registerTileEntity(TileCrystalOre.class,
+				Strings.TE_CRYSTAL_ORE_NAME);
 	}
 
 	public void initRenderingAndTextures() {
@@ -48,25 +51,28 @@ public class CommonProxy implements IGuiHandler {
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-	        int x, int y, int z) {
+			int x, int y, int z) {
 
 		switch (ID) {
-			case GuiIds.TIMEMACHINE:
-				PacketDispatcher.sendPacketToPlayer(new PacketOpenGui(ID, x, y,
-				        z).makePacket(), (Player) player);
-				return null;
-			case GuiIds.TM_CONFLICT_NO_MB:
-				PacketDispatcher.sendPacketToPlayer(new PacketOpenGui(ID, x, y,
-				        z).makePacket(), (Player) player);
-				return null;
-			case GuiIds.TM_CONFLICT_MODULES:
-				PacketDispatcher.sendPacketToPlayer(new PacketOpenGui(ID, x, y,
-				        z).makePacket(), (Player) player);
-				return null;
-			case GuiIds.EXTRACTOR:
-				TileEnergyExtractor tile = (TileEnergyExtractor) world
-				        .getBlockTileEntity(x, y, z);
-				return new ContainerExtractor(player.inventory, tile);
+		case GuiIds.TIMEMACHINE:
+			PacketDispatcher.sendPacketToPlayer(
+					new PacketOpenGui(ID, x, y, z).makePacket(),
+					(Player) player);
+			return null;
+		case GuiIds.TM_CONFLICT_NO_MB:
+			PacketDispatcher.sendPacketToPlayer(
+					new PacketOpenGui(ID, x, y, z).makePacket(),
+					(Player) player);
+			return null;
+		case GuiIds.TM_CONFLICT_MODULES:
+			PacketDispatcher.sendPacketToPlayer(
+					new PacketOpenGui(ID, x, y, z).makePacket(),
+					(Player) player);
+			return null;
+		case GuiIds.EXTRACTOR:
+			TileEnergyExtractor tile = (TileEnergyExtractor) world
+					.getBlockTileEntity(x, y, z);
+			return new ContainerExtractor(player.inventory, tile);
 		}
 
 		return null;
@@ -74,26 +80,26 @@ public class CommonProxy implements IGuiHandler {
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-	        int x, int y, int z) {
+			int x, int y, int z) {
 		switch (ID) {
-			case GuiIds.TIMEMACHINE:
-				TileTimeMachine tile = (TileTimeMachine) world
-				        .getBlockTileEntity(x, y, z);
-				return new GuiScreenTT(256, 210, new WidgetCanvasTimeTravel(x,
-				        y, z, ((TMPartPanel) tile.getPart()).isCountingDown()));
-			case GuiIds.TM_CONFLICT_NO_MB:
-				return new GuiScreenTT(176, 75, new WidgetCanvasConflict(
-				        LangHelper.translate("message",
-				                "timeMachine.conflict.noMb")));
-			case GuiIds.TM_CONFLICT_MODULES:
-				return new GuiScreenTT(176, 75, new WidgetCanvasConflict(
-				        LangHelper.translate("message",
-				                "timeMachine.conflict.modules")));
-			case GuiIds.EXTRACTOR:
-				TileEnergyExtractor tileExtractor = (TileEnergyExtractor) world
-				        .getBlockTileEntity(x, y, z);
-				return new GuiContainerTT(176, 187, new WidgetCanvasExtractor(
-				        0, 0, tileExtractor, player.inventory));
+		case GuiIds.TIMEMACHINE:
+			TileTimeMachine tile = (TileTimeMachine) world.getBlockTileEntity(
+					x, y, z);
+			return new GuiScreenTT(256, 210, new WidgetCanvasTimeTravel(x, y,
+					z, ((TMPartPanel) tile.getPart()).isCountingDown()));
+		case GuiIds.TM_CONFLICT_NO_MB:
+			return new GuiScreenTT(176, 75, new WidgetCanvasConflict(
+					LangHelper
+							.translate("message", "timeMachine.conflict.noMb")));
+		case GuiIds.TM_CONFLICT_MODULES:
+			return new GuiScreenTT(176, 75, new WidgetCanvasConflict(
+					LangHelper.translate("message",
+							"timeMachine.conflict.modules")));
+		case GuiIds.EXTRACTOR:
+			TileEnergyExtractor tileExtractor = (TileEnergyExtractor) world
+					.getBlockTileEntity(x, y, z);
+			return new GuiContainerTT(176, 187, new WidgetCanvasExtractor(0, 0,
+					tileExtractor, player.inventory));
 		}
 
 		return null;
