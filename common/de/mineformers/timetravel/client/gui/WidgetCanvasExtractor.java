@@ -21,7 +21,7 @@ public class WidgetCanvasExtractor extends WidgetCanvasContainer {
 	private TileEnergyExtractor tile;
 
 	public WidgetCanvasExtractor(int x, int y, TileEnergyExtractor tile,
-	        InventoryPlayer inventory) {
+			InventoryPlayer inventory) {
 		super(x, y, new ContainerExtractor(inventory, tile), tile, true);
 
 		this.tile = tile;
@@ -34,8 +34,9 @@ public class WidgetCanvasExtractor extends WidgetCanvasContainer {
 	public void drawForeground(int mouseX, int mouseY) {
 		super.drawForeground(mouseX, mouseY);
 
-		this.drawString(Integer.toString(tile.getStoredEnergy()), 5, 15,
-		        0x404040, false);
+		this.drawString(Integer.toString(tile.getStoredEnergy()) + "/"
+				+ Integer.toString(tile.getMaximumEnergy()), 5, 15, 0x404040,
+				false);
 	}
 
 }

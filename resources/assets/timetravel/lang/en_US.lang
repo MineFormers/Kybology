@@ -10,7 +10,7 @@ tile.timetravel:timeMachine.module.name=Time Machine - Module
 tile.timetravel:energyExtractor.name=Extractor
 # Item localizations
 item.timetravel:pocketWatch.name=Pocket Watch of the Time Traveller
-
+item.timetravel:crystal.name=Crystal
 # Messages
 message.timetravel:timeMachine.module.default=Default
 message.timetravel:timeMachine.module.power=Energy Accumulator

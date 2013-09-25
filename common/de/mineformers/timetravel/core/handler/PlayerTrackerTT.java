@@ -26,14 +26,17 @@ public class PlayerTrackerTT implements IPlayerTracker {
 
 	@ForgeSubscribe
 	public void onPlayerJoinWorld(EntityConstructing event) {
-		if (!event.entity.worldObj.isRemote)
-			if (event.entity instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) event.entity;
-				if (player.getExtendedProperties(PlayerPropertiesTT.IDENTIFIER) == null)
-					player.registerExtendedProperties(
-					        PlayerPropertiesTT.IDENTIFIER,
-					        new PlayerPropertiesTT());
-			}
+		if (event.entity != null)
+			if (event.entity.worldObj != null)
+				if (!event.entity.worldObj.isRemote)
+					if (event.entity instanceof EntityPlayer) {
+						EntityPlayer player = (EntityPlayer) event.entity;
+						if (player
+								.getExtendedProperties(PlayerPropertiesTT.IDENTIFIER) == null)
+							player.registerExtendedProperties(
+									PlayerPropertiesTT.IDENTIFIER,
+									new PlayerPropertiesTT());
+					}
 	}
 
 	@Override
@@ -41,11 +44,12 @@ public class PlayerTrackerTT implements IPlayerTracker {
 		PlayerPropertiesTT props = PlayerPropertiesTT.getByEntity(player);
 		if (props.getTimeStarted() > 0) {
 			if ((System.currentTimeMillis() - props.getTimeStarted()) >= props
-			        .getSecondsAvail() * 1000) {
+					.getSecondsAvail() * 1000) {
 				props.setSecondsLeft(0);
 				props.setSecondsAvail(0);
 				props.setTimeStarted(0);
-				player.addChatMessage(LangHelper.translate("message", "unknownForce"));
+				player.addChatMessage(LangHelper.translate("message",
+						"unknownForce"));
 				if (player instanceof EntityPlayerMP) {
 					EntityPlayerMP thePlayer = (EntityPlayerMP) player;
 					if (thePlayer.timeUntilPortal > 0) {
@@ -53,12 +57,12 @@ public class PlayerTrackerTT implements IPlayerTracker {
 					} else {
 						thePlayer.timeUntilPortal = 20;
 						thePlayer.mcServer.getConfigurationManager()
-						        .transferPlayerToDimension(
-						                thePlayer,
-						                props.getTmDimension(),
-						                new TeleporterTime(thePlayer.mcServer
-						                        .worldServerForDimension(props
-						                                .getTmDimension())));
+								.transferPlayerToDimension(
+										thePlayer,
+										props.getTmDimension(),
+										new TeleporterTime(thePlayer.mcServer
+												.worldServerForDimension(props
+														.getTmDimension())));
 					}
 				}
 			}
@@ -83,7 +87,7 @@ public class PlayerTrackerTT implements IPlayerTracker {
 						}
 
 						if (TravellingRegistry
-						        .isValidTimeDestination(player.worldObj.provider.dimensionId)) {
+								.isValidTimeDestination(player.worldObj.provider.dimensionId)) {
 							nbt.setBoolean("Travelling", true);
 						} else {
 							nbt.setBoolean("Travelling", false);
