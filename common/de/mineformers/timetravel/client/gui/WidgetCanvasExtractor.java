@@ -34,7 +34,7 @@ public class WidgetCanvasExtractor extends WidgetCanvasContainer {
 	public void drawForeground(int mouseX, int mouseY) {
 		super.drawForeground(mouseX, mouseY);
 
-		this.drawString(Integer.toString(tile.getStoredEnergy()), 5, 15,
+		this.drawString(Integer.toString(tile.getStoredEnergy()) + "/" + Integer.toString(tile.getMaximumEnergy()), 5, 15,
 		        0x404040, false);
 	}
 

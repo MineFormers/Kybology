@@ -17,7 +17,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
-
+/**
+ * TimeTravel
+ * 
+ * BlockEnergyExtractor
+ * 
+ * @author PaleoCrafter, Weneg
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 public class BlockEnergyExtractor extends BlockTT {
 
 	public BlockEnergyExtractor(int id, Material material) {

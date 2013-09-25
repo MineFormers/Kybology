@@ -28,6 +28,7 @@ public class Strings {
 
 	// Item names
 	public static final String WATCH_NAME = "pocketWatch";
+	public static final String CRYSTALL_NAME = "crystall";
 
 	// TE names
 	public static final String TE_TIMEMACHINE_NAME = "tileTimeMachine";
@@ -40,5 +41,6 @@ public class Strings {
 
 	// Container names
 	public static final String CONTAINER_EXTRACTOR = "extractor";
+
 
 }

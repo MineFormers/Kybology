@@ -1,13 +1,22 @@
 package de.mineformers.timetravel.tileentity;
 
 import de.mineformers.timetravel.api.energy.IEnergyStorage;
+import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.network.packet.PacketExtractorUpdate;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet;
-
+/**
+ * TimeTravel
+ * 
+ * BlockEnergyExtractor
+ * 
+ * @author PaleoCrafter, Weneg
+ * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
+ * 
+ */
 public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 		IInventory {
 
@@ -33,7 +42,7 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 
 	@Override
 	public int getMaximumEnergy() {
-		return maxEnergy;
+		return this.inventory[SLOT_STORAGE] != null && this.inventory[SLOT_STORAGE].itemID == ItemIds.CRYSTALL  ? this.inventory[SLOT_STORAGE].stackTagCompound.getInteger("maxStorage") : 0;
 	}
 
 	public void setEnergy(int energy) {
