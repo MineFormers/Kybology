@@ -5,7 +5,7 @@ package de.mineformers.timetravel.lib;
  * 
  * Strings
  * 
- * @author PaleoCrafter
+ * @author PaleoCrafter, Weneg
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
@@ -30,7 +30,14 @@ public class Strings {
 
 	// Item names
 	public static final String WATCH_NAME = "pocketWatch";
-	public static final String CRYSTAL_NAME = "crystal";
+	public static final String[] CRYSTAL_NAME = {
+		"crystal.crystalline.blue","crystal.crystalline.red","crystal.crystalline.gold", 
+		"crystal.pure.blue","crystal.pure.red", "crystal.pure.gold",
+		"crystal.purified.blue","crystal.purified.red","crystal.purified.gold",
+		"crystal.purified.storage.blue","crystal.purified.storage.red","crystal.purified.storage.gold",
+		"crystal.pure.storage.blue","crystal.pure.storage.red","crystal.pure.storage.gold",
+		"crystal.purified.transfer.blue","crystal.purified.transfer.red","crystal.purified.transfer.gold", 
+		"crystal.pure.transfer.blue","crystal.pure.transfer.red", "crystal.pure.transfer.gold"};
 
 	// TE names
 	public static final String TE_TIMEMACHINE_NAME = "tileEntityTimeMachine";

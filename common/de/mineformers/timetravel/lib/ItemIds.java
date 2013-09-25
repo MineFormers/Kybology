@@ -5,7 +5,7 @@ package de.mineformers.timetravel.lib;
  * 
  * ItemIds
  * 
- * @author PaleoCrafter
+ * @author PaleoCrafter, Weneg
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */

@@ -1,6 +1,7 @@
 package de.mineformers.timetravel.tileentity;
 
 import de.mineformers.timetravel.api.energy.IEnergyStorage;
+import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.network.packet.PacketExtractorUpdate;
@@ -46,7 +47,7 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 	public int getMaximumEnergy() {
 		return this.inventory[SLOT_STORAGE] != null
 				&& this.inventory[SLOT_STORAGE].itemID == ItemIds.CRYSTAL
-				&& this.inventory[SLOT_STORAGE].getItemDamage() == 1 
+				&&  (this.inventory[SLOT_STORAGE].getItemDamage() > 8 && this.inventory[SLOT_STORAGE].getItemDamage() < 15) 
 				? this.inventory[SLOT_STORAGE].stackTagCompound
 				.getInteger("maxStorage") : 0;
 	}
@@ -120,7 +121,15 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 
 	@Override
 	public void addEnergy(int energy) {
-		this.energy += energy;
+		if(this.inventory[SLOT_STORAGE] != null) {
+			if(this.getStoredEnergy() + energy >= this.getMaximumEnergy()) {
+				this.energy = this.getMaximumEnergy();
+			} else {
+				this.energy += energy;
+			}
+		}
+		if(!worldObj.isRemote)
+		NetworkHelper.sendTilePacket(this);
 	}
 
 	@Override
@@ -193,5 +202,10 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		return true;
 	}
+	@Override
+    public void updateEntity() {
+        if (!this.worldObj.isRemote)
+        	this.addEnergy(5);
+    }
 
 }

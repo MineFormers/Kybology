@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
  * 
  * ContainerExtractor
  * 
- * @author PaleoCrafter
+ * @author PaleoCrafter, Weneg
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
@@ -29,8 +29,19 @@ public class ContainerExtractor extends Container {
 			@Override
 		    public boolean isItemValid(ItemStack itemStack)
 		    {
-		        return itemStack.itemID == ItemIds.CRYSTAL && itemStack.getItemDamage() == 1;
+		        return itemStack.itemID == ItemIds.CRYSTAL && (itemStack.getItemDamage() > 8 && itemStack.getItemDamage() < 15);
 		    }
+			@Override
+		    public boolean canTakeStack(EntityPlayer par1EntityPlayer) {
+				if(this.slotNumber == TileEnergyExtractor.SLOT_STORAGE) {
+					if(((TileEnergyExtractor)this.inventory).getStoredEnergy() > 0) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			
 		});
 		this.addSlotToContainer(new Slot(tile, TileEnergyExtractor.SLOT_INPUT,
 		        44, 18));

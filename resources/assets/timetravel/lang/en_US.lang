@@ -11,7 +11,28 @@ tile.timetravel:energyExtractor.name=Extractor
 tile.timetravel:crystalOre.name=Crystal Ore
 # Item localizations
 item.timetravel:pocketWatch.name=Pocket Watch of the Time Traveller
-item.timetravel:crystal.name=Crystal
+item.timetravel:crystal.crystalline.blue.name=Crystalline blue Horalliumcrystal
+item.timetravel:crystal.crystalline.red.name=Crystalline red Horalliumcrystal
+item.timetravel:crystal.crystalline.gold.name=Crystalline golden Horalliumcrystal
+item.timetravel:crystal.pure.blue.name=Pure blue Horalliumcrystal
+item.timetravel:crystal.pure.red.name=Pure red Horalliumcrystal
+item.timetravel:crystal.pure.gold.name=Pure golden Horalliumcrystal
+item.timetravel:crystal.purified.blue.name=Purified blue Horalliumcrystal
+item.timetravel:crystal.purified.red.name=Purified red Horalliumcrystal
+item.timetravel:crystal.purified.gold.name=Purified golden Horalliumcrystal
+item.timetravel:crystal.purified.storage.blue.name=Purified blue Storagecrystal
+item.timetravel:crystal.purified.storage.red.name=Purified red Storagecrystal
+item.timetravel:crystal.purified.storage.gold.name=Purified golden Storagecrystal
+item.timetravel:crystal.pure.storage.blue.name=Pure blue Storagecrystal
+item.timetravel:crystal.pure.storage.red.name=Pure red Storagecrystal
+item.timetravel:crystal.pure.storage.gold.name=Pure golden Storagecrystal
+item.timetravel:crystal.purified.transfer.blue.name=Purified blue Transfercrystal
+item.timetravel:crystal.purified.transfer.red.name=Purified red Transfercrystal
+item.timetravel:crystal.purified.transfer.gold.name=Purified golden Transfercrystal
+item.timetravel:crystal.pure.transfer.blue.name=Pure blue Transfercrystal
+item.timetravel:crystal.pure.transfer.red.name=Pure red Transfercrystal
+item.timetravel:crystal.pure.transfer.gold.name=Pure golden Transfercrystal
+
 # Messages
 message.timetravel:timeMachine.module.default=Default
 message.timetravel:timeMachine.module.power=Energy Accumulator

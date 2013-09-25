@@ -10,7 +10,7 @@ import net.minecraft.item.Item;
  * 
  * ModItems
  * 
- * @author PaleoCrafter
+ * @author PaleoCrafter, Weneg
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
@@ -21,10 +21,9 @@ public class ModItems {
 
 	public static void init() {
 		stopWatch = new ItemPocketWatch(ItemIds.WATCH);
-		crystal = new ItemCrystal(ItemIds.CRYSTAL, Strings.CRYSTAL_NAME);
+		crystal = new ItemCrystal(ItemIds.CRYSTAL);
 		
 		GameRegistry.registerItem(stopWatch, Strings.WATCH_NAME);
-		GameRegistry.registerItem(crystal, Strings.CRYSTAL_NAME);
 	}
 	
 }

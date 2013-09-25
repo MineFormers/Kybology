@@ -13,7 +13,7 @@ import de.mineformers.timetravel.lib.Strings;
  * 
  * ItemTT
  * 
- * @author PaleoCrafter
+ * @author PaleoCrafter, Weneg
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
@@ -23,6 +23,10 @@ public class ItemTT extends Item {
 		super(id - Reference.SHIFTED_ID_RANGE_CORRECTION);
 		this.setUnlocalizedName(Strings.RESOURCE_PREFIX + name);
 		this.setCreativeTab(TimeTravel.tabTimeTravel);
+	}
+	public ItemTT(int id) {
+		super(id - Reference.SHIFTED_ID_RANGE_CORRECTION);
+		this.setCreativeTab(TimeTravel.tabTimeTravel);	
 	}
 
 	@Override

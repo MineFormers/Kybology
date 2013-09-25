@@ -16,7 +16,7 @@ import net.minecraftforge.common.Configuration;
  * 
  * ConfigurationHandler
  * 
- * @author PaleoCrafter
+ * @author PaleoCrafter, Weneg
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
@@ -48,7 +48,7 @@ public class ConfigurationHandler {
 
 			ItemIds.WATCH = configuration.getItem(Strings.WATCH_NAME,
 					ItemIds.WATCH_DEFAULT).getInt(ItemIds.WATCH_DEFAULT);
-			ItemIds.CRYSTAL = configuration.getItem(Strings.CRYSTAL_NAME,
+			ItemIds.CRYSTAL = configuration.getItem("crystal",
 					ItemIds.CRYSTALL_DEFAULT).getInt(ItemIds.CRYSTALL_DEFAULT);
 
 			DimIds.REDWOOD = configuration.get("Dimensions", "redwood",
