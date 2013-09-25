@@ -1,5 +1,6 @@
 package de.mineformers.timetravel.inventory;
 
+import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.tileentity.TileEnergyExtractor;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -24,7 +25,13 @@ public class ContainerExtractor extends Container {
 	public ContainerExtractor(InventoryPlayer inventoryPlayer,
 	        TileEnergyExtractor tile) {
 		this.addSlotToContainer(new Slot(tile,
-		        TileEnergyExtractor.SLOT_STORAGE, 44, 74));
+		        TileEnergyExtractor.SLOT_STORAGE, 44, 74) {
+			@Override
+		    public boolean isItemValid(ItemStack itemStack)
+		    {
+		        return itemStack.itemID == ItemIds.CRYSTAL && itemStack.getItemDamage() == 1;
+		    }
+		});
 		this.addSlotToContainer(new Slot(tile, TileEnergyExtractor.SLOT_INPUT,
 		        44, 18));
 		this.addSlotToContainer(new Slot(tile, TileEnergyExtractor.SLOT_OUTPUT,

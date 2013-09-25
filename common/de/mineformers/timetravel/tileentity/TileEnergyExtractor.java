@@ -45,7 +45,9 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 	@Override
 	public int getMaximumEnergy() {
 		return this.inventory[SLOT_STORAGE] != null
-				&& this.inventory[SLOT_STORAGE].itemID == ItemIds.CRYSTAL ? this.inventory[SLOT_STORAGE].stackTagCompound
+				&& this.inventory[SLOT_STORAGE].itemID == ItemIds.CRYSTAL
+				&& this.inventory[SLOT_STORAGE].getItemDamage() == 1 
+				? this.inventory[SLOT_STORAGE].stackTagCompound
 				.getInteger("maxStorage") : 0;
 	}
 
