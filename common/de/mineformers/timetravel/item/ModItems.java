@@ -17,14 +17,14 @@ import net.minecraft.item.Item;
 public class ModItems {
 	
 	public static Item stopWatch;
-	public static Item crystall;
+	public static Item crystal;
 
 	public static void init() {
 		stopWatch = new ItemPocketWatch(ItemIds.WATCH);
-		crystall = new ItemCrystall(ItemIds.CRYSTALL, Strings.CRYSTALL_NAME);
+		crystal = new ItemCrystal(ItemIds.CRYSTAL, Strings.CRYSTAL_NAME);
 		
 		GameRegistry.registerItem(stopWatch, Strings.WATCH_NAME);
-		GameRegistry.registerItem(crystall, Strings.CRYSTALL_NAME);
+		GameRegistry.registerItem(crystal, Strings.CRYSTAL_NAME);
 	}
 	
 }

@@ -45,7 +45,7 @@ public class ConfigurationHandler {
 
 			ItemIds.WATCH = configuration.getItem(Strings.WATCH_NAME,
 			        ItemIds.WATCH_DEFAULT).getInt(ItemIds.WATCH_DEFAULT);
-			ItemIds.CRYSTALL = configuration.getItem(Strings.CRYSTALL_NAME,
+			ItemIds.CRYSTAL = configuration.getItem(Strings.CRYSTAL_NAME,
 			        ItemIds.CRYSTALL_DEFAULT).getInt(ItemIds.CRYSTALL_DEFAULT);
 			
 

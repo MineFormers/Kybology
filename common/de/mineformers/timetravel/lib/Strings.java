@@ -25,10 +25,12 @@ public class Strings {
 
 	public static final String ENERGY_EXTRACTOR_NAME = "energyExtractor";
 	public static final String TEST_NAME = "testBlock";
+	
+	public static final String CRYSTAL_ORE_NAME = "crystalOre";
 
 	// Item names
 	public static final String WATCH_NAME = "pocketWatch";
-	public static final String CRYSTALL_NAME = "crystall";
+	public static final String CRYSTAL_NAME = "crystal";
 
 	// TE names
 	public static final String TE_TIMEMACHINE_NAME = "tileTimeMachine";

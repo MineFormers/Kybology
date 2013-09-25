@@ -17,6 +17,6 @@ public class ItemIds {
 
 	public static int WATCH;
 	
-	public static int CRYSTALL;
+	public static int CRYSTAL;
 	
 }
