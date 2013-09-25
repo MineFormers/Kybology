@@ -1,7 +1,6 @@
 package de.mineformers.timetravel.block;
 
 import de.mineformers.timetravel.TimeTravel;
-import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.tileentity.TileCrystalOre;
 import net.minecraft.block.Block;
@@ -27,6 +26,9 @@ public class BlockCrystalOre extends Block implements ITileEntityProvider {
 		this.setUnlocalizedName(Strings.RESOURCE_PREFIX
 				+ Strings.CRYSTAL_ORE_NAME);
 		this.setCreativeTab(TimeTravel.tabTimeTravel);
+		this.setBlockBounds(0.2F, 0F, 0.2F, 0.8F, 0.7F, 0.8F);
+		this.setLightOpacity(0);
+		this.setLightValue(0.75F);
 	}
 
 	protected String getUnwrappedUnlocalizedName(String unlocalizedName) {
@@ -35,21 +37,19 @@ public class BlockCrystalOre extends Block implements ITileEntityProvider {
 
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon(Reference.MOD_ID
-				.toLowerCase()
-				+ ":crystalOre");
+		this.blockIcon = Block.glass.getIcon(0, 0);
 	}
-	
+
 	@Override
 	public boolean renderAsNormalBlock() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
-	
+
 	@Override
 	public int getRenderType() {
 		return -1;

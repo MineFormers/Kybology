@@ -7,6 +7,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 import de.mineformers.timetravel.client.audio.SoundHandler;
 import de.mineformers.timetravel.client.renderer.block.BlockTestRenderer;
 import de.mineformers.timetravel.client.renderer.entity.RenderRift;
+import de.mineformers.timetravel.client.renderer.item.ItemCrystalOreRenderer;
 import de.mineformers.timetravel.client.renderer.item.ItemPocketWatchRenderer;
 import de.mineformers.timetravel.client.renderer.item.ItemTimeMachineRenderer;
 import de.mineformers.timetravel.client.renderer.tileentity.TileEntityCrystalOreRenderer;
@@ -53,6 +54,8 @@ public class ClientProxy extends CommonProxy {
 				new ItemTimeMachineRenderer());
 		MinecraftForgeClient.registerItemRenderer(ItemIds.WATCH,
 				new ItemPocketWatchRenderer());
+		MinecraftForgeClient.registerItemRenderer(BlockIds.CRYSTAL_ORE,
+				new ItemCrystalOreRenderer());
 	}
 
 	@Override

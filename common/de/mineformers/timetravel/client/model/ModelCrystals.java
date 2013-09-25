@@ -16,17 +16,25 @@ import net.minecraftforge.client.model.obj.WavefrontObject;
  * 
  */
 @SideOnly(Side.CLIENT)
-public class ModelCrystalOre {
+public class ModelCrystals {
 
-	private WavefrontObject modelCrystalOre;
+	private WavefrontObject modelCrystals;
 
-	public ModelCrystalOre() {
-		modelCrystalOre = (WavefrontObject) AdvancedModelLoader
-				.loadModel(Models.CRYSTAL_ORE);
+	public ModelCrystals() {
+		modelCrystals = (WavefrontObject) AdvancedModelLoader
+				.loadModel(Models.CRYSTALS);
 	}
 
 	public void render() {
-		modelCrystalOre.renderAll();
+		modelCrystals.renderAll();
+	}
+	
+	public void renderOre() {
+		modelCrystals.renderOnly("Ore");
+	}
+	
+	public void renderTransferCrystal() {
+		modelCrystals.renderOnly("Transfer");
 	}
 
 }

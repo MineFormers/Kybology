@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import de.mineformers.timetravel.client.model.ModelCrystalOre;
+import de.mineformers.timetravel.client.model.ModelCrystals;
 import de.mineformers.timetravel.lib.Textures;
 
 /**
@@ -19,10 +19,10 @@ import de.mineformers.timetravel.lib.Textures;
  */
 public class TileEntityCrystalOreRenderer extends TileEntitySpecialRenderer {
 
-	ModelCrystalOre model;
+	private ModelCrystals model;
 
 	public TileEntityCrystalOreRenderer() {
-		model = new ModelCrystalOre();
+		model = new ModelCrystals();
 	}
 
 	@Override
@@ -30,13 +30,13 @@ public class TileEntityCrystalOreRenderer extends TileEntitySpecialRenderer {
 			double z, float tick) {
 		GL11.glPushMatrix();
 		FMLClientHandler.instance().getClient().getTextureManager()
-				.bindTexture(Textures.MODEL_CRYSTAL_ORE);
+				.bindTexture(Textures.MODEL_CRYSTALS);
 		GL11.glColor4f(0.498F, 0.737F, 1F, 0.95F);
 		GL11.glTranslatef((float) x, (float) y, (float) z + 1);
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		model.render();
+		model.renderOre();
 
 		GL11.glDisable(GL11.GL_BLEND);
 		GL11.glPopMatrix();

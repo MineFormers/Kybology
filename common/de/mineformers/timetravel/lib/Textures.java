@@ -35,8 +35,8 @@ public class Textures {
 	        .getResourceLocation(MODEL_SHEET_LOCATION + "modulePlayer.png");
 	public static final ResourceLocation MODEL_WATCH = ResourceHelper
 	        .getResourceLocation(MODEL_SHEET_LOCATION + "watch.png");
-	public static final ResourceLocation MODEL_CRYSTAL_ORE = ResourceHelper
-	        .getResourceLocation(MODEL_SHEET_LOCATION + "crystalOre.png");
+	public static final ResourceLocation MODEL_CRYSTALS = ResourceHelper
+	        .getResourceLocation(MODEL_SHEET_LOCATION + "crystals.png");
 
 	// GUI textures
 	public static final ResourceLocation GUI_TIMEMACHINE = ResourceHelper
