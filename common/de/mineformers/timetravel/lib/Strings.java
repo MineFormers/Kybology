@@ -12,7 +12,7 @@ package de.mineformers.timetravel.lib;
 public class Strings {
 
 	public static final String RESOURCE_PREFIX = Reference.MOD_ID.toLowerCase()
-	        + ":";
+			+ ":";
 
 	// Block names
 	// Time Machine
@@ -25,19 +25,14 @@ public class Strings {
 
 	public static final String ENERGY_EXTRACTOR_NAME = "energyExtractor";
 	public static final String TEST_NAME = "testBlock";
-	
+
 	public static final String CRYSTAL_ORE_NAME = "crystalOre";
 
 	// Item names
 	public static final String WATCH_NAME = "pocketWatch";
-	public static final String[] CRYSTAL_NAME = {
-		"crystal.crystalline.blue","crystal.crystalline.red","crystal.crystalline.gold", 
-		"crystal.pure.blue","crystal.pure.red", "crystal.pure.gold",
-		"crystal.purified.blue","crystal.purified.red","crystal.purified.gold",
-		"crystal.purified.storage.blue","crystal.purified.storage.red","crystal.purified.storage.gold",
-		"crystal.pure.storage.blue","crystal.pure.storage.red","crystal.pure.storage.gold",
-		"crystal.purified.transfer.blue","crystal.purified.transfer.red","crystal.purified.transfer.gold", 
-		"crystal.pure.transfer.blue","crystal.pure.transfer.red", "crystal.pure.transfer.gold"};
+	public static final String CRYSTAL_NAME = "crystal";
+	public static final String[] CRYSTAL_QUALITIES = { "pure", "purified" };
+	public static final String[] CRYSTAL_COLORS = { "blue", "red", "gold" };
 
 	// TE names
 	public static final String TE_TIMEMACHINE_NAME = "tileEntityTimeMachine";
@@ -48,6 +43,10 @@ public class Strings {
 	public static final String NBT_TE_STATE_KEY = "teState";
 	public static final String NBT_TE_CUSTOM_NAME = "CustomName";
 	public static final String NBT_TE_DIRECTION_KEY = "teDirection";
+
+	public static final String NBT_CRYSTAL_TYPE = "Type";
+	public static final String NBT_CRYSTAL_QUALITY = "Quality";
+	public static final String NBT_CRYSTAL_COLOR = "Color";
 
 	// Container names
 	public static final String CONTAINER_EXTRACTOR = "extractor";

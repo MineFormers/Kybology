@@ -26,8 +26,8 @@ public class PacketExtractorUpdate extends PacketTileUpdate {
 	}
 
 	public PacketExtractorUpdate(int x, int y, int z,
-	        ForgeDirection orientation, byte state, String customName,
-	        int energy) {
+			ForgeDirection orientation, byte state, String customName,
+			int energy) {
 		super(x, y, z, orientation, state, customName);
 		this.energy = energy;
 	}
@@ -51,8 +51,9 @@ public class PacketExtractorUpdate extends PacketTileUpdate {
 		super.execute(player, side);
 
 		if (side.isClient()) {
-			((TileEnergyExtractor) player.worldObj.getBlockTileEntity(x, y, z))
-			        .setEnergy(energy);
+			if (player.worldObj.getBlockTileEntity(x, y, z) != null)
+				((TileEnergyExtractor) player.worldObj.getBlockTileEntity(x, y,
+						z)).setEnergy(energy);
 		}
 	}
 

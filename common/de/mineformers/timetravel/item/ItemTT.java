@@ -24,17 +24,18 @@ public class ItemTT extends Item {
 		this.setUnlocalizedName(Strings.RESOURCE_PREFIX + name);
 		this.setCreativeTab(TimeTravel.tabTimeTravel);
 	}
+
 	public ItemTT(int id) {
 		super(id - Reference.SHIFTED_ID_RANGE_CORRECTION);
-		this.setCreativeTab(TimeTravel.tabTimeTravel);	
+		this.setCreativeTab(TimeTravel.tabTimeTravel);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
 		itemIcon = iconRegister.registerIcon(Reference.MOD_ID.toLowerCase()
-		        + ":"
-		        + super.getUnlocalizedName().substring(
-		                super.getUnlocalizedName().indexOf(":") + 1));
+				+ ":"
+				+ super.getUnlocalizedName().substring(
+						super.getUnlocalizedName().indexOf(":") + 1));
 	}
 }

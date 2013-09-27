@@ -23,45 +23,46 @@ public class ContainerExtractor extends Container {
 	private final int PLAYER_INVENTORY_COLUMNS = 9;
 
 	public ContainerExtractor(InventoryPlayer inventoryPlayer,
-	        TileEnergyExtractor tile) {
+			TileEnergyExtractor tile) {
 		this.addSlotToContainer(new Slot(tile,
-		        TileEnergyExtractor.SLOT_STORAGE, 44, 74) {
+				TileEnergyExtractor.SLOT_STORAGE, 44, 74) {
 			@Override
-		    public boolean isItemValid(ItemStack itemStack)
-		    {
-		        return itemStack.itemID == ItemIds.CRYSTAL && (itemStack.getItemDamage() > 8 && itemStack.getItemDamage() < 15);
-		    }
+			public boolean isItemValid(ItemStack itemStack) {
+				return itemStack.itemID == ItemIds.CRYSTAL
+						&& (itemStack.getItemDamage() == 0);
+			}
+
 			@Override
-		    public boolean canTakeStack(EntityPlayer par1EntityPlayer) {
-				if(this.slotNumber == TileEnergyExtractor.SLOT_STORAGE) {
-					if(((TileEnergyExtractor)this.inventory).getStoredEnergy() > 0) {
+			public boolean canTakeStack(EntityPlayer par1EntityPlayer) {
+				if (this.slotNumber == TileEnergyExtractor.SLOT_STORAGE) {
+					if (((TileEnergyExtractor) this.inventory)
+							.getStoredEnergy() > 0) {
 						return false;
 					}
 				}
 				return true;
 			}
 
-			
 		});
 		this.addSlotToContainer(new Slot(tile, TileEnergyExtractor.SLOT_INPUT,
-		        44, 18));
+				44, 18));
 		this.addSlotToContainer(new Slot(tile, TileEnergyExtractor.SLOT_OUTPUT,
-		        44, 39));
+				44, 39));
 
 		// Add the player's inventory slots to the container
 		for (int inventoryRowIndex = 0; inventoryRowIndex < PLAYER_INVENTORY_ROWS; ++inventoryRowIndex) {
 			for (int inventoryColumnIndex = 0; inventoryColumnIndex < PLAYER_INVENTORY_COLUMNS; ++inventoryColumnIndex) {
 				this.addSlotToContainer(new Slot(inventoryPlayer,
-				        inventoryColumnIndex + inventoryRowIndex * 9 + 9,
-				        8 + inventoryColumnIndex * 18,
-				        106 + inventoryRowIndex * 18));
+						inventoryColumnIndex + inventoryRowIndex * 9 + 9,
+						8 + inventoryColumnIndex * 18,
+						106 + inventoryRowIndex * 18));
 			}
 		}
 
 		// Add the player's action bar slots to the container
 		for (int actionBarSlotIndex = 0; actionBarSlotIndex < PLAYER_INVENTORY_COLUMNS; ++actionBarSlotIndex) {
 			this.addSlotToContainer(new Slot(inventoryPlayer,
-			        actionBarSlotIndex, 8 + actionBarSlotIndex * 18, 164));
+					actionBarSlotIndex, 8 + actionBarSlotIndex * 18, 164));
 		}
 	}
 
@@ -72,7 +73,7 @@ public class ContainerExtractor extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer entityPlayer,
-	        int slotIndex) {
+			int slotIndex) {
 
 		ItemStack itemStack = null;
 		Slot slot = (Slot) inventorySlots.get(slotIndex);
@@ -90,8 +91,8 @@ public class ContainerExtractor extends Container {
 			if (slotIndex < TileEnergyExtractor.INVENTORY_SIZE) {
 
 				if (!this.mergeItemStack(slotItemStack,
-				        TileEnergyExtractor.INVENTORY_SIZE,
-				        inventorySlots.size(), false)) {
+						TileEnergyExtractor.INVENTORY_SIZE,
+						inventorySlots.size(), false)) {
 					return null;
 				}
 			} else {
@@ -100,8 +101,8 @@ public class ContainerExtractor extends Container {
 				 * Finally, attempt to put stack into the input slot
 				 */
 				if (!this.mergeItemStack(slotItemStack,
-				        TileEnergyExtractor.SLOT_INPUT,
-				        TileEnergyExtractor.SLOT_STORAGE, false)) {
+						TileEnergyExtractor.SLOT_INPUT,
+						TileEnergyExtractor.SLOT_STORAGE, false)) {
 					return null;
 				}
 			}

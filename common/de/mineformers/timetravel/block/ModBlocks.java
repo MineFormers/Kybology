@@ -1,6 +1,7 @@
 package de.mineformers.timetravel.block;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import de.mineformers.timetravel.item.ItemBlockCrystalOre;
 import de.mineformers.timetravel.item.ItemBlockTimeMachine;
 import de.mineformers.timetravel.lib.BlockIds;
 import de.mineformers.timetravel.lib.Strings;
@@ -35,7 +36,8 @@ public class ModBlocks {
 		GameRegistry.registerBlock(tests, Strings.TEST_NAME);
 		GameRegistry.registerBlock(energyExtractor,
 				Strings.ENERGY_EXTRACTOR_NAME);
-		GameRegistry.registerBlock(crystalOre, Strings.CRYSTAL_ORE_NAME);
+		GameRegistry.registerBlock(crystalOre, ItemBlockCrystalOre.class,
+				Strings.CRYSTAL_ORE_NAME);
 	}
 
 }

@@ -1,4 +1,5 @@
 package de.mineformers.timetravel.lib;
+
 /**
  * TimeTravel
  * 
@@ -17,7 +18,11 @@ public enum CrystalProperties {
 
 		@Override
 		public String getValueName() {
-			return "maxStorage";
+			return "MaxStorage";
+		}
+
+		public String getDisplayKey() {
+			return "storage";
 		}
 	},
 	TRANSFER() {
@@ -28,9 +33,13 @@ public enum CrystalProperties {
 
 		@Override
 		public String getValueName() {
-			return "transferRate";
+			return "TransferRate";
 		}
-	
+
+		public String getDisplayKey() {
+			return "transfer";
+		}
+
 	},
 	NOTHING() {
 		@Override
@@ -42,11 +51,19 @@ public enum CrystalProperties {
 		public String getValueName() {
 			return null;
 		}
+
+		public String getDisplayKey() {
+			return "nothing";
+		}
 	};
+
 	private static int[] storageValues = { 2000, 5000, 10000 };
 	private static int[] transferValues = { 20, 50, 100 };
 
 	public abstract int getValue(int i);
+
 	public abstract String getValueName();
+
+	public abstract String getDisplayKey();
 
 }

@@ -8,6 +8,7 @@ import de.mineformers.timetravel.client.audio.SoundHandler;
 import de.mineformers.timetravel.client.renderer.block.BlockTestRenderer;
 import de.mineformers.timetravel.client.renderer.entity.RenderRift;
 import de.mineformers.timetravel.client.renderer.item.ItemCrystalOreRenderer;
+import de.mineformers.timetravel.client.renderer.item.ItemCrystalRenderer;
 import de.mineformers.timetravel.client.renderer.item.ItemPocketWatchRenderer;
 import de.mineformers.timetravel.client.renderer.item.ItemTimeMachineRenderer;
 import de.mineformers.timetravel.client.renderer.tileentity.TileEntityCrystalOreRenderer;
@@ -30,37 +31,39 @@ import de.mineformers.timetravel.tileentity.TileTimeMachine;
  */
 public class ClientProxy extends CommonProxy {
 
-	@Override
-	public void registerTileEntities() {
-		super.registerTileEntities();
+    @Override
+    public void registerTileEntities() {
+        super.registerTileEntities();
 
-		ClientRegistry.bindTileEntitySpecialRenderer(TileTimeMachine.class,
-				new TileEntityTimeMachineRenderer());
-		ClientRegistry.bindTileEntitySpecialRenderer(TileCrystalOre.class,
-				new TileEntityCrystalOreRenderer());
-	}
+        ClientRegistry.bindTileEntitySpecialRenderer(TileTimeMachine.class,
+                new TileEntityTimeMachineRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileCrystalOre.class,
+                new TileEntityCrystalOreRenderer());
+    }
 
-	@Override
-	public void initRenderingAndTextures() {
-		super.initRenderingAndTextures();
+    @Override
+    public void initRenderingAndTextures() {
+        super.initRenderingAndTextures();
 
-		RenderIds.testRender = RenderingRegistry.getNextAvailableRenderId();
+        RenderIds.testRender = RenderingRegistry.getNextAvailableRenderId();
 
-		RenderingRegistry.registerBlockHandler(new BlockTestRenderer());
-		RenderingRegistry.registerEntityRenderingHandler(EntityRift.class,
-				new RenderRift());
+        RenderingRegistry.registerBlockHandler(new BlockTestRenderer());
+        RenderingRegistry.registerEntityRenderingHandler(EntityRift.class,
+                new RenderRift());
 
-		MinecraftForgeClient.registerItemRenderer(BlockIds.TIMEMACHINE,
-				new ItemTimeMachineRenderer());
-		MinecraftForgeClient.registerItemRenderer(ItemIds.WATCH,
-				new ItemPocketWatchRenderer());
-		MinecraftForgeClient.registerItemRenderer(BlockIds.CRYSTAL_ORE,
-				new ItemCrystalOreRenderer());
-	}
+        MinecraftForgeClient.registerItemRenderer(BlockIds.TIMEMACHINE,
+                new ItemTimeMachineRenderer());
+        MinecraftForgeClient.registerItemRenderer(ItemIds.WATCH,
+                new ItemPocketWatchRenderer());
+        MinecraftForgeClient.registerItemRenderer(BlockIds.CRYSTAL_ORE,
+                new ItemCrystalOreRenderer());
+        MinecraftForgeClient.registerItemRenderer(ItemIds.CRYSTAL,
+                new ItemCrystalRenderer());
+    }
 
-	@Override
-	public void registerSoundHandler() {
-		MinecraftForge.EVENT_BUS.register(new SoundHandler());
-	}
+    @Override
+    public void registerSoundHandler() {
+        MinecraftForge.EVENT_BUS.register(new SoundHandler());
+    }
 
 }

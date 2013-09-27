@@ -36,5 +36,14 @@ public class ModelCrystals {
 	public void renderTransferCrystal() {
 		modelCrystals.renderOnly("Transfer");
 	}
+	
+	public void renderStorageCrystal() {
+        modelCrystals.renderOnly("Storage");
+    }
+	
+	public void renderUndefinedCrystal() {
+        modelCrystals.renderOnly("Undefined");
+    }
+
 
 }
