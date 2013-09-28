@@ -40,7 +40,7 @@ public class ItemCrystalOreRenderer implements IItemRenderer {
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
         switch (type) {
             case ENTITY: {
-                renderModel(item.getItemDamage(), 0F, 0F, 0F, 1F);
+                renderModel(item.getItemDamage(), -0.25F, -0.15F, -0.25F, 2F);
                 return;
             }
             case EQUIPPED: {

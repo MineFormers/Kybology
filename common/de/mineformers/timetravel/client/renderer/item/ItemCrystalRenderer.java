@@ -1,5 +1,6 @@
 package de.mineformers.timetravel.client.renderer.item;
 
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.IItemRenderer;
@@ -97,6 +98,11 @@ public class ItemCrystalRenderer implements IItemRenderer {
     private void renderStorage(ItemRenderType type) {
         GL11.glTranslatef(0.5F, 0, 0.5F);
         switch (type) {
+            case ENTITY:
+                GL11.glRotatef(90, 0, 1, 0);
+                GL11.glRotatef(90, 1, 0, 0);
+                GL11.glTranslatef(1, -0.5F, 0.5F);
+                break;
             case EQUIPPED:
                 GL11.glTranslatef(0.55F, 0.5F, -0F);
                 GL11.glRotatef(45, 0, 1, 0);
@@ -121,7 +127,13 @@ public class ItemCrystalRenderer implements IItemRenderer {
     private void renderTransfer(ItemRenderType type) {
         switch (type) {
             case ENTITY:
-                GL11.glTranslatef(-0.25F, 1, -0.25F);
+                if (RenderItem.renderInFrame) {
+                    GL11.glTranslatef(0.5F, 0.4F, 0.25F);
+                    GL11.glTranslatef(-0.75F, 0, 0F);
+                    GL11.glScalef(0.75F, 0.75F, 0.75F);
+                } else {
+                    GL11.glTranslatef(-0.25F, 1F, 0.4F);
+                }
                 break;
             case INVENTORY:
                 GL11.glTranslatef(-0.75F, 0.3F, 0);
@@ -143,6 +155,9 @@ public class ItemCrystalRenderer implements IItemRenderer {
 
     private void renderUndefined(ItemRenderType type) {
         switch (type) {
+            case ENTITY:
+                GL11.glTranslatef(0.5F, -0.3F, -0.5F);
+                break;
             case INVENTORY:
                 GL11.glTranslatef(1F, -0.05F, 0);
                 break;
