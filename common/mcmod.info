@@ -4,12 +4,12 @@
   "name": "TimeTravel",
   "description": "Travel in time and space!",
   "version": "@VERSION@",
-  "url": "http://www.minecraftforum.net/topic/1106178-",
+  "url": "",
   "updateUrl": "",
   "authorList": [
     "PaleoCrafter"
   ],
-  "credits": "By PaleoCrafter",
+  "credits": "By PaleoCrafter, Weneg",
   "logoFile": "/assets/timetravel/textures/logo/logo.png",
   "screenshots": [
   ],
