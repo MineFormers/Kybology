@@ -15,5 +15,6 @@ public class Models {
 
 	public static final String WATCH = MODEL_LOCATION + "watch.obj";
 	public static final String CRYSTALS = MODEL_LOCATION + "crystals.obj";
+	public static final String EXTRACTOR = MODEL_LOCATION + "extractor.obj";
 
 }

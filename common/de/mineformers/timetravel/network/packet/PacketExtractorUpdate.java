@@ -5,7 +5,6 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.relauncher.Side;
 import de.mineformers.timetravel.tileentity.TileEnergyExtractor;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -20,41 +19,47 @@ import net.minecraftforge.common.ForgeDirection;
  */
 public class PacketExtractorUpdate extends PacketTileUpdate {
 
-	public int energy;
+    public int energy;
+    public String storageColor;
 
-	public PacketExtractorUpdate() {
-	}
+    public PacketExtractorUpdate() {
+    }
 
-	public PacketExtractorUpdate(int x, int y, int z,
-			ForgeDirection orientation, byte state, String customName,
-			int energy) {
-		super(x, y, z, orientation, state, customName);
-		this.energy = energy;
-	}
+    public PacketExtractorUpdate(int x, int y, int z,
+            ForgeDirection orientation, byte state, String customName,
+            int energy, String storageColor) {
+        super(x, y, z, orientation, state, customName);
+        this.energy = energy;
+        this.storageColor = storageColor;
+    }
 
-	@Override
-	public void write(ByteArrayDataOutput out) {
-		super.write(out);
+    @Override
+    public void write(ByteArrayDataOutput out) {
+        super.write(out);
 
-		out.writeInt(energy);
-	}
+        out.writeInt(energy);
+        out.writeUTF(storageColor);
+    }
 
-	@Override
-	public void read(ByteArrayDataInput in) {
-		super.read(in);
+    @Override
+    public void read(ByteArrayDataInput in) {
+        super.read(in);
 
-		energy = in.readInt();
-	}
+        energy = in.readInt();
+        storageColor = in.readUTF();
+    }
 
-	@Override
-	public void execute(EntityPlayer player, Side side) {
-		super.execute(player, side);
+    @Override
+    public void execute(EntityPlayer player, Side side) {
+        super.execute(player, side);
 
-		if (side.isClient()) {
-			if (player.worldObj.getBlockTileEntity(x, y, z) != null)
-				((TileEnergyExtractor) player.worldObj.getBlockTileEntity(x, y,
-						z)).setEnergy(energy);
-		}
-	}
-
+        if (side.isClient()) {
+            if (player.worldObj.getBlockTileEntity(x, y, z) != null) {
+                ((TileEnergyExtractor) player.worldObj.getBlockTileEntity(x, y,
+                        z)).setCrystalColor(storageColor);
+                ((TileEnergyExtractor) player.worldObj.getBlockTileEntity(x, y,
+                        z)).setEnergy(energy);
+            }
+        }
+    }
 }

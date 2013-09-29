@@ -1,5 +1,7 @@
 package de.mineformers.timetravel.tileentity;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import de.mineformers.timetravel.api.energy.IEnergyStorage;
 import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.lib.ItemIds;
@@ -47,7 +49,7 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
     public int getMaximumEnergy() {
         return this.inventory[SLOT_STORAGE] != null
                 && this.inventory[SLOT_STORAGE].itemID == ItemIds.CRYSTAL
-                && (this.inventory[SLOT_STORAGE].getItemDamage() > 8 && this.inventory[SLOT_STORAGE]
+                && (this.inventory[SLOT_STORAGE].getItemDamage() == 0 && this.inventory[SLOT_STORAGE]
                         .getItemDamage() < 15) ? this.inventory[SLOT_STORAGE].stackTagCompound
                 .getInteger("MaxStorage") : 0;
     }
@@ -134,8 +136,11 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 
     @Override
     public Packet getDescriptionPacket() {
+        String color = (getStackInSlot(SLOT_STORAGE) != null) ? getStackInSlot(
+                SLOT_STORAGE).getTagCompound().getString(
+                Strings.NBT_CRYSTAL_COLOR) : "none";
         return new PacketExtractorUpdate(xCoord, yCoord, zCoord, orientation,
-                state, customName, energy).makePacket();
+                state, customName, energy, color).makePacket();
     }
 
     // Inventory stuff
@@ -208,5 +213,18 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
         if (!this.worldObj.isRemote)
             this.addEnergy(5);
     }
-    
+
+    @SideOnly(Side.CLIENT)
+    private String crystalColor;
+
+    @SideOnly(Side.CLIENT)
+    public void setCrystalColor(String color) {
+        this.crystalColor = color;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String getCrystalColor() {
+        return crystalColor != null ? crystalColor : "none";
+    }
+
 }

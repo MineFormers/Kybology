@@ -12,12 +12,14 @@ import de.mineformers.timetravel.client.renderer.item.ItemCrystalRenderer;
 import de.mineformers.timetravel.client.renderer.item.ItemPocketWatchRenderer;
 import de.mineformers.timetravel.client.renderer.item.ItemTimeMachineRenderer;
 import de.mineformers.timetravel.client.renderer.tileentity.TileEntityCrystalOreRenderer;
+import de.mineformers.timetravel.client.renderer.tileentity.TileEntityExtractorRenderer;
 import de.mineformers.timetravel.client.renderer.tileentity.TileEntityTimeMachineRenderer;
 import de.mineformers.timetravel.entity.EntityRift;
 import de.mineformers.timetravel.lib.BlockIds;
 import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.lib.RenderIds;
 import de.mineformers.timetravel.tileentity.TileCrystalOre;
+import de.mineformers.timetravel.tileentity.TileEnergyExtractor;
 import de.mineformers.timetravel.tileentity.TileTimeMachine;
 
 /**
@@ -39,6 +41,8 @@ public class ClientProxy extends CommonProxy {
                 new TileEntityTimeMachineRenderer());
         ClientRegistry.bindTileEntitySpecialRenderer(TileCrystalOre.class,
                 new TileEntityCrystalOreRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEnergyExtractor.class,
+                new TileEntityExtractorRenderer());
     }
 
     @Override

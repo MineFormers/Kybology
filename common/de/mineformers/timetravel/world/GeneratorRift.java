@@ -21,17 +21,16 @@ public class GeneratorRift implements IWorldGenerator {
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world,
             IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-	    if(random.nextInt(1000) <= 10) {
-	    	EntityRift rift = new EntityRift(world);
-	    	rift.posX = chunkX * 16 + 8;
-	    	rift.posZ = chunkZ * 16 + 8;
-	    	rift.posY = 70;
-	    	rift.setType(0);
-	    	rift.setEnergy(new Random().nextInt(200));
-	    	rift.setMaximumEnergy(2000);
-	    	world.spawnEntityInWorld(rift);
-	    	System.out.println(rift.posX + ";" + rift.posZ);
-	    }
+        if (random.nextInt(1000) <= 10) {
+            EntityRift rift = new EntityRift(world);
+            rift.posX = chunkX * 16 + random.nextInt(12);
+            rift.posZ = chunkZ * 16 + random.nextInt(12);
+            rift.posY = 10 + random.nextInt(128);
+            rift.setType(0);
+            rift.setEnergy(random.nextInt(200));
+            rift.setMaximumEnergy(2000);
+            world.spawnEntityInWorld(rift);
+        }
     }
 
 }

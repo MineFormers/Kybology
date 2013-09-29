@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
-
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -35,6 +34,7 @@ import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.network.PacketHandler;
 import de.mineformers.timetravel.travelling.DestinationRedwoodTime;
 import de.mineformers.timetravel.travelling.ModDimensions;
+import de.mineformers.timetravel.world.GeneratorOres;
 import de.mineformers.timetravel.world.GeneratorRift;
 import de.mineformers.timetravel.world.biome.BiomeTest;
 
@@ -102,6 +102,7 @@ public class TimeTravel {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		GameRegistry.registerWorldGenerator(new GeneratorRift());
+		GameRegistry.registerWorldGenerator(new GeneratorOres());
 		
 		PlayerTrackerTT tracker = new PlayerTrackerTT();
 

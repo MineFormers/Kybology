@@ -29,47 +29,62 @@ import net.minecraft.world.World;
  */
 public class BlockEnergyExtractor extends BlockTT {
 
-	public BlockEnergyExtractor(int id, Material material) {
-		super(id, material, Strings.ENERGY_EXTRACTOR_NAME);
-		this.setCreativeTab(TimeTravel.tabTimeTravel);
-	}
+    public BlockEnergyExtractor(int id, Material material) {
+        super(id, material, Strings.ENERGY_EXTRACTOR_NAME);
+        this.setCreativeTab(TimeTravel.tabTimeTravel);
+    }
 
-	@Override
-	public TileEntity createNewTileEntity(World world) {
-		return new TileEnergyExtractor();
-	}
+    @Override
+    public TileEntity createNewTileEntity(World world) {
+        return new TileEnergyExtractor();
+    }
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister iconRegister) {
-		this.blockIcon = iconRegister.registerIcon("timetravel:connected");
-	}
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister iconRegister) {
+        this.blockIcon = iconRegister.registerIcon("timetravel:connected");
+    }
 
-	@Override
-	public boolean onBlockActivated(World world, int x, int y, int z,
-	        EntityPlayer player, int hitX, float hitY, float hitZ, float par9) {
-		if (player.isSneaking()) {
-			if (!world.isRemote) {
-				@SuppressWarnings("unchecked")
-				List<Entity> riftList = world.getEntitiesWithinAABB(
-				        EntityRift.class, AxisAlignedBB.getBoundingBox(x - 25,
-				                y - 25, z - 25, x + 25, y + 25, z + 25));
-				for (Entity temp : riftList) {
-					((TileEnergyExtractor) world.getBlockTileEntity(x, y, z))
-					        .addEnergy(((EntityRift) temp).drawEnergy(5));
-					player.addChatMessage("Rift found with "
-					        + ((EntityRift) temp).getStoredEnergy() + " Energy");
-				}
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z,
+            EntityPlayer player, int hitX, float hitY, float hitZ, float par9) {
+        if (player.isSneaking()) {
+            if (!world.isRemote) {
+                @SuppressWarnings("unchecked")
+                List<Entity> riftList = world.getEntitiesWithinAABB(
+                        EntityRift.class, AxisAlignedBB.getBoundingBox(x - 25,
+                                y - 25, z - 25, x + 25, y + 25, z + 25));
+                for (Entity temp : riftList) {
+                    ((TileEnergyExtractor) world.getBlockTileEntity(x, y, z))
+                            .addEnergy(((EntityRift) temp).drawEnergy(5));
+                    player.addChatMessage("Rift found with "
+                            + ((EntityRift) temp).getStoredEnergy() + " Energy");
+                }
 
-				NetworkHelper.sendTilePacket(world.getBlockTileEntity(x, y, z));
-			}
-		} else {
-			if (!world.isRemote) {
-				player.openGui(TimeTravel.instance, GuiIds.EXTRACTOR, world, x,
-				        y, z);
-			}
-		}
-		return true;
-	}
+                NetworkHelper.sendTilePacket(world.getBlockTileEntity(x, y, z));
+            }
+        } else {
+            if (!world.isRemote) {
+                player.openGui(TimeTravel.instance, GuiIds.EXTRACTOR, world, x,
+                        y, z);
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
+
+    @Override
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    @Override
+    public int getRenderType() {
+        return -1;
+    }
 
 }
