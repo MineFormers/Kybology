@@ -2,7 +2,6 @@ package de.mineformers.timetravel;
 
 import java.io.File;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,7 +19,6 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import de.mineformers.timetravel.api.TravellingRegistry;
 import de.mineformers.timetravel.block.ModBlocks;
-import de.mineformers.timetravel.client.gui.overlay.GuiOverlayWatch;
 import de.mineformers.timetravel.configuration.ConfigurationHandler;
 import de.mineformers.timetravel.core.handler.PlayerTrackerTT;
 import de.mineformers.timetravel.core.handler.TickHandlerCountdown;
@@ -118,7 +116,6 @@ public class TimeTravel {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(new GuiOverlayWatch(Minecraft
-		        .getMinecraft()));
+		proxy.registerEventHandlers();
 	}
 }

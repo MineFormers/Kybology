@@ -84,11 +84,11 @@ public class ItemCrystal extends ItemTT {
 
         list.add(type);
         if (colorKey.equals("blue"))
-            list.add("§b" + color + "§r");
+            list.add("\u00A7b" + color + "\u00A7r");
         else if (colorKey.equals("red"))
-            list.add("§c" + color + "§r");
+            list.add("\u00A7c" + color + "\u00A7r");
         else if (colorKey.equals("gold"))
-            list.add("§6" + color + "§r");
+            list.add("\u00A76" + color + "\u00A7r");
     }
 
     @Override

@@ -30,14 +30,20 @@ public class GeneratorOres implements IWorldGenerator {
 
     private void generateSurface(World world, Random rand, int chunkX,
             int chunkZ) {
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 3 + rand.nextInt(3); i++) {
             int randPosX = chunkX + rand.nextInt(16);
             int randPosY = 3 + rand.nextInt(22);
             int randPosZ = chunkZ + rand.nextInt(16);
+            int meta = rand.nextInt(100);
+            if (meta < 60)
+                meta = 0;
+            else if (meta > 60 && meta < 99)
+                meta = 1;
+            else if (meta == 99)
+                meta = 2;
             if (world.getBlockId(randPosX, randPosY - 1, randPosZ) == 1) {
-                System.out.println(randPosX + ";" + randPosY + ";" + randPosZ);
                 world.setBlock(randPosX, randPosY, randPosZ,
-                        BlockIds.CRYSTAL_ORE, rand.nextInt(3), 1);
+                        BlockIds.CRYSTAL_ORE, meta, 2);
             }
         }
     }

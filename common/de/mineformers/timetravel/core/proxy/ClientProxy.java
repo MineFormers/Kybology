@@ -1,10 +1,12 @@
 package de.mineformers.timetravel.core.proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import de.mineformers.timetravel.client.audio.SoundHandler;
+import de.mineformers.timetravel.client.gui.overlay.GuiOverlayWatch;
 import de.mineformers.timetravel.client.renderer.block.BlockTestRenderer;
 import de.mineformers.timetravel.client.renderer.entity.RenderRift;
 import de.mineformers.timetravel.client.renderer.item.ItemCrystalOreRenderer;
@@ -68,6 +70,13 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerSoundHandler() {
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
+    }
+    
+    @Override
+    public void registerEventHandlers() {
+        super.registerEventHandlers();
+        MinecraftForge.EVENT_BUS.register(new GuiOverlayWatch(Minecraft
+                .getMinecraft()));
     }
 
 }

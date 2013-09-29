@@ -57,7 +57,7 @@ public class DestinationTime {
 			return ((DestinationTime) obj).getDimensionId() == this
 			        .getDimensionId();
 		} else if (obj instanceof Integer) {
-			return (int) obj == this.getDimensionId();
+			return (Integer) obj == this.getDimensionId();
 		}
 
 		return false;
