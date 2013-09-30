@@ -13,6 +13,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 /**
  * Time Travel
@@ -34,7 +35,19 @@ public class ItemCrystal extends ItemTT {
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
     }
-
+    
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World par2World, EntityPlayer par3EntityPlayer)
+    {
+    	if(itemStack.getTagCompound().hasKey("TransferRate")) {
+    		
+    		itemStack.getTagCompound().setInteger("signature",20);
+    		return itemStack;
+    	} else {
+    		return itemStack;
+    	}
+    		
+    }
     @Override
     public String getItemDisplayName(ItemStack stack) {
         String format = LangHelper.translate("item", "crystal.format");

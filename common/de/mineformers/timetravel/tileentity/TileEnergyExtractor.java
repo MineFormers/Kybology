@@ -1,9 +1,12 @@
 package de.mineformers.timetravel.tileentity;
 
+import java.util.List;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.mineformers.timetravel.api.energy.IEnergyStorage;
 import de.mineformers.timetravel.core.util.NetworkHelper;
+import de.mineformers.timetravel.entity.EntityRift;
 import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.network.packet.PacketExtractorUpdate;
@@ -12,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.util.AxisAlignedBB;
 
 /**
  * TimeTravel
@@ -210,8 +214,28 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 
     @Override
     public void updateEntity() {
-        if (!this.worldObj.isRemote)
-            this.addEnergy(5);
+        if (!this.worldObj.isRemote) {
+        	if(this.getMaximumEnergy() == this.getStoredEnergy())
+        		return;
+        	
+        	if(this.inventory[SLOT_INPUT] != null) {
+	            @SuppressWarnings("unchecked")
+	            List<EntityRift> riftList = worldObj.getEntitiesWithinAABB(
+	                    EntityRift.class, AxisAlignedBB.getBoundingBox(xCoord - 25,
+	                    		yCoord - 25, zCoord - 25, xCoord + 25, yCoord + 25, zCoord + 25));
+	            for (EntityRift temp : riftList) {
+
+		            	if(this.getStoredEnergy() != this.getMaximumEnergy()) {
+
+//			            		if(temp.getSignature().compareSignature(Signature.createFromNBT(this.inventory[SLOT_INPUT].getTagCompound()))) {
+				            	if(temp.getSignature() == (this.inventory[SLOT_INPUT].getTagCompound().getInteger("signature"))) {
+
+			            			this.addEnergy(temp.drawEnergy(5));
+			            		}
+			            }
+            	}	
+            }
+        }
     }
 
     @SideOnly(Side.CLIENT)

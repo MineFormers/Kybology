@@ -23,6 +23,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 	private int type;
 	private int energy;
 	private int maxStorage;
+	private int signature;
 	public EntityRift(World world) {
 		super(world);
 		setSize(1.5F, 0.6F);
@@ -33,6 +34,8 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 		data.writeInt(getType());
 		data.writeInt(getStoredEnergy());
 		data.writeInt(getMaximumEnergy());
+		data.writeInt(signature);
+//		signature.writeByteArrayDataOutput(data);
 	}
 
 	@Override
@@ -40,6 +43,8 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 		setType(data.readInt());
 		setEnergy(data.readInt());
 		setMaximumEnergy(data.readInt());
+		signature = data.readInt();
+//		setSignature(Signature.getSignature(data));
 	}
 
 	@Override
@@ -52,6 +57,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 		setType(compound.getInteger("type"));
 		setEnergy(compound.getInteger("power"));
 		setMaximumEnergy(compound.getInteger("maxStorage"));
+		setSignature(compound.getInteger("signature"));
 	}
 
 	@Override
@@ -59,6 +65,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 		compound.setInteger("type", getType());
 		compound.setInteger("power", getStoredEnergy());
 		compound.setInteger("maxStorage", getMaximumEnergy());
+		compound.setInteger("signature", signature);
 	}
 
 
@@ -110,5 +117,19 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 	public void addEnergy(int energy) {
 		this.energy += energy;
 	}
-	
+
+//	public Signature getSignature() {
+//		return signature;
+//	}
+//
+//	public void setSignature(Signature signature) {
+//		this.signature = signature;
+//	}
+	public int getSignature() {
+		return signature;
+	}
+
+	public void setSignature(int signature) {
+		this.signature = signature;
+	}	
 }

@@ -45,7 +45,13 @@ public class ContainerExtractor extends Container {
 
 		});
 		this.addSlotToContainer(new Slot(tile, TileEnergyExtractor.SLOT_INPUT,
-				44, 18));
+				44, 18) {
+			@Override
+			public boolean isItemValid(ItemStack itemStack) {
+				return itemStack.itemID == ItemIds.CRYSTAL
+						&& (itemStack.getItemDamage() == 1);
+			}
+		});
 		this.addSlotToContainer(new Slot(tile, TileEnergyExtractor.SLOT_OUTPUT,
 				44, 39));
 
