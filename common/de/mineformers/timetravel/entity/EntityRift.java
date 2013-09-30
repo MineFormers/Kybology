@@ -1,5 +1,7 @@
 package de.mineformers.timetravel.entity;
 
+import java.util.Random;
+
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 
@@ -27,6 +29,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 	public EntityRift(World world) {
 		super(world);
 		setSize(1.5F, 0.6F);
+		
 	}
 
 	@Override
@@ -97,6 +100,11 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
+		if (!worldObj.isRemote) {
+			if(new Random().nextInt(100) >90)
+				this.addEnergy(1);
+
+		}
 	}
 
 	@Override
@@ -115,7 +123,11 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData, IE
 
 	@Override
 	public void addEnergy(int energy) {
-		this.energy += energy;
+            if (this.getStoredEnergy() + energy >= this.getMaximumEnergy()) {
+                this.energy = this.getMaximumEnergy();
+            } else {
+                this.energy += energy;
+            }
 	}
 
 //	public Signature getSignature() {
