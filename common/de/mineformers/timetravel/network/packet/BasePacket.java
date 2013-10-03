@@ -42,7 +42,7 @@ public abstract class BasePacket {
 	}
 
 	public static BasePacket constructPacket(int packetId)
-	        throws ProtocolException, ReflectiveOperationException {
+	        throws ProtocolException, InstantiationException, IllegalAccessException {
 		Class<? extends BasePacket> clazz = idMap
 		        .get(Integer.valueOf(packetId));
 		if (clazz == null) {

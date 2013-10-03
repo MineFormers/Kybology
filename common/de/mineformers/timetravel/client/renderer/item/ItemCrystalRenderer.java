@@ -2,15 +2,14 @@ package de.mineformers.timetravel.client.renderer.item;
 
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import de.mineformers.timetravel.api.energy.CrystalType;
+import de.mineformers.timetravel.api.util.CrystalHelper;
 import de.mineformers.timetravel.client.model.ModelCrystals;
-import de.mineformers.timetravel.lib.CrystalProperties;
-import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.lib.Textures;
 
 /**
@@ -43,22 +42,8 @@ public class ItemCrystalRenderer implements IItemRenderer {
 
     @Override
     public void renderItem(ItemRenderType type, ItemStack stack, Object... data) {
-        if (stack.getTagCompound() == null) {
-            NBTTagCompound compound = new NBTTagCompound();
-            compound.setString(Strings.NBT_CRYSTAL_QUALITY,
-                    Strings.CRYSTAL_QUALITIES[0]);
-            compound.setString(Strings.NBT_CRYSTAL_COLOR,
-                    Strings.CRYSTAL_COLORS[0]);
-            CrystalProperties properties = CrystalProperties.NOTHING;
-            stack.getTagCompound().setString(Strings.NBT_CRYSTAL_TYPE,
-                    properties.getDisplayKey());
-        }
-        String colorStr = stack.getTagCompound().getString(
-                Strings.NBT_CRYSTAL_COLOR);
-        int color = 0;
-        for (int i = 0; i < Strings.CRYSTAL_COLORS.length; i++)
-            if (Strings.CRYSTAL_COLORS[i].equals(colorStr))
-                color = i;
+        CrystalType crystalType = CrystalHelper.getType(stack);
+        int color = crystalType.getColor().ordinal();
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);

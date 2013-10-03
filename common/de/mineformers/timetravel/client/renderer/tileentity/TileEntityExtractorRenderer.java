@@ -3,9 +3,9 @@ package de.mineformers.timetravel.client.renderer.tileentity;
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import de.mineformers.timetravel.api.util.CrystalHelper;
 import de.mineformers.timetravel.client.model.ModelExtractor;
 import de.mineformers.timetravel.lib.ItemIds;
-import de.mineformers.timetravel.lib.Strings;
 import de.mineformers.timetravel.lib.Textures;
 import de.mineformers.timetravel.tileentity.TileEnergyExtractor;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -50,8 +50,8 @@ public class TileEntityExtractorRenderer extends TileEntitySpecialRenderer {
     public void renderTileEntityAt(TileEntity tile, double x, double y,
             double z, float partialTick) {
         TileEnergyExtractor tileExtractor = (TileEnergyExtractor) tile;
-        if (!tileExtractor.getCrystalColor().equals("none")) {
-            stack.getTagCompound().setString(Strings.NBT_CRYSTAL_COLOR,
+        if (tileExtractor.getCrystalColor() != -1) {
+            stack.getTagCompound().setInteger(CrystalHelper.NBT_CRYSTAL_COLOR,
                     tileExtractor.getCrystalColor());
             GL11.glPushMatrix();
             float scaleFactor = 1;

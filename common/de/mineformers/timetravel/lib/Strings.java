@@ -31,8 +31,6 @@ public class Strings {
 	// Item names
 	public static final String WATCH_NAME = "pocketWatch";
 	public static final String CRYSTAL_NAME = "crystal";
-	public static final String[] CRYSTAL_QUALITIES = { "pure", "purified" };
-	public static final String[] CRYSTAL_COLORS = { "blue", "red", "gold" };
 
 	// TE names
 	public static final String TE_TIMEMACHINE_NAME = "tileEntityTimeMachine";
@@ -43,10 +41,6 @@ public class Strings {
 	public static final String NBT_TE_STATE_KEY = "teState";
 	public static final String NBT_TE_CUSTOM_NAME = "CustomName";
 	public static final String NBT_TE_DIRECTION_KEY = "teDirection";
-
-	public static final String NBT_CRYSTAL_TYPE = "Type";
-	public static final String NBT_CRYSTAL_QUALITY = "Quality";
-	public static final String NBT_CRYSTAL_COLOR = "Color";
 
 	// Container names
 	public static final String CONTAINER_EXTRACTOR = "extractor";

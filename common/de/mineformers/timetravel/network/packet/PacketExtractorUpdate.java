@@ -20,14 +20,14 @@ import net.minecraftforge.common.ForgeDirection;
 public class PacketExtractorUpdate extends PacketTileUpdate {
 
     public int energy;
-    public String storageColor;
+    public int storageColor;
 
     public PacketExtractorUpdate() {
     }
 
     public PacketExtractorUpdate(int x, int y, int z,
             ForgeDirection orientation, byte state, String customName,
-            int energy, String storageColor) {
+            int energy, int storageColor) {
         super(x, y, z, orientation, state, customName);
         this.energy = energy;
         this.storageColor = storageColor;
@@ -38,7 +38,7 @@ public class PacketExtractorUpdate extends PacketTileUpdate {
         super.write(out);
 
         out.writeInt(energy);
-        out.writeUTF(storageColor);
+        out.writeInt(storageColor);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class PacketExtractorUpdate extends PacketTileUpdate {
         super.read(in);
 
         energy = in.readInt();
-        storageColor = in.readUTF();
+        storageColor = in.readInt();
     }
 
     @Override
