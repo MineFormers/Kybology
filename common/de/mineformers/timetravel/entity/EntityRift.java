@@ -27,8 +27,8 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
 
     public EntityRift(World world) {
         super(world);
-        setSize(1.5F, 0.6F);
-        this.setRotation(45, 45);
+        setSize(3F, 3F);
+        this.boundingBox.minY -= 2;
     }
 
     @Override
@@ -93,18 +93,16 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (worldObj.isRemote) {
-            float x = rand.nextFloat();
-            float y = rand.nextFloat();
-            float z = rand.nextFloat();
-            worldObj.spawnParticle("enchantmenttable", this.posX + x, posY + y,
-                    posZ + z, 0, 0, 0);
-            x = rand.nextFloat();
-            y = rand.nextFloat();
-            z = rand.nextFloat();
-            worldObj.spawnParticle("portal", this.posX + x, posY + y, posZ + z,
-                    0, 0, 0);
-        }
+        float x = rand.nextFloat();
+        float y = rand.nextFloat();
+        float z = rand.nextFloat();
+        worldObj.spawnParticle("enchantmenttable", this.posX + x, posY + y,
+                posZ + z, 0, 0, 0);
+        x = rand.nextFloat();
+        y = rand.nextFloat();
+        z = rand.nextFloat();
+        worldObj.spawnParticle("portal", this.posX + x, posY + y, posZ + z, 0,
+                0, 0);
     }
 
     @Override
