@@ -19,11 +19,13 @@ import de.mineformers.timetravel.api.energy.IEnergyStorage;
  * @license Lesser GNU Public License v3 (http://www.gnu.org/licenses/lgpl.html)
  * 
  */
+
 public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
         IEnergyStorage, IEnergyDrawable {
     private int type;
     private int energy;
     private int maxStorage;
+    private int signature;
 
     public EntityRift(World world) {
         super(world);
@@ -36,6 +38,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
         data.writeInt(getType());
         data.writeInt(getStoredEnergy());
         data.writeInt(getMaximumEnergy());
+        data.writeInt(signature);
     }
 
     @Override
@@ -43,6 +46,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
         setType(data.readInt());
         setEnergy(data.readInt());
         setMaximumEnergy(data.readInt());
+        signature = data.readInt();
     }
 
     @Override
@@ -55,6 +59,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
         setType(compound.getInteger("type"));
         setEnergy(compound.getInteger("power"));
         setMaximumEnergy(compound.getInteger("maxStorage"));
+        setSignature(compound.getInteger("signature"));
     }
 
     @Override
@@ -62,6 +67,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
         compound.setInteger("type", getType());
         compound.setInteger("power", getStoredEnergy());
         compound.setInteger("maxStorage", getMaximumEnergy());
+        compound.setInteger("signature", signature);
     }
 
     public void setEnergy(int power) {
@@ -93,6 +99,10 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
     @Override
     public void onUpdate() {
         super.onUpdate();
+        if (!worldObj.isRemote) {
+            if (rand.nextInt(100) > 90)
+                this.addEnergy(1);
+        }
         float x = rand.nextFloat();
         float y = rand.nextFloat();
         float z = rand.nextFloat();
@@ -122,6 +132,14 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
     @Override
     public void addEnergy(int energy) {
         this.energy += energy;
+    }
+
+    public int getSignature() {
+        return signature;
+    }
+
+    public void setSignature(int signature) {
+        this.signature = signature;
     }
 
 }

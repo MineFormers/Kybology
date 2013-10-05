@@ -2,16 +2,17 @@ package de.mineformers.timetravel.item;
 
 import java.util.List;
 
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.mineformers.timetravel.api.energy.CrystalType;
 import de.mineformers.timetravel.api.util.CrystalHelper;
 import de.mineformers.timetravel.lib.Reference;
 import de.mineformers.timetravel.lib.Strings;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 /**
  * TimeTravel
@@ -32,6 +33,18 @@ public class ItemCrystal extends ItemTT {
         super(id, Strings.CRYSTAL_NAME);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
+    }
+
+    @Override
+    public ItemStack onItemRightClick(ItemStack itemStack, World par2World,
+            EntityPlayer par3EntityPlayer) {
+        if (itemStack.getTagCompound().hasKey("TransferRate")) {
+            itemStack.getTagCompound().setInteger("signature", 20);
+            return itemStack;
+        } else {
+            return itemStack;
+        }
+
     }
 
     @Override

@@ -29,6 +29,7 @@ public class GeneratorRift implements IWorldGenerator {
             rift.setType(0);
             rift.setEnergy(random.nextInt(200));
             rift.setMaximumEnergy(2000);
+            rift.setSignature(20);
             world.spawnEntityInWorld(rift);
         }
     }
