@@ -33,8 +33,4 @@ public class ModelExtractor {
         modelExtractor.renderPart("Extractor");
     }
     
-    public void renderSphere() {
-        modelExtractor.renderPart("Sphere");
-    }
-    
 }

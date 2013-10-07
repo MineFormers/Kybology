@@ -1,4 +1,5 @@
 package de.mineformers.timetravel.api.energy;
+
 /**
  * TimeTravel
  * 
@@ -9,8 +10,11 @@ package de.mineformers.timetravel.api.energy;
  * 
  */
 public interface IEnergyStorage {
-	public int getStoredEnergy();
-	public int getMaximumEnergy();
-	public void addEnergy(int energy);
-	
+    
+    public int getStoredEnergy();
+
+    public int getMaximumEnergy();
+
+    public boolean addEnergy(int energy);
+
 }

@@ -1,4 +1,5 @@
 package de.mineformers.timetravel.api.energy;
+
 /**
  * TimeTravel
  * 
@@ -10,4 +11,6 @@ package de.mineformers.timetravel.api.energy;
  */
 public interface IEnergyConsumer {
 
+    
+    
 }

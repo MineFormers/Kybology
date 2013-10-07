@@ -18,6 +18,7 @@ import de.mineformers.timetravel.client.renderer.tileentity.TileEntityExtractorR
 import de.mineformers.timetravel.client.renderer.tileentity.TileEntityTimeMachineRenderer;
 import de.mineformers.timetravel.entity.EntityRift;
 import de.mineformers.timetravel.lib.BlockIds;
+import de.mineformers.timetravel.lib.Icons;
 import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.lib.RenderIds;
 import de.mineformers.timetravel.tileentity.TileCrystalOre;
@@ -54,6 +55,7 @@ public class ClientProxy extends CommonProxy {
         RenderIds.testRender = RenderingRegistry.getNextAvailableRenderId();
 
         RenderingRegistry.registerBlockHandler(new BlockTestRenderer());
+        MinecraftForge.EVENT_BUS.register(new RenderRift());
         RenderingRegistry.registerEntityRenderingHandler(EntityRift.class,
                 new RenderRift());
 
@@ -71,10 +73,11 @@ public class ClientProxy extends CommonProxy {
     public void registerSoundHandler() {
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
     }
-    
+
     @Override
     public void registerEventHandlers() {
         super.registerEventHandlers();
+        MinecraftForge.EVENT_BUS.register(new Icons());
         MinecraftForge.EVENT_BUS.register(new GuiOverlayWatch(Minecraft
                 .getMinecraft()));
     }

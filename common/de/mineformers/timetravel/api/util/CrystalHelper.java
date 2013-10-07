@@ -18,7 +18,9 @@ public class CrystalHelper {
     public static final String NBT_CRYSTAL_QUALITY = "Quality";
     public static final String NBT_CRYSTAL_COLOR = "Color";
 
-    public static final String NBT_CRYSTAL_ENERGY = "Energy";
+    public static final String NBT_TRANSFER_SIGNATURE = "Signature";
+    public static final String NBT_TRANSFER_RATE = "TransferRate";
+    public static final String NBT_STORAGE_ENERGY = "Energy";
 
     public static final String[] CRYSTAL_COLORS = { "blue", "red", "gold" };
     public static final String[] CRYSTAL_QUALITIES = { "pure", "purified" };
@@ -31,8 +33,14 @@ public class CrystalHelper {
                 color);
         switch (type.getFunction()) {
             case STORAGE:
-                type.addData("Energy",
-                        stack.getTagCompound().getInteger(NBT_CRYSTAL_ENERGY));
+                type.addData(NBT_STORAGE_ENERGY, stack.getTagCompound()
+                        .getInteger(NBT_STORAGE_ENERGY));
+                break;
+            case TRANSFER:
+                type.addData(NBT_TRANSFER_RATE, stack.getTagCompound()
+                        .getInteger(NBT_TRANSFER_RATE));
+                type.addData(NBT_TRANSFER_SIGNATURE, stack.getTagCompound()
+                        .getInteger(NBT_TRANSFER_SIGNATURE));
                 break;
             default:
                 break;
@@ -44,14 +52,15 @@ public class CrystalHelper {
         return getType(stack).getColor();
     }
 
-    public static int getEnergyLevel(ItemStack stack) {
+    public static int getEnergyData(ItemStack stack) {
         CrystalType type = getType(stack);
         switch (type.getFunction()) {
             case NOTHING:
                 return 0;
             case STORAGE:
+                return (Integer) type.getData(NBT_STORAGE_ENERGY);
             case TRANSFER:
-                return (Integer) type.getData("Energy");
+                return (Integer) type.getData(NBT_TRANSFER_RATE);
         }
 
         return 0;
@@ -65,7 +74,7 @@ public class CrystalHelper {
             case STORAGE:
                 return 0;
             case TRANSFER:
-                return (Integer) type.getData("Signature");
+                return (Integer) type.getData(NBT_TRANSFER_SIGNATURE);
         }
 
         return 0;
@@ -102,17 +111,21 @@ public class CrystalHelper {
         switch (stack.getItemDamage()) {
             case 0: {
                 NBTTagCompound compound = stack.getTagCompound();
-                if (!compound.hasKey(NBT_CRYSTAL_ENERGY))
+                if (!compound.hasKey(NBT_STORAGE_ENERGY))
                     compound.setInteger(
-                            NBT_CRYSTAL_ENERGY,
+                            NBT_STORAGE_ENERGY,
                             getMaximumStorage(CrystalType.Color.values()[compound
                                     .getInteger(NBT_CRYSTAL_COLOR)]));
                 break;
             }
             case 1: {
                 NBTTagCompound compound = stack.getTagCompound();
-                if (!compound.hasKey(NBT_CRYSTAL_ENERGY))
-                    compound.setInteger(NBT_CRYSTAL_ENERGY, 0);
+                if (!compound.hasKey(NBT_TRANSFER_RATE))
+                    compound.setInteger(NBT_TRANSFER_RATE,
+                            getTransferRate(CrystalType.Color.values()[compound
+                                    .getInteger(NBT_CRYSTAL_COLOR)]));
+                if (!compound.hasKey(NBT_TRANSFER_SIGNATURE))
+                    compound.setInteger(NBT_TRANSFER_SIGNATURE, 20);
                 break;
             }
             case 2:

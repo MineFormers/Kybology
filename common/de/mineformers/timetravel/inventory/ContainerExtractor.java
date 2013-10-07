@@ -1,5 +1,6 @@
 package de.mineformers.timetravel.inventory;
 
+import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.lib.ItemIds;
 import de.mineformers.timetravel.tileentity.TileEnergyExtractor;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,11 +20,13 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerExtractor extends Container {
 
+    private TileEnergyExtractor tile;
     private final int PLAYER_INVENTORY_ROWS = 3;
     private final int PLAYER_INVENTORY_COLUMNS = 9;
 
     public ContainerExtractor(InventoryPlayer inventoryPlayer,
             TileEnergyExtractor tile) {
+        this.tile = tile;
         this.addSlotToContainer(new Slot(tile,
                 TileEnergyExtractor.SLOT_STORAGE, 44, 74) {
             @Override
@@ -121,6 +124,12 @@ public class ContainerExtractor extends Container {
         }
 
         return itemStack;
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
+        NetworkHelper.sendTilePacket(tile);
     }
 
 }

@@ -36,15 +36,9 @@ public class ItemCrystal extends ItemTT {
     }
 
     @Override
-    public ItemStack onItemRightClick(ItemStack itemStack, World par2World,
-            EntityPlayer par3EntityPlayer) {
-        if (itemStack.getTagCompound().hasKey("TransferRate")) {
-            itemStack.getTagCompound().setInteger("signature", 20);
-            return itemStack;
-        } else {
-            return itemStack;
-        }
-
+    public ItemStack onItemRightClick(ItemStack itemStack, World world,
+            EntityPlayer player) {
+        return itemStack;
     }
 
     @Override

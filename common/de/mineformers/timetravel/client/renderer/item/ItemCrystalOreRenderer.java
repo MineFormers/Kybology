@@ -1,12 +1,13 @@
 package de.mineformers.timetravel.client.renderer.item;
 
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.IItemRenderer;
+
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import de.mineformers.timetravel.client.model.ModelCrystals;
 import de.mineformers.timetravel.lib.Textures;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.IItemRenderer;
 
 /**
  * TimeTravel

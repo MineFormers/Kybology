@@ -2,21 +2,22 @@ package de.mineformers.timetravel.tileentity;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.INetworkManager;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.Packet132TileEntityData;
+import net.minecraft.util.AxisAlignedBB;
 import de.mineformers.timetravel.api.energy.IEnergyStorage;
 import de.mineformers.timetravel.api.util.CrystalHelper;
 import de.mineformers.timetravel.core.util.NetworkHelper;
 import de.mineformers.timetravel.entity.EntityRift;
 import de.mineformers.timetravel.lib.ItemIds;
+import de.mineformers.timetravel.lib.ParticleIds;
 import de.mineformers.timetravel.lib.Strings;
-import de.mineformers.timetravel.network.packet.PacketExtractorUpdate;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.util.AxisAlignedBB;
+import de.mineformers.timetravel.network.packet.PacketSpawnParticle;
 
 /**
  * TimeTravel
@@ -43,6 +44,42 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
 
     public TileEnergyExtractor() {
         inventory = new ItemStack[INVENTORY_SIZE];
+    }
+
+    @Override
+    public void updateEntity() {
+        if (!this.worldObj.isRemote) {
+            if (this.getMaximumEnergy() == this.getStoredEnergy())
+                return;
+            if (this.inventory[SLOT_INPUT] != null) {
+                @SuppressWarnings("unchecked")
+                List<EntityRift> riftList = worldObj.getEntitiesWithinAABB(
+                        EntityRift.class, AxisAlignedBB.getBoundingBox(
+                                xCoord - 25, yCoord - 25, zCoord - 25,
+                                xCoord + 25, yCoord + 25, zCoord + 25));
+                for (EntityRift temp : riftList) {
+                    if (this.getStoredEnergy() != this.getMaximumEnergy()) {
+                        if (temp.getSignature() == CrystalHelper
+                                .getSignature(inventory[SLOT_INPUT])) {
+                            if (this.addEnergy(temp.drawEnergy(CrystalHelper
+                                    .getEnergyData(inventory[SLOT_INPUT])))) {
+                                double startX = temp.posX;
+                                double startY = temp.posY;
+                                double startZ = temp.posZ;
+                                double destX = xCoord + 0.5D;
+                                double destY = yCoord + 1.1D;
+                                double destZ = zCoord + 0.5D;
+                                PacketSpawnParticle pkt = new PacketSpawnParticle(
+                                        ParticleIds.ENERGY_TRAIL, startX,
+                                        startY, startZ, destX, destY, destZ);
+                                NetworkHelper.sendToAllAround(worldObj, xCoord,
+                                        yCoord, zCoord, pkt.makePacket());
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -99,10 +136,10 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
     /**
      * Writes a tile entity to NBT.
      */
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
-        super.writeToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setInteger("energy", this.energy);
-        par1NBTTagCompound.setInteger("maxEnergy", this.maxEnergy);
+    public void writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setInteger("energy", this.energy);
+        compound.setInteger("maxEnergy", this.maxEnergy);
 
         NBTTagList nbttaglist = new NBTTagList();
 
@@ -115,7 +152,7 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
             }
         }
 
-        par1NBTTagCompound.setTag("Items", nbttaglist);
+        compound.setTag("Items", nbttaglist);
 
     }
 
@@ -125,25 +162,33 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
     }
 
     @Override
-    public void addEnergy(int energy) {
+    public boolean addEnergy(int energy) {
+        boolean result = false;
         if (this.inventory[SLOT_STORAGE] != null) {
             if (this.getStoredEnergy() + energy >= this.getMaximumEnergy()) {
                 this.energy = this.getMaximumEnergy();
             } else {
                 this.energy += energy;
+                result = energy > 0;
             }
         }
         if (!worldObj.isRemote)
             NetworkHelper.sendTilePacket(this);
+        return result;
+    }
+
+    @Override
+    public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
+        this.readFromNBT(pkt.data);
     }
 
     @Override
     public Packet getDescriptionPacket() {
-        int color = (getStackInSlot(SLOT_STORAGE) != null) ? CrystalHelper
-                .getType(getStackInSlot(SLOT_STORAGE)).getColor().ordinal()
-                : -1;
-        return new PacketExtractorUpdate(xCoord, yCoord, zCoord, orientation,
-                state, customName, energy, color).makePacket();
+        NBTTagCompound compound = new NBTTagCompound();
+        this.writeToNBT(compound);
+        Packet132TileEntityData packet = new Packet132TileEntityData(xCoord,
+                yCoord, zCoord, 0, compound);
+        return packet;
     }
 
     // Inventory stuff
@@ -209,46 +254,6 @@ public class TileEnergyExtractor extends TileTT implements IEnergyStorage,
     @Override
     public boolean isItemValidForSlot(int i, ItemStack itemstack) {
         return true;
-    }
-
-    @Override
-    public void updateEntity() {
-        if (!this.worldObj.isRemote) {
-            if (this.getMaximumEnergy() == this.getStoredEnergy())
-                return;
-
-            if (this.inventory[SLOT_INPUT] != null) {
-                @SuppressWarnings("unchecked")
-                List<EntityRift> riftList = worldObj.getEntitiesWithinAABB(
-                        EntityRift.class, AxisAlignedBB.getBoundingBox(
-                                xCoord - 25, yCoord - 25, zCoord - 25,
-                                xCoord + 25, yCoord + 25, zCoord + 25));
-                for (EntityRift temp : riftList) {
-                    if (this.getStoredEnergy() != this.getMaximumEnergy()) {
-                        // if(temp.getSignature().compareSignature(Signature.createFromNBT(this.inventory[SLOT_INPUT].getTagCompound())))
-                        // {
-                        if (temp.getSignature() == (this.inventory[SLOT_INPUT]
-                                .getTagCompound().getInteger("signature"))) {
-
-                            this.addEnergy(temp.drawEnergy(5));
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    private int crystalColor;
-
-    @SideOnly(Side.CLIENT)
-    public void setCrystalColor(int color) {
-        this.crystalColor = color;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public int getCrystalColor() {
-        return crystalColor;
     }
 
 }
