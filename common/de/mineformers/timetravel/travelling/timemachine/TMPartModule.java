@@ -80,9 +80,9 @@ public class TMPartModule extends TimeMachinePart {
     @Override
     public void invalidateMultiblock() {
         if (!this.getWorld().isRemote) {
-            int xCoord = (int) this.getPos().xCoord;
-            int yCoord = (int) this.getPos().yCoord;
-            int zCoord = (int) this.getPos().zCoord;
+            int xCoord = (int) this.getPos().x;
+            int yCoord = (int) this.getPos().y;
+            int zCoord = (int) this.getPos().z;
             for (int xOff = -1; xOff <= 1; xOff++) {
                 for (int zOff = -1; zOff <= 1; zOff++) {
                     if (this.getWorld().getBlockTileEntity(xCoord + xOff,
@@ -107,8 +107,8 @@ public class TMPartModule extends TimeMachinePart {
 
     @Override
     public PacketTimeMachineUpdate getPacket() {
-        return new PacketTMModuleUpdate((int) this.getPos().xCoord,
-                (int) this.getPos().yCoord, (int) this.getPos().zCoord,
+        return new PacketTMModuleUpdate((int) this.getPos().x,
+                (int) this.getPos().y, (int) this.getPos().z,
                 ForgeDirection.SOUTH, (byte) 0, null, this.isValidMultiblock(),
                 this.getTypeMeta(), type.ordinal());
     }

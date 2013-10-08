@@ -36,9 +36,9 @@ public class TeleporterTime extends Teleporter {
 		PlayerPropertiesTT props = PlayerPropertiesTT.getByEntity(player);
 
 		if (props.getTmDimension() == world.provider.dimensionId) {
-			x = props.getTmCoordinates().xCoord + 0.5F;
-			y = props.getTmCoordinates().yCoord + 0.5F;
-			z = props.getTmCoordinates().zCoord + 0.5F;
+			x = props.getTmCoordinates().x + 0.5F;
+			y = props.getTmCoordinates().y + 0.5F;
+			z = props.getTmCoordinates().z + 0.5F;
 		}
 
 		while (world.getBlockId((int) x, (int) y, (int) z) != 0

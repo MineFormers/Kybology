@@ -12,7 +12,8 @@ import com.google.common.io.ByteArrayDataOutput;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import de.mineformers.timetravel.api.energy.IEnergyDrawable;
 import de.mineformers.timetravel.api.energy.IEnergyStorage;
-import de.mineformers.timetravel.client.entity.ModParticles;
+import de.mineformers.timetravel.client.particle.ModParticles;
+import de.mineformers.timetravel.core.util.Vector3;
 
 /**
  * TimeTravel
@@ -71,7 +72,7 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
             this.addEnergy(10);
             player.sendChatToPlayer(ChatMessageComponent.createFromText(Integer
                     .toString(getStoredEnergy())));
-            
+
             return true;
         }
         return false;
@@ -139,7 +140,8 @@ public class EntityRift extends Entity implements IEntityAdditionalSpawnData,
                 worldObj.spawnParticle("portal", this.posX + x, posY + y, posZ
                         + z, 0, 0, 0);
                 ModParticles.ENERGY_TRAIL.spawnParticles(worldObj, posX + 1,
-                        posY + 2, posZ + 1, 0, 0, 0);
+                        posY + 2, posZ + 1, new Vector3(posX + 20, posY + 20,
+                                posZ + 20));
             }
         }
     }

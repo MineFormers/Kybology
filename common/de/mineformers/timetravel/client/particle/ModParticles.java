@@ -1,10 +1,11 @@
-package de.mineformers.timetravel.client.entity;
-
-import java.lang.reflect.Constructor;
+package de.mineformers.timetravel.client.particle;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.World;
 import cpw.mods.fml.client.FMLClientHandler;
+import de.mineformers.timetravel.client.particle.updater.UpdaterEnergyTrail;
+import de.mineformers.timetravel.core.util.Vector3;
+import de.mineformers.timetravel.lib.Icons;
 
 /**
  * TimeTravel
@@ -17,16 +18,24 @@ import cpw.mods.fml.client.FMLClientHandler;
  */
 public enum ModParticles {
 
-    ENERGY_TRAIL(EntityEnergyTrailFX.class);
+    ENERGY_TRAIL() {
+        @Override
+        public ParticleFX constructParticle(World world, double x, double y,
+                double z, Object... params) {
+            ParticleFX particle = new ParticleFX(world, x, y, z,
+                    new UpdaterEnergyTrail((Vector3) params[0]), 40,
+                    Icons.particleEnergyTrail);
 
-    private Class<? extends EntityTimeTravelFX> particleClass;
+            particle.noClip = true;
+            particle.setScale(0.5F);
+            particle.setColor(0xFF0000);
 
-    private ModParticles(Class<? extends EntityTimeTravelFX> particleClass) {
-        this.particleClass = particleClass;
-    }
+            return particle;
+        }
+    };
 
     public void spawnParticles(World world, double x, double y, double z,
-            double motionX, double motionY, double motionZ) {
+            Object... params) {
         Minecraft mc = FMLClientHandler.instance().getClient();
 
         if (mc != null && mc.renderViewEntity != null
@@ -48,27 +57,19 @@ public enum ModParticles {
             if (distanceSquared > maxDistance)
                 return;
 
-            if (!EntityTimeTravelFX.class.isAssignableFrom(particleClass))
-                return;
-
             try {
-                Constructor<? extends EntityTimeTravelFX> constructor = particleClass
-                        .getConstructor(World.class, Double.TYPE, Double.TYPE,
-                                Double.TYPE, Double.TYPE, Double.TYPE,
-                                Double.TYPE);
-
-                EntityTimeTravelFX entity = constructor.newInstance(world, x,
-                        y, z, motionX, motionY, motionZ);
-                mc.effectRenderer.addEffect(entity);
-            } catch (Throwable e) {
+                FMLClientHandler.instance().getClient().effectRenderer
+                        .addEffect(this.constructParticle(world, x, y, z,
+                                params));
+            } catch (ClassCastException e) {
                 throw new RuntimeException(
-                        "Reflection exception during particle construction", e);
+                        "Error during particle construction: Wrong argument passed",
+                        e);
             }
         }
     }
 
-    public Class<? extends EntityTimeTravelFX> getParticleClass() {
-        return particleClass;
-    }
+    public abstract ParticleFX constructParticle(World world, double x,
+            double y, double z, Object... params);
 
 }

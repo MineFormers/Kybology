@@ -14,9 +14,10 @@ import de.mineformers.timetravel.core.util.ResourceHelper;
  */
 public class Textures {
 
-    // Base file paths
+    // Base file path
     public static final String MODEL_SHEET_LOCATION = "textures/models/";
-    public static final String GUI_LOCATION = "textures/guis/";
+    public static final String GUI_SHEET_LOCATION = "textures/guis/";
+    public static final String PARTICLE_SHEET_LOCATION = "textures/particles/";
 
     // Model textures
     public static final ResourceLocation MODEL_TIMEMACHINE = ResourceHelper
@@ -42,11 +43,14 @@ public class Textures {
 
     // GUI textures
     public static final ResourceLocation GUI_TIMEMACHINE = ResourceHelper
-            .getResourceLocation(GUI_LOCATION + "timeMachine.png");
+            .getResourceLocation(GUI_SHEET_LOCATION + "timeMachine.png");
 
     public static final ResourceLocation GUI_WIDGETS = ResourceHelper
-            .getResourceLocation(GUI_LOCATION + "widgets.png");
+            .getResourceLocation(GUI_SHEET_LOCATION + "widgets.png");
     public static final ResourceLocation GUI_OVERLAY = ResourceHelper
-            .getResourceLocation(GUI_LOCATION + "overlay.png");
+            .getResourceLocation(GUI_SHEET_LOCATION + "overlay.png");
+
+    public static final ResourceLocation PARTICLE_ENERGY = ResourceHelper
+            .getResourceLocation(PARTICLE_SHEET_LOCATION + "energyTrail.png");
 
 }

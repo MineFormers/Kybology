@@ -423,8 +423,8 @@ public class BlockTimeMachine extends BlockTT {
 			if (tile.getTypeMeta() == TimeMachinePart.TYPE_PANEL) {
 				TMPartPanel panel = (TMPartPanel) tile.getPart();
 				if (panel.getCountdown() == 0) {
-					x = (int) panel.getBasePosition().xCoord;
-					z = (int) panel.getBasePosition().zCoord;
+					x = (int) panel.getBasePosition().x;
+					z = (int) panel.getBasePosition().z;
 					for (int i = 0; i <= 10; i++) {
 						double xMod = (double) ((float) x + 0.5F + random
 						        .nextFloat()

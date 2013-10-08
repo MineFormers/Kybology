@@ -3,9 +3,9 @@ package de.mineformers.timetravel.entity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IExtendedEntityProperties;
+import de.mineformers.timetravel.core.util.Vector3;
 
 /**
  * TimeTravel
@@ -18,85 +18,85 @@ import net.minecraftforge.common.IExtendedEntityProperties;
  */
 public class PlayerPropertiesTT implements IExtendedEntityProperties {
 
-	public static final String IDENTIFIER = "TimeTravelProperties";
+    public static final String IDENTIFIER = "TimeTravelProperties";
 
-	private long timeStarted;
-	private int secondsAvail;
-	private int secondsLeft;
-	private int tmDimension;
-	private Vec3 tmCoordinates;
+    private long timeStarted;
+    private int secondsAvail;
+    private int secondsLeft;
+    private int tmDimension;
+    private Vector3 tmCoordinates;
 
-	public PlayerPropertiesTT() {
-		setTmData(0, 0, 0, 0);
-	}
+    public PlayerPropertiesTT() {
+        setTmData(0, 0, 0, 0);
+    }
 
-	@Override
-	public void saveNBTData(NBTTagCompound compound) {
-		compound.setLong("TimeStarted", timeStarted);
-		compound.setInteger("SecondsAvail", secondsAvail);
-		compound.setInteger("SecondsLeft", secondsLeft);
-		compound.setIntArray("TMData", new int[] { tmDimension,
-		        (int) tmCoordinates.xCoord, (int) tmCoordinates.yCoord,
-		        (int) tmCoordinates.zCoord });
-	}
+    @Override
+    public void saveNBTData(NBTTagCompound compound) {
+        compound.setLong("TimeStarted", timeStarted);
+        compound.setInteger("SecondsAvail", secondsAvail);
+        compound.setInteger("SecondsLeft", secondsLeft);
+        compound.setIntArray("TMData", new int[] { tmDimension,
+                (int) tmCoordinates.x, (int) tmCoordinates.y,
+                (int) tmCoordinates.z });
+    }
 
-	@Override
-	public void loadNBTData(NBTTagCompound compound) {
-		timeStarted = compound.getLong("TimeStarted");
-		secondsAvail = compound.getInteger("SecondsAvail");
-		secondsLeft = compound.getInteger("SecondsLeft");
+    @Override
+    public void loadNBTData(NBTTagCompound compound) {
+        timeStarted = compound.getLong("TimeStarted");
+        secondsAvail = compound.getInteger("SecondsAvail");
+        secondsLeft = compound.getInteger("SecondsLeft");
 
-		int[] data = compound.getIntArray("TMData");
-		setTmData(data[0], data[1], data[2], data[3]);
-	}
+        int[] data = compound.getIntArray("TMData");
+        setTmData(data[0], data[1], data[2], data[3]);
+    }
 
-	@Override
-	public void init(Entity entity, World world) {
-	}
+    @Override
+    public void init(Entity entity, World world) {
+    }
 
-	public long getTimeStarted() {
-		return timeStarted;
-	}
+    public long getTimeStarted() {
+        return timeStarted;
+    }
 
-	public void setTimeStarted(long timeStarted) {
-		this.timeStarted = timeStarted;
-	}
+    public void setTimeStarted(long timeStarted) {
+        this.timeStarted = timeStarted;
+    }
 
-	public int getSecondsAvail() {
-		return secondsAvail;
-	}
+    public int getSecondsAvail() {
+        return secondsAvail;
+    }
 
-	public void setSecondsAvail(int secondsAvail) {
-		this.secondsAvail = secondsAvail;
-	}
+    public void setSecondsAvail(int secondsAvail) {
+        this.secondsAvail = secondsAvail;
+    }
 
-	public int getSecondsLeft() {
-		return secondsLeft;
-	}
+    public int getSecondsLeft() {
+        return secondsLeft;
+    }
 
-	public void setSecondsLeft(int secondsLeft) {
-		this.secondsLeft = secondsLeft;
-	}
+    public void setSecondsLeft(int secondsLeft) {
+        this.secondsLeft = secondsLeft;
+    }
 
-	public Vec3 getTmCoordinates() {
-		return tmCoordinates;
-	}
+    public Vector3 getTmCoordinates() {
+        return tmCoordinates;
+    }
 
-	public int getTmDimension() {
-		return tmDimension;
-	}
+    public int getTmDimension() {
+        return tmDimension;
+    }
 
-	public void setTmData(int dim, int x, int y, int z) {
-		this.tmDimension = dim;
-		this.tmCoordinates = Vec3.createVectorHelper(x, y, z);
-	}
+    public void setTmData(int dim, int x, int y, int z) {
+        this.tmDimension = dim;
+        this.tmCoordinates = new Vector3(x, y, z);
+    }
 
-	public static PlayerPropertiesTT getByEntity(EntityPlayer player) {
-		if (player.getExtendedProperties(IDENTIFIER) == null)
-			player.registerExtendedProperties(IDENTIFIER,
-			        new PlayerPropertiesTT());
+    public static PlayerPropertiesTT getByEntity(EntityPlayer player) {
+        if (player.getExtendedProperties(IDENTIFIER) == null)
+            player.registerExtendedProperties(IDENTIFIER,
+                    new PlayerPropertiesTT());
 
-		return (PlayerPropertiesTT) player.getExtendedProperties(IDENTIFIER);
-	}
+        return (PlayerPropertiesTT) player.getExtendedProperties(IDENTIFIER);
+    }
 
 }

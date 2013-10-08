@@ -6,7 +6,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.mineformers.timetravel.client.entity.ModParticles;
+import de.mineformers.timetravel.client.particle.ModParticles;
+import de.mineformers.timetravel.core.util.Vector3;
 import de.mineformers.timetravel.lib.RenderIds;
 import de.mineformers.timetravel.lib.Strings;
 
@@ -51,8 +52,8 @@ public class BlockTest extends BlockTT {
             final int y, final int z, EntityPlayer par5EntityPlayer, int par6,
             float par7, float par8, float par9) {
         if (world.isRemote) {
-            
-            ModParticles.ENERGY_TRAIL.spawnParticles(world, x, y, z, 0, 0, 0);
+            ModParticles.ENERGY_TRAIL.spawnParticles(world, x, y, z,
+                    new Vector3(x + 20, y + 20, z + 20));
         }
 
         return true;

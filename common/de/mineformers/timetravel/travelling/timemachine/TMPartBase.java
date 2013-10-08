@@ -21,9 +21,9 @@ public class TMPartBase extends TimeMachinePart {
 
 	public void validateMultiblock() {
 		if (!this.getWorld().isRemote) {
-			int x = (int) this.getPos().xCoord;
-			int y = (int) this.getPos().yCoord;
-			int z = (int) this.getPos().zCoord;
+			int x = (int) this.getPos().x;
+			int y = (int) this.getPos().y;
+			int z = (int) this.getPos().z;
 			int foundStairs = 0;
 			int foundPillars = 0;
 			int foundPanels = 0;
@@ -79,9 +79,9 @@ public class TMPartBase extends TimeMachinePart {
 	@Override
 	public void invalidateMultiblock() {
 		if (!this.getWorld().isRemote) {
-			int x = (int) this.getPos().xCoord;
-			int y = (int) this.getPos().yCoord;
-			int z = (int) this.getPos().zCoord;
+			int x = (int) this.getPos().x;
+			int y = (int) this.getPos().y;
+			int z = (int) this.getPos().z;
 			for (int xOff = -1; xOff <= 1; xOff++) {
 				for (int zOff = -1; zOff <= 1; zOff++) {
 					if (this.getWorld().getBlockTileEntity(x + xOff, y,

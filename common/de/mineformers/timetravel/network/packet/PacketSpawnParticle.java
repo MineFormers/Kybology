@@ -7,7 +7,8 @@ import com.google.common.io.ByteArrayDataOutput;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
-import de.mineformers.timetravel.client.entity.ModParticles;
+import de.mineformers.timetravel.client.particle.ModParticles;
+import de.mineformers.timetravel.core.util.Vector3;
 
 /**
  * TimeTravel
@@ -64,8 +65,8 @@ public class PacketSpawnParticle extends BasePacket {
     public void execute(EntityPlayer player, Side side) {
         if (side.isClient()) {
             ModParticles.values()[id].spawnParticles(FMLClientHandler
-                    .instance().getClient().theWorld, x, y, z, motionX,
-                    motionY, motionZ);
+                    .instance().getClient().theWorld, x, y, z, new Vector3(
+                    motionX, motionY, motionZ));
         }
     }
 

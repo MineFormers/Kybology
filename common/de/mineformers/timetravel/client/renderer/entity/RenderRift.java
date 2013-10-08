@@ -3,21 +3,19 @@ package de.mineformers.timetravel.client.renderer.entity;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ActiveRenderInfo;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vec3;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.client.FMLClientHandler;
-import de.mineformers.timetravel.client.util.QuadHelper;
+import de.mineformers.timetravel.client.util.UtilsFX;
 import de.mineformers.timetravel.core.util.ResourceHelper;
 import de.mineformers.timetravel.entity.EntityRift;
 
@@ -37,25 +35,10 @@ public class RenderRift extends Render {
             ResourceHelper
                     .getResourceLocation("textures/models/rift_vortex.png") };
 
-    @ForgeSubscribe
+    @ForgeSubscribe(priority = EventPriority.LOWEST)
     public void renderWorldLast(RenderWorldLastEvent event) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        int renderDistance = Minecraft.getMinecraft().gameSettings.renderDistance;
-        int renderRadius = 0;
-        switch (renderDistance) {
-            case 0:
-                renderRadius = 256;
-                break;
-            case 1:
-                renderRadius = 128;
-                break;
-            case 2:
-                renderRadius = 64;
-                break;
-            case 3:
-                renderRadius = 32;
-                break;
-        }
+        int renderRadius = (int) Math.sqrt(UtilsFX.getRenderRadius());
 
         Minecraft mc = FMLClientHandler.instance().getClient();
 
@@ -130,7 +113,7 @@ public class RenderRift extends Render {
         long time = Minecraft.getMinecraft().theWorld.getWorldTime();
         float rad = 6.283186F;
         float rotationAngle = (float) (time % 200L) / -200.0F * rad;
-        renderFacingQuad(x, y + 0.5F, z, rotationAngle, scale * 0.75F,
+        UtilsFX.renderFacingQuad(x, y + 0.5F, z, rotationAngle, scale * 0.75F,
                 partialTicks);
 
         GL11.glPopMatrix();
@@ -140,7 +123,7 @@ public class RenderRift extends Render {
             float scale) {
         GL11.glPushMatrix();
 
-        renderFacingQuad(x, y + 0.5F, z, 0, scale, partialTicks);
+        UtilsFX.renderFacingQuad(x, y + 0.5F, z, 0, scale, partialTicks);
 
         GL11.glPopMatrix();
     }
@@ -152,58 +135,4 @@ public class RenderRift extends Render {
         return textures[0];
     }
 
-    private void renderFacingQuad(double px, double py, double pz, float angle,
-            float scale, float partialTicks) {
-
-        if ((Minecraft.getMinecraft().renderViewEntity instanceof EntityPlayer)) {
-            Tessellator tessellator = Tessellator.instance;
-            float arX = ActiveRenderInfo.rotationX;
-            float arZ = ActiveRenderInfo.rotationZ;
-            float arYZ = ActiveRenderInfo.rotationYZ;
-            float arXY = ActiveRenderInfo.rotationXY;
-            float arXZ = ActiveRenderInfo.rotationXZ;
-
-            EntityPlayer player = (EntityPlayer) Minecraft.getMinecraft().renderViewEntity;
-            double iPX = player.prevPosX + (player.posX - player.prevPosX)
-                    * partialTicks;
-            double iPY = player.prevPosY + (player.posY - player.prevPosY)
-                    * partialTicks;
-            double iPZ = player.prevPosZ + (player.posZ - player.prevPosZ)
-                    * partialTicks;
-
-            GL11.glTranslated(-iPX, -iPY, -iPZ);
-
-            tessellator.startDrawingQuads();
-
-            Vec3 v1 = Vec3.createVectorHelper(-arX * scale - arYZ * scale,
-                    -arXZ * scale, -arZ * scale - arXY * scale);
-            Vec3 v2 = Vec3.createVectorHelper(-arX * scale + arYZ * scale, arXZ
-                    * scale, -arZ * scale + arXY * scale);
-            Vec3 v3 = Vec3.createVectorHelper(arX * scale + arYZ * scale, arXZ
-                    * scale, arZ * scale + arXY * scale);
-            Vec3 v4 = Vec3.createVectorHelper(arX * scale - arYZ * scale, -arXZ
-                    * scale, arZ * scale - arXY * scale);
-
-            if (angle != 0.0F) {
-                Vec3 pvec = Vec3.createVectorHelper(iPX, iPY, iPZ);
-                Vec3 tvec = Vec3.createVectorHelper(px, py, pz);
-                Vec3 qvec = pvec.subtract(tvec).normalize();
-                QuadHelper.setAxis(qvec, angle).rotate(v1);
-                QuadHelper.setAxis(qvec, angle).rotate(v2);
-                QuadHelper.setAxis(qvec, angle).rotate(v3);
-                QuadHelper.setAxis(qvec, angle).rotate(v4);
-            }
-
-            tessellator.addVertexWithUV(px + v1.xCoord, py + v1.yCoord, pz
-                    + v1.zCoord, 0.0D, 1.0D);
-            tessellator.addVertexWithUV(px + v2.xCoord, py + v2.yCoord, pz
-                    + v2.zCoord, 1.0D, 1.0D);
-            tessellator.addVertexWithUV(px + v3.xCoord, py + v3.yCoord, pz
-                    + v3.zCoord, 1.0D, 0.0D);
-            tessellator.addVertexWithUV(px + v4.xCoord, py + v4.yCoord, pz
-                    + v4.zCoord, 0.0D, 0.0D);
-
-            tessellator.draw();
-        }
-    }
 }
