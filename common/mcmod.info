@@ -1,20 +1,44 @@
 [
-{
-  "modid": "TimeTravel",
-  "name": "TimeTravel",
-  "description": "Travel in time and space!",
-  "version": "@VERSION@",
-  "url": "",
-  "updateUrl": "",
-  "authorList": [
-    "PaleoCrafter"
-  ],
-  "credits": "By PaleoCrafter, Weneg",
-  "logoFile": "/assets/timetravel/textures/logo/logo.png",
-  "screenshots": [
-  ],
-  "parent":"",
-  "dependencies": [
-  ]
-}
+   {
+      "modid":"Kybology|Core",
+      "name":"Kybology Core",
+      "description":"The core functionality of Kybology",
+      "version":"@VERSION@",
+      "url":"",
+      "updateUrl":"",
+      "authorList":[
+         "PaleoCrafter",
+         "Weneg"
+      ],
+      "credits":"By PaleoCrafter, Weneg",
+      "logoFile":"/assets/timetravel/textures/logo/logo.png",
+      "screenshots":[
+
+      ],
+      "parent":"",
+      "dependencies":[
+         "mod_MinecraftForge"
+      ]
+   },
+   {
+      "modid":"Kybology|TimeTravel",
+      "name":"Kybology Time Travelling",
+      "description":"Travel in time and space",
+      "version":"@VERSION@",
+      "url":"",
+      "updateUrl":"",
+      "authorList":[
+         "PaleoCrafter",
+         "Weneg"
+      ],
+      "credits":"By PaleoCrafter, Weneg",
+      "logoFile":"/assets/timetravel/textures/logo/logo.png",
+      "screenshots":[
+
+      ],
+      "parent":"Kybology|Core",
+      "dependencies":[
+         "mod_MinecraftForge"
+      ]
+   }
 ]
