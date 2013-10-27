@@ -1,9 +1,12 @@
 package de.mineformers.kybology.core.client.particle;
 
+import java.lang.reflect.Field;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.EffectRenderer;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import de.mineformers.kybology.core.client.particle.updater.IParticleUpdater;
 import de.mineformers.kybology.core.util.Vector3;
@@ -63,8 +66,17 @@ public class ParticleFX extends EntityFX {
         updater.render(tessellator, partialTicks, arX, arXZ, arZ, arYZ, arXY,
                 this);
 
-        Minecraft.getMinecraft().renderEngine
-                .bindTexture(EffectRenderer.particleTextures);
+        try {
+            Field particleTextures = EffectRenderer.class
+                    .getField("particleTextures");
+            particleTextures.setAccessible(true);
+
+            Minecraft.getMinecraft().renderEngine
+                    .bindTexture((ResourceLocation) particleTextures.get(null));
+        } catch (Exception e) {
+            throw new RuntimeException("Error during particle texturing!", e);
+        }
+
         tessellator.startDrawingQuads();
     }
 
