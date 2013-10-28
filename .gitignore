@@ -1,6 +1,17 @@
-/bin
+# gradle stuff
+build
+.gradle
+
+# eclipse stuff
 .classpath
 .project
-private.properties
-environment.properties
-/eclipse
+.settings
+bin
+
+# GMCP plugin stuff
+minecraft
+
+# intellij stuff
+.idea
+out
+*.iml

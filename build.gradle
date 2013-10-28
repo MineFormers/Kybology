@@ -1,0 +1,71 @@
+import com.github.abrarsyed.gmcp.GMCP
+// this is required for adding obfuscated jar classes.
+
+buildscript {
+	repositories { mavenCentral() }
+	dependencies { classpath 'com.github.abrarsyed.gmcp:GMCP:0.8.+' }
+}
+
+// these 3 plugins are added automatically by GMCP
+//apply plugin: "java"
+//apply plugin: "eclipse"
+//apply plugin: "idea"
+apply plugin: "gmcp"
+
+group = 'de.mineformers.kybology'
+version = "0.0.1"
+archivesBaseName = 'Kybology'
+
+logger.lifecycle ""+version
+
+minecraft { minecraftVersion = "1.6.4" }
+
+// add some stff to the version
+version = "${minecraft.minecraftVersion}-$version.${System.getenv().BUILD_NUMBER}"
+
+processResources
+{
+	// replace stuff in text files, not binary ones.
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.lang'
+        include '**/*.info'
+		
+		// replace version and MCVersion
+		// forge version is also accessible via project.minecraftforgeVersion
+		// it contains the full minecraft version, including buildNumber
+        expand 'version':project.version, 'mcversion':project.minecraft.minecraftVersion
+    }
+	
+	// copy everything else, thats not text
+    from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.lang'
+        exclude '**/*.info'
+    }
+}
+
+repositories { mavenCentral() }
+
+jar { appendix = 'universal'}
+
+task sourceJar(type: Jar) {
+	from sourceSets.main.allSource
+	appendix = 'src'
+}
+
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//	appendix = 'javadoc-'+project.minecraft.minecraftVersion
+//	from 'build/docs/javadoc'
+//}
+
+// because the normal default jar task has been modified to be obfuscated
+task deobfJar(type: Jar) {
+	from sourceSets.main.output
+	appendix = 'deobf'
+}
+
+artifacts {
+	archives sourceJar
+	archives deobfJar
+	//archives javadocJar
+	//archives obfJar
+}
