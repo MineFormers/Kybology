@@ -3,7 +3,8 @@
       "modid":"Kybology|Core",
       "name":"Kybology Core",
       "description":"The core functionality of Kybology",
-      "version":"@VERSION@",
+      "version":"${version}",
+	  "mcversion": "${mcversion}",
       "url":"",
       "updateUrl":"",
       "authorList":[
@@ -24,7 +25,8 @@
       "modid":"Kybology|TimeTravel",
       "name":"Kybology Time Travelling",
       "description":"Travel in time and space",
-      "version":"@VERSION@",
+      "version":"${version}",
+	  "mcversion": "${mcversion}",
       "url":"",
       "updateUrl":"",
       "authorList":[

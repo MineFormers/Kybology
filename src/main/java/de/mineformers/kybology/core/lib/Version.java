@@ -11,7 +11,7 @@ package de.mineformers.kybology.core.lib;
  */
 public class Version {
 
-    public static final String VERSION = "@VERSION@";
+    public static final String VERSION = "${version}";
     public static final String BUILD_NUMBER = "@BUILD_NUMBER@";
 
 }

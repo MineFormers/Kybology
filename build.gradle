@@ -1,4 +1,4 @@
-//import com.github.abrarsyed.gmcp.GMCP
+import com.github.abrarsyed.gmcp.GMCP
 // this is required for adding obfuscated jar classes.
 
 buildscript {
