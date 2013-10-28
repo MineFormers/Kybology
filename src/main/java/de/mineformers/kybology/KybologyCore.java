@@ -49,7 +49,7 @@ public class KybologyCore {
     public static final String MOD_NAME = "Kybology Core";
     public static final String CHANNEL_NAME = Reference.MOD_GROUP;
     public static final String RESOURCE_PATH = "core" + File.separator;
-    public static final String DEPENDENCIES = "required-after:Forge@[9.10.0.871,)";
+    public static final String DEPENDENCIES = "required-after:Forge@[9.11.1.935,)";
     public static final String SERVER_PROXY_CLASS = "de.mineformers.kybology.core.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "de.mineformers.kybology.core.proxy.ClientProxy";
 

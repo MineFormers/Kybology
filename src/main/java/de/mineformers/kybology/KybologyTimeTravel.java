@@ -65,7 +65,7 @@ public class KybologyTimeTravel {
     public static final String MOD_ID_RAW = "TimeTravel";
     public static final String MOD_NAME = "Kybology Time Travelling";
     public static final String RESOURCE_PATH = "timetravel" + File.separator;
-    public static final String DEPENDENCIES = "required-after:Forge@[9.10.0.871,);required-after:Kybology|Core@"
+    public static final String DEPENDENCIES = "required-after:Forge@[9.11.1.935,);required-after:Kybology|Core@"
             + Version.VERSION;
     public static final String SERVER_PROXY_CLASS = "de.mineformers.kybology.timetravel.proxy.CommonProxy";
     public static final String CLIENT_PROXY_CLASS = "de.mineformers.kybology.timetravel.proxy.ClientProxy";
