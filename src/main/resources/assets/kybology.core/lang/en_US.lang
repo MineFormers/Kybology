@@ -1,0 +1,6 @@
+death.attack.kybology:rift=%s was torn apart by the fabric of reality
+msg.kybology.core:riftPulling.weak=A weak force is pulling you towards its origin
+msg.kybology.core:riftPulling.strong=The force gets stronger, you can barely escape it
+tile.kybology.core:rift.name=Rift
+tile.kybology.core:crystal_ore.name=Horalite Ore
+item.kybology.core:wrench.name=Wrench

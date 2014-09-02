@@ -1,17 +1,11 @@
-# gradle stuff
-build
-.gradle
-
-# eclipse stuff
-.classpath
-.project
-.settings
-bin
-
-# GMCP plugin stuff
-minecraft
-
-# intellij stuff
-.idea
-out
-*.iml
+/*
+!/build/libs/
+!/build/libs/*
+!/gradle/
+!/gradle/*
+!/gradle*
+!/src/
+!/src/*
+!/build.gradle
+!/*.md
+!/LICENSE

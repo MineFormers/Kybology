@@ -1,71 +1,55 @@
-import com.github.abrarsyed.gmcp.GMCP
-// this is required for adding obfuscated jar classes.
-
 buildscript {
-	repositories { mavenCentral() }
-	dependencies { classpath 'com.github.abrarsyed.gmcp:GMCP:0.8.+' }
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
 }
 
-// these 3 plugins are added automatically by GMCP
-//apply plugin: "java"
-//apply plugin: "eclipse"
-//apply plugin: "idea"
-apply plugin: "gmcp"
+apply plugin: 'scala'
+apply plugin: 'forge'
 
-group = 'de.mineformers.kybology'
-version = "0.0.1"
-archivesBaseName = 'Kybology'
+version = "1.0"
+group= "de.mineformers.kybology"
+archivesBaseName = "kybology"
 
-logger.lifecycle ""+version
+minecraft {
+    version = "1.7.10-10.13.1.1212-new"
+	if (file("../run").exists()) {
+		runDir = "../run"
+	} else {
+		runDir = "eclipse"
+	}
+}
 
-minecraft { minecraftVersion = "1.6.4" }
-
-// add some stff to the version
-version = "${minecraft.minecraftVersion}-$version.${System.getenv().BUILD_NUMBER}"
+dependencies {     
+}
 
 processResources
 {
-	// replace stuff in text files, not binary ones.
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include '**/*.lang'
-        include '**/*.info'
-		
-		// replace version and MCVersion
-		// forge version is also accessible via project.minecraftforgeVersion
-		// it contains the full minecraft version, including buildNumber
-        expand 'version':project.version, 'mcversion':project.minecraft.minecraftVersion
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-	
-	// copy everything else, thats not text
+        
+    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude '**/*.lang'
-        exclude '**/*.info'
+        exclude 'mcmod.info'
     }
-}
-
-repositories { mavenCentral() }
-
-jar { appendix = 'universal'}
-
-task sourceJar(type: Jar) {
-	from sourceSets.main.allSource
-	appendix = 'src'
-}
-
-//task javadocJar(type: Jar, dependsOn: javadoc) {
-//	appendix = 'javadoc-'+project.minecraft.minecraftVersion
-//	from 'build/docs/javadoc'
-//}
-
-// because the normal default jar task has been modified to be obfuscated
-task deobfJar(type: Jar) {
-	from sourceSets.main.output
-	appendix = 'deobf'
-}
-
-artifacts {
-	archives sourceJar
-	archives deobfJar
-	//archives javadocJar
-	//archives obfJar
 }

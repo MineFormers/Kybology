@@ -1,46 +1,31 @@
 [
-   {
-      "modid":"Kybology|Core",
-      "name":"Kybology Core",
-      "description":"The core functionality of Kybology",
-      "version":"${version}",
-	  "mcversion": "${mcversion}",
-      "url":"",
-      "updateUrl":"",
-      "authorList":[
-         "PaleoCrafter",
-         "Weneg"
-      ],
-      "credits":"By PaleoCrafter, Weneg",
-      "logoFile":"/assets/timetravel/textures/logo/logo.png",
-      "screenshots":[
-
-      ],
-      "parent":"",
-      "dependencies":[
-         "mod_MinecraftForge"
-      ]
-   },
-   {
-      "modid":"Kybology|TimeTravel",
-      "name":"Kybology Time Travelling",
-      "description":"Travel in time and space",
-      "version":"${version}",
-	  "mcversion": "${mcversion}",
-      "url":"",
-      "updateUrl":"",
-      "authorList":[
-         "PaleoCrafter",
-         "Weneg"
-      ],
-      "credits":"By PaleoCrafter, Weneg",
-      "logoFile":"/assets/timetravel/textures/logo/logo.png",
-      "screenshots":[
-
-      ],
-      "parent":"Kybology|Core",
-      "dependencies":[
-         "mod_MinecraftForge"
-      ]
-   }
+    {
+        "modid": "Kybology|Core",
+        "name": "Kybology Core",
+        "description": "Kybology core functionality",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "",
+        "updateUrl": "",
+        "authorList": ["PaleoCrafter"],
+        "credits": "PaleoCrafter",
+        "logoFile": "assets/kybology.core/logo.png",
+        "screenshots": [],
+        "dependencies": []
+    },
+    {
+        "modid": "Kybology|TimeTravel",
+        "name": "Kybology Time Travelling",
+        "description": "Kybology time travelling",
+        "version": "${version}",
+        "mcversion": "${mcversion}",
+        "url": "",
+        "updateUrl": "",
+        "authorList": ["PaleoCrafter"],
+        "credits": "PaleoCrafter",
+        "logoFile": "assets/kybology.core/logo.png",
+        "parent": "Kybology|Core",
+        "screenshots": [],
+        "dependencies": []
+    }
 ]
