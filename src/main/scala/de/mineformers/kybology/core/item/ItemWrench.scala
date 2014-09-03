@@ -55,7 +55,7 @@ class ItemWrench extends BaseItem(Names.Items.Wrench, Core.CreativeTab) {
   def onInteract(event: PlayerInteractEvent): Unit = {
     val stack = event.entityPlayer.getHeldItem
     import PlayerInteractEvent.Action._
-    if (event.action == RIGHT_CLICK_AIR && stack != null && stack.getItem == this)
+    if (event.entityPlayer.worldObj.isRemote && event.action == RIGHT_CLICK_AIR && stack != null && stack.getItem == this)
       event.setCanceled(Minecraft.getMinecraft.objectMouseOver != null && Minecraft.getMinecraft.objectMouseOver.typeOfHit == MovingObjectType.BLOCK)
 
     if (event.world.isServer && stack != null && stack.getItem == this)
@@ -112,9 +112,9 @@ object ItemWrench {
             world.setBlock(x + xOff, y + yOff, z + zOff, Blocks.stone, 0, 3)
         }
       } else {
-        BlockSphere(BlockPos(x, y + 5, z), 6, pos => world.setBlock(pos.x, pos.y, pos.z, Blocks.stone, 0, 3)).walkAll()
+        BlockSphere(BlockPos(x, y + 21, z), 21, pos => world.setBlock(pos.x, pos.y, pos.z, Blocks.stone, 0, 3)).walkAll()
       }
-      player.setPositionAndUpdate(player.posX, player.posY + (if (sphere) 10 else 27), player.posZ)
+      player.setPositionAndUpdate(player.posX, player.posY + (if (sphere) 42 else 27), player.posZ)
     }
 
     def rotate(world: World, x: Int, y: Int, z: Int, side: ForgeDirection, player: EntityPlayer): Unit = {

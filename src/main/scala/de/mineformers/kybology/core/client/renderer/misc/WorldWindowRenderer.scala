@@ -25,7 +25,15 @@
 package de.mineformers.kybology.core.client.renderer.misc
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.client.event.RenderWorldLastEvent
+import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent
+import de.mineformers.core.client.renderer.StructureWorldRenderer
+import de.mineformers.core.util.world.BlockPos
+import de.mineformers.kybology.core.window.WorldWindowData
+import net.minecraft.client.Minecraft
+import net.minecraftforge.client.event.{RenderWorldEvent, RenderWorldLastEvent}
+import org.lwjgl.opengl.GL11
+
+import scala.util.Random
 
 /**
  * WorldWindowRenderer
@@ -33,8 +41,34 @@ import net.minecraftforge.client.event.RenderWorldLastEvent
  * @author PaleoCrafter
  */
 class WorldWindowRenderer {
-  @SubscribeEvent
-  def onRenderLast(render: RenderWorldLastEvent): Unit = {
+  val renderer = new StructureWorldRenderer
 
+  @SubscribeEvent
+  def onRenderLast(event: RenderWorldLastEvent): Unit = {
+    val data = WorldWindowData(Minecraft.getMinecraft.theWorld)
+    for (w <- data.view) {
+      GL11.glPushMatrix()
+      renderer.render(w.structureWorld, event.partialTicks)
+      GL11.glPopMatrix()
+    }
+  }
+
+  @SubscribeEvent
+  def onRenderBlock(event: RenderWorldEvent.Pre): Unit = {
+    val pos = BlockPos(event.renderer.posXClip, event.renderer.posYClip, event.renderer.posZClip)
+    val data = WorldWindowData(event.renderer.worldObj)
+    for (w <- data.view) {
+      w.structureWorld.checkChunks(pos)
+    }
+  }
+
+  @SubscribeEvent
+  def onTick(event: ClientTickEvent): Unit = {
+    if (Minecraft.getMinecraft.theWorld != null) {
+      val data = WorldWindowData(Minecraft.getMinecraft.theWorld)
+      for (w <- data.view) {
+        w.structureWorld.tick()
+      }
+    }
   }
 }

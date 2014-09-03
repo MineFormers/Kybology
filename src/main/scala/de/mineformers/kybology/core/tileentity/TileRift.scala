@@ -46,16 +46,18 @@ class TileRift extends MFTile with Describable {
   override def init(): Unit = {
   }
 
+  override def shouldRenderInPass(pass: Int): Boolean = true
+
   override def updateServer(): Unit = {
     if (deathTimer > 25) {
       pullRadius = 50
     }
     if (deathTimer == 40) {
       world.newExplosion(null, x + 0.5, y + 0.5, z + 0.5, 20, true, true)
+      WorldWindow.createAnomaly(world, pos)
       destroyBlocks()
     }
     if (deathTimer == 50) {
-      WorldWindow.createAnomaly(world, pos)
       destroy()
     } else {
       if (storedEnergy <= 0) {

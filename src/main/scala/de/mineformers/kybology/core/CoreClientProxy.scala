@@ -27,10 +27,14 @@ package de.mineformers.kybology.core
 import cpw.mods.fml.client.registry.RenderingRegistry
 import cpw.mods.fml.relauncher.Side
 import de.mineformers.core.mod.ClientProxy
+import de.mineformers.core.util.world.BlockPos
 import de.mineformers.kybology.Core
 import de.mineformers.kybology.core.client.renderer.entity.RenderPulledBlock
 import de.mineformers.kybology.core.client.renderer.misc.WorldWindowRenderer
 import de.mineformers.kybology.core.entity.EntityPulledBlock
+import de.mineformers.kybology.core.network.WorldWindowMessage
+import de.mineformers.kybology.core.window.{WorldWindow, WorldWindowData}
+import net.minecraft.client.Minecraft
 import net.minecraftforge.common.MinecraftForge
 
 /**
@@ -38,12 +42,22 @@ import net.minecraftforge.common.MinecraftForge
  *
  * @author PaleoCrafter
  */
-class CoreClientProxy extends ClientProxy {
+class CoreClientProxy extends CoreProxy with ClientProxy {
   override def init(): Unit = {
+    super.init()
     RenderingRegistry.registerEntityRenderingHandler(classOf[EntityPulledBlock], new RenderPulledBlock)
     MinecraftForge.EVENT_BUS.register(new WorldWindowRenderer)
     Core.net.addHandler({
-      case _ => null
+      case (WorldWindowMessage(x, y, z, action, data), context) =>
+        action match {
+          case 0 if data != null =>
+            val w = WorldWindow.fromNBT(Minecraft.getMinecraft.theWorld, data)
+            WorldWindowData(Minecraft.getMinecraft.theWorld).add(w)
+          case 1 =>
+            WorldWindowData(Minecraft.getMinecraft.theWorld).remove(BlockPos(x, y, z))
+          case _ =>
+        }
+        null
     }, Side.CLIENT)
   }
 }

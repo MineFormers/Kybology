@@ -24,9 +24,10 @@
 
 package de.mineformers.kybology.core.block
 
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import de.mineformers.core.block.{MetaRotation, Rotatable6D, TileProvider, BaseBlock}
-import de.mineformers.core.client.util.{MultiPass, TileRendering}
+import de.mineformers.core.client.util.{RenderingProxy, Rendering, MultiPass}
 import de.mineformers.kybology.Core
 import de.mineformers.kybology.Core.Names
 import de.mineformers.kybology.core.client.renderer.tileentity.CrystalRenderer
@@ -43,7 +44,8 @@ import de.mineformers.core.util.Implicits.RichWorld
  *
  * @author PaleoCrafter
  */
-class BlockCrystal extends BaseBlock(Names.Blocks.Crystal, Core.CreativeTab, Material.rock) with TileProvider[TileCrystal] with TileRendering[TileCrystal, CrystalRenderer] with Rotatable6D with MetaRotation with MultiPass {
+class BlockCrystal extends BaseBlock(Names.Blocks.Crystal, Core.CreativeTab, Material.rock) with TileProvider[TileCrystal] with Rendering with Rotatable6D with MetaRotation with MultiPass {
+  @SideOnly(cpw.mods.fml.relauncher.Side.CLIENT)
   override def textureProxy: String = getTextureName
 
   override def tileClass = classOf[TileCrystal]
@@ -60,6 +62,7 @@ class BlockCrystal extends BaseBlock(Names.Blocks.Crystal, Core.CreativeTab, Mat
 
   override def canRenderInPass(pass: Int): Boolean = true
 
+  @SideOnly(cpw.mods.fml.relauncher.Side.CLIENT)
   override def hasSingleIcon: Boolean = true
 
   override def canRotate(world: World, x: Int, y: Int, z: Int, axis: ForgeDirection): Boolean = {
@@ -67,7 +70,10 @@ class BlockCrystal extends BaseBlock(Names.Blocks.Crystal, Core.CreativeTab, Mat
   }
 
   @SideOnly(Side.CLIENT)
-  override def createTileRenderer = new CrystalRenderer
+  override protected def createProxy: RenderingProxy = new RenderingProxy {
+    @SideOnly(Side.CLIENT)
+    override def createTileRenderer = new CrystalRenderer
+  }
 
   override def canPlaceBlockAt(world: World, x: Int, y: Int, z: Int): Boolean =
     ForgeDirection.VALID_DIRECTIONS exists {

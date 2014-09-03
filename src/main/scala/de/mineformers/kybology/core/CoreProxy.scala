@@ -21,15 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package de.mineformers.kybology.core
 
-import de.mineformers.core.mod.ServerProxy
+import cpw.mods.fml.common.eventhandler.SubscribeEvent
+import de.mineformers.kybology.core.window.WorldWindowData
+import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.event.world.ChunkWatchEvent
 
 /**
- * CoreServerProxy
+ * CoreProxy
  *
  * @author PaleoCrafter
  */
-class CoreServerProxy extends CoreProxy with ServerProxy {
+class CoreProxy extends de.mineformers.core.mod.Proxy {
+  override def init(): Unit = {
+    MinecraftForge.EVENT_BUS.register(this)
+  }
 
+  @SubscribeEvent
+  def onChunkWatch(event: ChunkWatchEvent): Unit = {
+    if (!event.player.worldObj.isRemote) {
+      WorldWindowData(event.player.worldObj).syncChunk(event.player, event.chunk.chunkXPos, event.chunk.chunkZPos)
+    }
+  }
 }

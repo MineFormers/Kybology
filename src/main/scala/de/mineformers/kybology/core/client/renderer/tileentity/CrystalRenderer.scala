@@ -63,7 +63,7 @@ class CrystalRenderer extends TileRenderer[TileCrystal] {
       model.renderOnly("Stone")
     GL11.glEnable(GL11.GL_BLEND)
     GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
-    GL11.glColor4f(0, 0.5f, 1, 0.5F)
+    GL11.glColor4f(0, 0.5f, 1, 0.9F)
     if (MinecraftForgeClient.getRenderPass == 1)
       model.renderAllExcept("Stone")
     GL11.glDisable(GL11.GL_BLEND)

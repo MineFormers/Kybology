@@ -24,6 +24,7 @@
 
 package de.mineformers.kybology.core.block
 
+import cpw.mods.fml.relauncher.SideOnly
 import de.mineformers.core.block._
 import de.mineformers.kybology.Core
 import de.mineformers.kybology.core.tileentity.TileRotatable
@@ -37,5 +38,6 @@ import net.minecraft.block.material.Material
 class BlockRotatable extends BaseBlock("rotatable", Core.CreativeTab, Material.rock) with TileProvider[TileRotatable] with Rotatable6D with MetaRotation {
   override def tileClass: Class[TileRotatable] = classOf[TileRotatable]
 
+  @SideOnly(cpw.mods.fml.relauncher.Side.CLIENT)
   override def textureProxy: String = getTextureName
 }

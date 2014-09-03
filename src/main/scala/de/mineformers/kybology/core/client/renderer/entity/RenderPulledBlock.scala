@@ -53,9 +53,13 @@ class RenderPulledBlock extends Render {
     val block = pulled.block
     tess.startDrawingQuads()
     tess.setTranslation(-MathHelper.floor_double(entity.posX) - 0.5F, -MathHelper.floor_double(entity.posY) - 0.5F, -MathHelper.floor_double(entity.posZ) - 0.5F)
-    if (block.canRenderInPass(MinecraftForgeClient.getRenderPass))
-      if (!this.field_147909_c.renderBlockByRenderType(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ)))
+    if (block.canRenderInPass(MinecraftForgeClient.getRenderPass)) {
+      if (block.getRenderType == -1 || !this.field_147909_c.renderBlockByRenderType(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ))) {
+        block.setBlockBoundsBasedOnState(pulled.worldObj, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ))
+        this.field_147909_c.setRenderBoundsFromBlock(block)
         this.field_147909_c.renderStandardBlock(block, MathHelper.floor_double(entity.posX), MathHelper.floor_double(entity.posY), MathHelper.floor_double(entity.posZ))
+      }
+    }
     tess.setTranslation(0, 0, 0)
     tess.draw()
     GL11.glDisable(GL11.GL_BLEND)

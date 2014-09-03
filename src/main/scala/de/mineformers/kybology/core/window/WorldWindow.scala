@@ -24,50 +24,47 @@
 
 package de.mineformers.kybology.core.window
 
+import cpw.mods.fml.relauncher.Side
+import de.mineformers.core.structure._
 import de.mineformers.core.util.world.{BlockSphere, BlockPos}
 import de.mineformers.kybology.Core
 import net.minecraft.block.Block
-import net.minecraft.client.multiplayer.ChunkProviderClient
 import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.world.World
-import net.minecraft.world.chunk.Chunk
-import net.minecraft.world.gen.ChunkProviderServer
 
 /**
  * WorldWindow
  *
  * @author PaleoCrafter
  */
-class WorldWindow(val world: World, val position: BlockPos, val radius: Double) {
+class WorldWindow(var world: World, val position: BlockPos, val radius: Double, var blocks: Structure = null) {
   private val sphere = BlockSphere(position, radius, collect)
-  private val blocks = collection.mutable.Map.empty[BlockPos, (Block, Int)]
-  private val chunks = collection.mutable.Map.empty[BlockPos, Chunk]
-  sphere.walkAll({
-    chunks.clear()
-  })
+  if (blocks == null)
+    blocks = new Structure((for (i <- 0 to (radius * 2 + 1).toInt) yield new Layer((radius * 2 + 1).toInt, (radius * 2 + 1).toInt)).toBuffer)
+
+  lazy val structureWorld = new StructureWorld(blocks, position - BlockPos(radius.toInt, radius.toInt, radius.toInt), if(world.isRemote) Side.CLIENT else Side.SERVER)
+
+  def build(): Unit = {
+    sphere.walkAll()
+  }
 
   def place(): Unit = {
-    for (e <- blocks) {
-      val rel = e._1
-      val block = e._2
-      world.setBlock(position.x - rel.x, position.y - rel.y, position.z - rel.z, block._1, block._2, 3)
-    }
+    StructureHelper.pasteStructure(world, position.x - radius.toInt, position.y - radius.toInt - 1, position.z - radius.toInt, blocks, pasteAir = true, spawnEntities = false)
   }
 
   private def collect(pos: BlockPos): Unit = {
-    if (world.getBlock(pos.x, pos.y, pos.z) != Core.blocks.rift) {
-      val chunkCoords = BlockPos(pos.x >> 4, 0, pos.z >> 4)
-      val chunk = chunks.getOrElseUpdate(chunkCoords, {
-        val newChunk = world.getChunkProvider match {
-          case c: ChunkProviderClient => c.provideChunk(chunkCoords.x, chunkCoords.z)
-          case s: ChunkProviderServer =>
-            s.currentChunkProvider.provideChunk(chunkCoords.x, chunkCoords.z)
-        }
-        newChunk
-      })
-      val chunkPos = BlockPos(pos.x & 15, pos.y, pos.z & 15)
-      val localPos = position - pos
-      blocks += localPos ->(chunk.getBlock(chunkPos.x, chunkPos.y, chunkPos.z), chunk.getBlockMetadata(chunkPos.x, chunkPos.y, chunkPos.z))
+    val block: Block = world.getBlock(pos.x, pos.y, pos.z)
+    if (block != Core.blocks.rift) {
+      val localPos = -(position - BlockPos(radius.toInt, radius.toInt, radius.toInt) - pos)
+      val meta: Int = world.getBlockMetadata(pos.x, pos.y, pos.z)
+      val tile: TileEntity = world.getTileEntity(pos.x, pos.y, pos.z)
+      val tag: NBTTagCompound = if (tile != null) new NBTTagCompound else null
+      if (tag != null) {
+        tile.writeToNBT(tag)
+        StructureHelper.updateTileCoordinates(tag, localPos.x, localPos.y, localPos.z)
+      }
+      blocks.setBlock(localPos.x, localPos.y, localPos.z, block, meta, tag)
     }
   }
 
@@ -79,15 +76,20 @@ class WorldWindow(val world: World, val position: BlockPos, val radius: Double) 
 
 object WorldWindow {
   def createAnomaly(world: World, pos: BlockPos): Unit = {
-    WorldWindowData(world).add(new WorldWindow(world, pos, 21))
+    val window = new WorldWindow(world, pos, 21)
+    window.build()
+    WorldWindowData(world).add(window)
   }
 
   def toNBT(window: WorldWindow): NBTTagCompound = {
     val nbt = new NBTTagCompound
     nbt.setIntArray("Position", window.position.toArray)
     nbt.setDouble("Radius", window.radius)
+    val data = new NBTTagCompound
+    ModMaticFile.write(window.blocks, data)
+    nbt.setTag("Data", data)
     nbt
   }
 
-  def fromNBT(world: World, nbt: NBTTagCompound): WorldWindow = new WorldWindow(world, BlockPos.fromArray(nbt.getIntArray("Position")), nbt.getDouble("Radius"))
+  def fromNBT(world: World, nbt: NBTTagCompound): WorldWindow = new WorldWindow(world, BlockPos.fromArray(nbt.getIntArray("Position")), nbt.getDouble("Radius"), ModMaticFile.read(nbt.getCompoundTag("Data")))
 }

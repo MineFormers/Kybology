@@ -25,10 +25,11 @@
 package de.mineformers.kybology.core.network
 
 import de.mineformers.core.network.Message
+import net.minecraft.nbt.NBTTagCompound
 
 /**
  * WorldWindowMessage
  *
  * @author PaleoCrafter
  */
-case class WorldWindowMessage(x: Int, y: Int, z: Int, action: Int) extends Message
+case class WorldWindowMessage(x: Int, y: Int, z: Int, action: Int, data: NBTTagCompound) extends Message

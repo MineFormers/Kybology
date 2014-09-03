@@ -26,24 +26,22 @@ package de.mineformers.kybology.core.block
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
 import de.mineformers.core.block.{TileProvider, BaseBlock}
-import de.mineformers.core.client.util.{ItemBlockRendering, TileRendering}
+import de.mineformers.core.client.util.{RenderingProxy, Rendering}
 import de.mineformers.kybology.Core
 import de.mineformers.kybology.Core.Names
 import de.mineformers.kybology.core.client.renderer.item.RiftItemRenderer
 import de.mineformers.kybology.core.client.renderer.tileentity.RiftRenderer
 import de.mineformers.kybology.core.tileentity.TileRift
 import net.minecraft.block.material.Material
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.{DamageSource, AxisAlignedBB}
 import net.minecraft.world.World
-import de.mineformers.core.util.Implicits.RichWorld
 
 /**
  * BlockRift
  *
  * @author PaleoCrafter
  */
-class BlockRift extends BaseBlock(Names.Blocks.Rift, Core.CreativeTab, Material.rock) with TileProvider[TileRift] with TileRendering[TileRift, RiftRenderer] with ItemBlockRendering[RiftItemRenderer] {
+class BlockRift extends BaseBlock(Names.Blocks.Rift, Core.CreativeTab, Material.rock) with TileProvider[TileRift] with Rendering {
   setBlockBounds(0.3F, 0.3F, 0.3F, 0.7F, 0.7F, 0.7F)
   setBlockUnbreakable()
   setResistance(6000000.0F)
@@ -55,10 +53,13 @@ class BlockRift extends BaseBlock(Names.Blocks.Rift, Core.CreativeTab, Material.
   override def tileClass: Class[TileRift] = classOf[TileRift]
 
   @SideOnly(Side.CLIENT)
-  override def createTileRenderer = new RiftRenderer
+  override protected def createProxy: RenderingProxy = new RenderingProxy {
+    @SideOnly(Side.CLIENT)
+    override def createTileRenderer = new RiftRenderer
 
-  @SideOnly(Side.CLIENT)
-  override def createItemRenderer = new RiftItemRenderer
+    @SideOnly(Side.CLIENT)
+    override def createItemRenderer = new RiftItemRenderer
+  }
 
   val damage = new DamageSource("kybology:rift")
 }
