@@ -28,7 +28,7 @@ repositories {
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-version = "0.1"
+version = "0.1.0"
 group= "de.mineformers.kybology"
 archivesBaseName = "kybology"
 

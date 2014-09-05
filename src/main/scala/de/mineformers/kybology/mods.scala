@@ -24,7 +24,7 @@ trait KyMod extends MFMod {
   override def name(name: String): String = "kybology." + ResourcePath + ":" + name
 }
 
-@Mod(modid = Core.ModId, name = Core.ModName, version = "0.1", modLanguage = "scala", dependencies = "required-after:Forge@[10.13.1.1212,]")
+@Mod(modid = Core.ModId, name = Core.ModName, version = "0.1.0", modLanguage = "scala", dependencies = "required-after:Forge@[10.13.1.1212,]")
 object Core extends KyMod with HoldsBlocks[CoreBlocks] with HoldsItems[CoreItems] with Networking {
   final val ModId = "Kybology|Core"
   final val ModName = "Kybology Core"
