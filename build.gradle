@@ -29,18 +29,27 @@ repositories {
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 version = "0.1.0"
-group= "de.mineformers.kybology"
+group = "de.mineformers.kybology"
 archivesBaseName = "kybology"
 
-version = "$version.${System.getenv("BUILD_NUMBER") ?: 0}"
+jarVersion = ""
+displayVersion = ""
+if (System.getenv("BUILD_NUMBER") != null) {
+    if(System.getenv("BUILD_NUMBER").isInteger()) {
+        jarVersion = ".${System.getenv("BUILD_NUMBER")}"
+    }
+    displayVersion = System.getenv("BUILD_NUMBER")
+}
+
+version = "$version$jarVersion"
 
 minecraft {
     version = "1.7.10-10.13.1.1212-new"
-	if (file("../run").exists()) {
-		runDir = "../run"
-	} else {
-		runDir = "eclipse"
-	}
+    if (file("../run").exists()) {
+        runDir = "../run"
+    } else {
+        runDir = "eclipse"
+    }
 }
 
 configurations {
@@ -51,29 +60,29 @@ configurations {
 sourceSets.main.compileClasspath += configurations.provided
 
 dependencies {
-	if(file('../MFCore/').exists()) {
-		compile project('../MFCore')
-	}
+    if (file('../MFCore/').exists()) {
+        compile project('../MFCore')
+    }
     provided 'com.nativelibs4java:scalaxy-loops_2.11:0.1.1'
 }
 
-processResources
-{
+processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
+    inputs.property "build", project.displayVersion
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
+        include 'mcmod.info', 'version.properties'
+
         // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version': project.version, 'mcversion': project.minecraft.version, 'build': project.displayVersion
     }
-        
+
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+        exclude 'mcmod.info', 'version.properties'
     }
 }
 
