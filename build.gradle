@@ -109,3 +109,57 @@ artifacts {
     archives deobfJar
     archives javadocJar
 }
+
+uploadArchives {
+    if (System.getenv("mavenUrl") != null) {
+        repositories {
+            logger.info('Publishing to files server')
+
+            mavenDeployer {
+
+                repository(url: System.getenv("mavenUrl")) {
+                    authentication(userName: System.getenv("mavenUser"), password: System.getenv("mavenPassword"))
+                }
+
+                pom {
+                    groupId = project.group
+                    version = project.version
+                    artifactId = project.archivesBaseName
+                    project {
+                        name project.archivesBaseName
+                        packaging 'jar'
+                        description 'Kybology mod'
+                        url 'https://github.com/MineFormers/Kybology'
+
+                        scm {
+                            url 'https://github.com/MineFormers/Kybology'
+                            connection 'scm:git:git://github.com/MineFormers/Kybology.git'
+                            developerConnection 'scm:git:git@github.com:MineFormers/Kybology.git'
+                        }
+
+                        issueManagement {
+                            system 'github'
+                            url 'https://github.com/MineFormers/Kybology/issues'
+                        }
+
+                        licenses {
+                            license {
+                                name 'MIT License'
+                                url 'http://opensource.org/licenses/MIT'
+                                distribution 'repo'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id 'PaleoCrafter'
+                                name 'Paleo Crafter'
+                                roles { role 'developer' }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
