@@ -75,7 +75,6 @@ class WorldWindowData(var world: World) extends WorldSavedData(WorldWindowData.I
   def add(window: WorldWindow): Unit = {
     remove(window.position)
     windows += window
-    sync(window, 0)
     markDirty()
   }
 

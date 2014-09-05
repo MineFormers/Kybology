@@ -25,6 +25,7 @@
 package de.mineformers.kybology.core
 
 import cpw.mods.fml.client.registry.RenderingRegistry
+import cpw.mods.fml.common.FMLCommonHandler
 import cpw.mods.fml.relauncher.Side
 import de.mineformers.core.mod.ClientProxy
 import de.mineformers.core.util.world.BlockPos
@@ -46,7 +47,9 @@ class CoreClientProxy extends CoreProxy with ClientProxy {
   override def init(): Unit = {
     super.init()
     RenderingRegistry.registerEntityRenderingHandler(classOf[EntityPulledBlock], new RenderPulledBlock)
-    MinecraftForge.EVENT_BUS.register(new WorldWindowRenderer)
+    val renderer = new WorldWindowRenderer
+    MinecraftForge.EVENT_BUS.register(renderer)
+    FMLCommonHandler.instance().bus().register(renderer)
     Core.net.addHandler({
       case (WorldWindowMessage(x, y, z, action, data), context) =>
         action match {

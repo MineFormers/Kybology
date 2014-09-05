@@ -25,17 +25,20 @@
 package de.mineformers.kybology.core.tileentity
 
 import cpw.mods.fml.relauncher.{Side, SideOnly}
+import de.mineformers.core.client.util.RenderUtils
 import de.mineformers.core.tileentity.{Describing, Describable, MFTile}
 import de.mineformers.core.util.{PlayerUtils, MathUtils}
 import de.mineformers.core.util.world.{SphereUtils, Vector3, BlockSphere, BlockPos}
 import de.mineformers.kybology.Core
 import de.mineformers.kybology.core.entity.EntityPulledBlock
-import de.mineformers.kybology.core.window.WorldWindow
+import de.mineformers.kybology.core.window.{WorldWindowData, WorldWindow}
+import net.minecraft.block.{Block, BlockLiquid}
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.init.Blocks
 import net.minecraft.util.AxisAlignedBB
-import de.mineformers.core.util.Implicits.RichWorld
+import de.mineformers.core.util.Implicits._
+import net.minecraft.world.WorldServer
+import net.minecraftforge.fluids.BlockFluidBase
 
 /**
  * TileRift
@@ -53,11 +56,15 @@ class TileRift extends MFTile with Describable {
       pullRadius = 50
     }
     if (deathTimer == 40) {
-      world.newExplosion(null, x + 0.5, y + 0.5, z + 0.5, 20, true, true)
+      for (i <- 0 until 10)
+        world.createExplosion(null, x + world.rand.nextInt(43) - 21, y + world.rand.nextInt(43) - 21, z + world.rand.nextInt(43) - 21, 3, false)
       WorldWindow.createAnomaly(world, pos)
-      destroyBlocks()
     }
-    if (deathTimer == 50) {
+    if (deathTimer >= 50) {
+      for (i <- 0 until 5)
+        world.createExplosion(null, x + world.rand.nextInt(43) - 21, y + world.rand.nextInt(43) - 21, z + world.rand.nextInt(43) - 21, 3, false)
+      SphereUtils.destroy(world, pos, 21)
+      WorldWindowData(world).sync(0)
       destroy()
     } else {
       if (storedEnergy <= 0) {
@@ -69,14 +76,31 @@ class TileRift extends MFTile with Describable {
         scale = 1
         update()
       }
-      sphere.walk()
-      sphere.reset()
+      if(deathTimer == 0) {
+        sphere.walk()
+        sphere.reset()
+      }
       pullEntities()
     }
   }
 
   @SideOnly(Side.CLIENT)
   override def updateClient(): Unit = {
+    val radiusSquared = pullRadius * pullRadius
+    for (layer <- RenderUtils.particles;
+         e <- layer) {
+      if (Vector3(e.posX, e.posY, e.posZ).distanceSq(vecPos + Vector3.Center) <= radiusSquared) {
+        val entityPos = Vector3.fromEntityCenter(e)
+        var distanceVector = (Vector3.Center + vecPos) - entityPos
+        val squareDistance = distanceVector.magSq
+
+        if (squareDistance > 1)
+          distanceVector = distanceVector.normalize
+
+        val factor = 1 / math.sqrt(squareDistance) * 0.3F * (if (deathTimer > 20) 10F else 1)
+        e.addVelocity(distanceVector.x * factor, distanceVector.y * factor, distanceVector.z * factor)
+      }
+    }
     pullEntities()
   }
 
@@ -89,12 +113,17 @@ class TileRift extends MFTile with Describable {
     val centerZ = z + 0.5
     world.selectEntities(AxisAlignedBB.getBoundingBox(centerX - bounding, centerY - bounding, centerZ - bounding, centerX + bounding, centerY + bounding, centerZ + bounding)) {
       case e: EntityPlayer if e != null =>
-        Vector3(e.posX, e.posY, e.posZ).distanceSq(vecPos + Vector3.Center) <= playerRadius && !e.capabilities.isCreativeMode
+        try {
+          Vector3(e.posX, e.posY, e.posZ).distanceSq(vecPos + Vector3.Center) <= playerRadius && !e.capabilities.isCreativeMode
+        } catch {
+          case e: Exception => false
+        }
       case e: Entity if e != null =>
-        if (e != null)
+        try {
           Vector3(e.posX, e.posY, e.posZ).distanceSq(vecPos + Vector3.Center) <= radiusSquared
-        else
-          false
+        } catch {
+          case e: Exception => false
+        }
       case _ => false
     } foreach pullEntity
   }
@@ -143,23 +172,34 @@ class TileRift extends MFTile with Describable {
   override def onDescription(): Unit = {
   }
 
-  override def getRenderBoundingBox: AxisAlignedBB = AxisAlignedBB.getBoundingBox(x - 2, y - 2, z - 2, x + 2, y + 2, z + 2)
+  override def getRenderBoundingBox: AxisAlignedBB = AxisAlignedBB.getBoundingBox(x - 128, y - 128, z - 128, x + 128, y + 128, z + 128)
 
   private def sphereWalker(pos: BlockPos): Unit = {
-    if (!world.isAirBlock(pos.x, pos.y, pos.z) && world.getBlock(pos.x, pos.y, pos.z) != Core.blocks.rift && world.getBlock(pos.x, pos.y, pos.z).getBlockHardness(world, pos.x, pos.y, pos.z) >= 0) {
-      val entity = new EntityPulledBlock(world, pos.x, pos.y, pos.z, world.getBlock(pos.x, pos.y, pos.z), world.getBlockMetadata(pos.x, pos.y, pos.z))
-      world.spawnEntityInWorld(entity)
+    val block = world.getBlock(pos.x, pos.y, pos.z)
+    if (!world.isAirBlock(pos.x, pos.y, pos.z) && block != Core.blocks.rift && block.getBlockHardness(world, pos.x, pos.y, pos.z) >= 0) {
+      block match {
+        case _@(_: BlockLiquid | _: BlockFluidBase) =>
+          val worldServer = world.asInstanceOf[WorldServer]
+          var distanceVector = (Vector3.Center + vecPos) - pos.toVector
+          val squareDistance = distanceVector.magSq
+          if (squareDistance > 1)
+            distanceVector = distanceVector.normalize
+          val factor = 0.25
+          for (i <- 0 to 20) {
+            worldServer.func_147487_a("blockdust_" + Block.getIdFromBlock(block) + "_" + world.getBlockMetadata(pos.x, pos.y, pos.z), pos.x + world.rand.nextFloat(), pos.y + world.rand.nextFloat(), pos.z + world.rand.nextFloat(), 2, distanceVector.x * factor, distanceVector.y * factor, distanceVector.z * factor, 0)
+          }
+        case _ =>
+          val entity = new EntityPulledBlock(world, pos.x, pos.y, pos.z, block, world.getBlockMetadata(pos.x, pos.y, pos.z))
+          world.spawnEntityInWorld(entity)
+      }
       world.setBlockToAir(pos.x, pos.y, pos.z)
     } else
       sphere.walk()
   }
 
-  private def destroyBlocks(): Unit = {
-    BlockSphere(pos, 21, pos => if (!world.isAirBlock(pos.x, pos.y, pos.z) && world.getBlock(pos.x, pos.y, pos.z).getBlockHardness(world, pos.x, pos.y, pos.z) >= 0) world.setBlockToAir(pos.x, pos.y, pos.z)).walkAll()
-  }
-
   private val notifiedWeak = collection.mutable.ListBuffer.empty[EntityPlayer]
   private val notifiedStrong = collection.mutable.ListBuffer.empty[EntityPlayer]
+  @Describing
   private var deathTimer = 0
   private lazy val sphere = BlockSphere(pos, 3, sphereWalker)
   var pullRadius = 12

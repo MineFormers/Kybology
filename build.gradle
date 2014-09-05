@@ -18,9 +18,21 @@ buildscript {
 apply plugin: 'scala'
 apply plugin: 'forge'
 
-version = "1.0"
+repositories {
+    mavenCentral()
+    maven {
+        name = "sonatype-oss-public"
+        url = "https://oss.sonatype.org/content/groups/public/"
+    }
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = "0.1"
 group= "de.mineformers.kybology"
 archivesBaseName = "kybology"
+
+version = "$version.${System.getenv("BUILD_NUMBER") ?: 0}"
 
 minecraft {
     version = "1.7.10-10.13.1.1212-new"
@@ -31,7 +43,18 @@ minecraft {
 	}
 }
 
-dependencies {     
+configurations {
+    provided
+}
+
+//Include provided for compilation
+sourceSets.main.compileClasspath += configurations.provided
+
+dependencies {
+	if(file('../MFCore/').exists()) {
+		compile project('../MFCore')
+	}
+    provided 'com.nativelibs4java:scalaxy-loops_2.11:0.1.1'
 }
 
 processResources
@@ -52,4 +75,37 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+tasks.withType(ScalaCompile) {
+    scalaCompileOptions.optimize = true
+    scalaCompileOptions.additionalParameters = ['-Yclosure-elim', '-Yinline']
+}
+
+jar {
+    classifier = 'universal'
+}
+
+// add a source jar
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'src'
+}
+
+// add a javadoc jar
+task javadocJar(type: Jar, dependsOn: scaladoc) {
+    classifier = 'javadoc'
+    from 'build/docs/scaladoc'
+}
+
+// because the normal output has been made to be obfuscated
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+}
+
+artifacts {
+    archives sourceJar
+    archives deobfJar
+    archives javadocJar
 }

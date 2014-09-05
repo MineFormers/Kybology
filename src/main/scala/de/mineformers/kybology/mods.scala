@@ -3,20 +3,12 @@ package de.mineformers.kybology
 import cpw.mods.fml.common.{SidedProxy, Mod}
 import cpw.mods.fml.common.Mod.EventHandler
 import cpw.mods.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
-import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.registry.EntityRegistry
 import de.mineformers.core.mod._
 import de.mineformers.core.util.ResourceUtils.Resource
 import de.mineformers.kybology.core.entity.EntityPulledBlock
 import de.mineformers.kybology.core.init.{CoreItems, CoreBlocks}
 import de.mineformers.kybology.core.network.WorldWindowMessage
-import de.mineformers.kybology.timetravel.init.{TimeTravelItems, TimeTravelBlocks}
-import net.minecraftforge.client.event.RenderPlayerEvent
-import net.minecraftforge.common.MinecraftForge
-import org.apache.logging.log4j.LogManager
-import org.lwjgl.opengl.GL11
-
-import scala.reflect.ClassTag
 
 /**
  * KybologyCore
@@ -32,7 +24,7 @@ trait KyMod extends MFMod {
   override def name(name: String): String = "kybology." + ResourcePath + ":" + name
 }
 
-@Mod(modid = Core.ModId, name = Core.ModName, modLanguage = "scala")
+@Mod(modid = Core.ModId, name = Core.ModName, version = "0.1", modLanguage = "scala", dependencies = "required-after:Forge@[10.13.1.1212,]")
 object Core extends KyMod with HoldsBlocks[CoreBlocks] with HoldsItems[CoreItems] with Networking {
   final val ModId = "Kybology|Core"
   final val ModName = "Kybology Core"
@@ -71,7 +63,7 @@ object Core extends KyMod with HoldsBlocks[CoreBlocks] with HoldsItems[CoreItems
 
 }
 
-@Mod(modid = TimeTravel.ModId, name = TimeTravel.ModName, modLanguage = "scala")
+@Mod(modid = TimeTravel.ModId, name = TimeTravel.ModName, version = "0.1", modLanguage = "scala", dependencies = "required-after:Kybology|Core")
 object TimeTravel extends KyMod {
   final val ModId = "Kybology|TimeTravel"
   final val ModName = "Kybology Time Travelling"

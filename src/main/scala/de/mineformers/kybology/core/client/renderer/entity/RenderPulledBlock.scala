@@ -24,6 +24,7 @@
 
 package de.mineformers.kybology.core.client.renderer.entity
 
+import de.mineformers.core.client.util.RenderUtils
 import de.mineformers.kybology.core.entity.EntityPulledBlock
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.entity.Render
@@ -39,7 +40,7 @@ import org.lwjgl.opengl.GL11
  * @author PaleoCrafter
  */
 class RenderPulledBlock extends Render {
-  override def doRender(entity: Entity, x: Double, y: Double, z: Double, partialTicks: Float, p_76986_9_ : Float): Unit = {
+  override def doRender(entity: Entity, x: Double, y: Double, z: Double, yaw: Float, partialTicks: Float): Unit = {
     val pulled = entity.asInstanceOf[EntityPulledBlock]
     GL11.glPushMatrix()
     GL11.glTranslated(x, y, z)

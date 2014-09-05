@@ -27,7 +27,8 @@ package de.mineformers.kybology.core.client.renderer.misc
 import cpw.mods.fml.common.eventhandler.SubscribeEvent
 import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent
 import de.mineformers.core.client.renderer.StructureWorldRenderer
-import de.mineformers.core.util.world.BlockPos
+import de.mineformers.core.util.MathUtils
+import de.mineformers.core.util.world.{Vector3, BlockPos}
 import de.mineformers.kybology.core.window.WorldWindowData
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.event.{RenderWorldEvent, RenderWorldLastEvent}
@@ -39,16 +40,17 @@ import scala.util.Random
  * WorldWindowRenderer
  *
  * @author PaleoCrafter
- */
+*/
 class WorldWindowRenderer {
   val renderer = new StructureWorldRenderer
 
   @SubscribeEvent
   def onRenderLast(event: RenderWorldLastEvent): Unit = {
     val data = WorldWindowData(Minecraft.getMinecraft.theWorld)
-    for (w <- data.view) {
+    for (w <- data.view.sortBy(-_.position.toVector.distanceSq(Vector3.fromEntityCenter(Minecraft.getMinecraft.thePlayer)))) {
       GL11.glPushMatrix()
-      renderer.render(w.structureWorld, event.partialTicks)
+      val rand = new Random(w.position.hashCode)
+      renderer.render(w.structureWorld, event.partialTicks, MathUtils.pulsate((Minecraft.getSystemTime + rand.nextLong().abs) % 20000, 0, 1, 20000).toFloat)
       GL11.glPopMatrix()
     }
   }
