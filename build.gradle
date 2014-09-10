@@ -32,13 +32,16 @@ version = "0.1.0"
 group = "de.mineformers.kybology"
 archivesBaseName = "kybology"
 
-def jarVersion = ""
-project.displayVersion = ""
+ext {
+    jarVersion = ""
+    displayVersion = ""
+}
+
 if (System.getenv("BUILD_NUMBER") != null) {
     if(System.getenv("BUILD_NUMBER").isInteger()) {
         jarVersion = ".${System.getenv("BUILD_NUMBER")}"
     }
-    project.displayVersion = System.getenv("BUILD_NUMBER")
+    displayVersion = System.getenv("BUILD_NUMBER")
 }
 
 version = "$version$jarVersion"
