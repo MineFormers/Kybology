@@ -1,0 +1,50 @@
+itemGroup.TimeTravel=时之旅
+
+# Block localizations
+tile.timetravel:testBlock.name=测试方块
+tile.timetravel:timeMachine.base.name=时间机器-基础
+tile.timetravel:timeMachine.panel.name=时间机器-平板
+tile.timetravel:timeMachine.stairs.name=时间机器-楼梯
+tile.timetravel:timeMachine.pillar.name=时间机器-立柱
+tile.timetravel:timeMachine.module.name=时间机器-模块
+tile.timetravel:energyExtractor.name=提取机
+tile.timetravel:crystalOre.blue.name=蓝晶矿石
+tile.timetravel:crystalOre.red.name=红晶矿石
+tile.timetravel:crystalOre.gold.name=金晶矿石G
+
+# Item localizations
+item.timetravel:pocketWatch.name=时之旅怀表
+item.timetravel:crystal.quality.pure=纯净
+item.timetravel:crystal.quality.purified=净化
+item.timetravel:crystal.type.nothing=无
+item.timetravel:crystal.type.storage=存储
+item.timetravel:crystal.type.transfer=转换
+item.timetravel:crystal.color.blue=蓝色
+item.timetravel:crystal.color.red=红色
+item.timetravel:crystal.color.gold=金色
+item.timetravel:crystal.name=水晶
+item.timetravel:crystal.format=%q% %h% %n%
+
+# Messages
+message.timetravel:timeMachine.module.default=默认
+message.timetravel:timeMachine.module.power=蓄能器
+message.timetravel:timeMachine.module.time=时间旅行
+message.timetravel:timeMachine.module.space=传送器
+message.timetravel:timeMachine.module.item=物品传送器
+message.timetravel:timeMachine.module.player=玩家传送器
+message.timetravel:timeMachine.conflict.noMb=并非有效<br>多方块结构!
+message.timetravel:timeMachine.conflict.modules=装有两个<br>或以上相冲突的模块!
+
+message.timetravel:changeMode=切换模式为
+message.timetravel:noTravelling=你不能从这里启程旅行
+message.timetravel:go=出发!
+message.timetravel:unknownForce=未知的力量将你驱赶回属于你的时间.
+
+# Gui labels
+gui.timetravel:label.error=错误
+gui.timetravel:button.travel=启程
+gui.timetravel:button.cancel=取消
+gui.timetravel:button.close=关闭
+
+# Container names
+container.timetravel:extractor=提取机
